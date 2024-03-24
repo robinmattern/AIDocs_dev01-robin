@@ -1,0 +1,46 @@
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+(() => {
+var exports = {};
+exports.id = "pages/api/chat";
+exports.ids = ["pages/api/chat"];
+exports.modules = {
+
+/***/ "openai":
+/*!*************************!*\
+  !*** external "openai" ***!
+  \*************************/
+/***/ ((module) => {
+
+module.exports = require("openai");
+
+/***/ }),
+
+/***/ "(api)/./pages/api/chat.js":
+/*!***************************!*\
+  !*** ./pages/api/chat.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ handler)\n/* harmony export */ });\n/* harmony import */ var openai__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! openai */ \"openai\");\n/* harmony import */ var openai__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(openai__WEBPACK_IMPORTED_MODULE_0__);\n\nconst configuration = new openai__WEBPACK_IMPORTED_MODULE_0__.Configuration({\n    apiKey: process.env.OPENAI_KEY\n});\nconst openai = new openai__WEBPACK_IMPORTED_MODULE_0__.OpenAIApi(configuration);\n// For the sake of simplicity, we'll store the conversation in memory\n// In a production app, you'd want to store this in a database\nlet sessionConversations = {};\nasync function handler(req, res) {\n    if (req.method !== \"POST\") {\n        return res.status(405).json({\n            error: \"Method not allowed, please use POST\"\n        });\n    }\n    try {\n        const prompt = req.body.prompt;\n        const sessionId = req.body.sessionId;\n        let messages = //    [ { role: \"system\", content: \"You are an adaptive French teacher. Based on the user's questions,responses, and level of French comprehension, adjust your instruction accordingly. Start with a basic level and increase complexity if the user seems capable. Give grammar tips, highlight important vocab, and educate the user on how to become better at French.\" }\n        [\n            {\n                \"role\": \"system\",\n                \"content\": \"You are a helpful assistant.\"\n            }\n        ];\n        if (sessionId && sessionConversations[sessionId]) {\n            messages = [\n                ...sessionConversations[sessionId]\n            ];\n        }\n        messages.push({\n            role: \"user\",\n            content: prompt\n        });\n        sessionConversations[sessionId] = messages;\n        const gptResponse = await openai.createChatCompletion({\n            model: \"gpt-3.5-turbo\",\n            messages: messages\n        });\n        const botMessage = gptResponse.data.choices[0].message.content;\n        sessionConversations[sessionId].push({\n            role: \"assistant\",\n            content: botMessage\n        });\n        return res.status(200).json({\n            message: \"Success\",\n            response: botMessage\n        });\n    } catch (error) {\n        console.log(error);\n        return res.status(500).json({\n            error: \"Internal server error\"\n        });\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvY2hhdC5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7QUFBa0Q7QUFFbEQsTUFBTUUsZ0JBQWdCLElBQUlGLGlEQUFhQSxDQUFDO0lBQ3RDRyxRQUFRQyxRQUFRQyxHQUFHLENBQUNDLFVBQVU7QUFDaEM7QUFDQSxNQUFNQyxTQUFTLElBQUlOLDZDQUFTQSxDQUFDQztBQUU3QixxRUFBcUU7QUFDckUsOERBQThEO0FBQzlELElBQUlNLHVCQUF1QixDQUFDO0FBRWIsZUFBZUMsUUFBUUMsR0FBRyxFQUFFQyxHQUFHO0lBQzVDLElBQUlELElBQUlFLE1BQU0sS0FBSyxRQUFRO1FBQ3pCLE9BQU9ELElBQ0pFLE1BQU0sQ0FBQyxLQUNQQyxJQUFJLENBQUM7WUFBRUMsT0FBTztRQUFzQztJQUN6RDtJQUVBLElBQUk7UUFDRixNQUFNQyxTQUFTTixJQUFJTyxJQUFJLENBQUNELE1BQU07UUFDOUIsTUFBTUUsWUFBWVIsSUFBSU8sSUFBSSxDQUFDQyxTQUFTO1FBRXBDLElBQUlDLFdBQ1IsNldBQTZXO1FBQ3ZXO1lBQUU7Z0JBQUUsUUFBUTtnQkFBYSxXQUFXO1lBQStCO1NBSWhFO1FBRUwsSUFBSUQsYUFBYVYsb0JBQW9CLENBQUNVLFVBQVUsRUFBRTtZQUNoREMsV0FBVzttQkFBSVgsb0JBQW9CLENBQUNVLFVBQVU7YUFBQztRQUNqRDtRQUVBQyxTQUFTQyxJQUFJLENBQUM7WUFBRUMsTUFBTTtZQUFRQyxTQUFTTjtRQUFPO1FBQzlDUixvQkFBb0IsQ0FBQ1UsVUFBVSxHQUFHQztRQUVsQyxNQUFNSSxjQUFjLE1BQU1oQixPQUFPaUIsb0JBQW9CLENBQUM7WUFDcERDLE9BQU87WUFDUE4sVUFBVUE7UUFDWjtRQUVBLE1BQU1PLGFBQWFILFlBQVlJLElBQUksQ0FBQ0MsT0FBTyxDQUFDLEVBQUUsQ0FBQ0MsT0FBTyxDQUFDUCxPQUFPO1FBQzlEZCxvQkFBb0IsQ0FBQ1UsVUFBVSxDQUFDRSxJQUFJLENBQUM7WUFDbkNDLE1BQU07WUFDTkMsU0FBU0k7UUFDWDtRQUVBLE9BQU9mLElBQUlFLE1BQU0sQ0FBQyxLQUFLQyxJQUFJLENBQUM7WUFDMUJlLFNBQVM7WUFDVEMsVUFBVUo7UUFDWjtJQUNGLEVBQUUsT0FBT1gsT0FBTztRQUNkZ0IsUUFBUUMsR0FBRyxDQUFDakI7UUFDWixPQUFPSixJQUFJRSxNQUFNLENBQUMsS0FBS0MsSUFBSSxDQUFDO1lBQUVDLE9BQU87UUFBd0I7SUFDL0Q7QUFDRiIsInNvdXJjZXMiOlsid2VicGFjazovL25leHRqczEtY2hhdGdwdC1ib3QvLi9wYWdlcy9hcGkvY2hhdC5qcz8xYzQ5Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IENvbmZpZ3VyYXRpb24sIE9wZW5BSUFwaSB9IGZyb20gXCJvcGVuYWlcIjtcblxuY29uc3QgY29uZmlndXJhdGlvbiA9IG5ldyBDb25maWd1cmF0aW9uKHtcbiAgYXBpS2V5OiBwcm9jZXNzLmVudi5PUEVOQUlfS0VZLFxufSk7XG5jb25zdCBvcGVuYWkgPSBuZXcgT3BlbkFJQXBpKGNvbmZpZ3VyYXRpb24pO1xuXG4vLyBGb3IgdGhlIHNha2Ugb2Ygc2ltcGxpY2l0eSwgd2UnbGwgc3RvcmUgdGhlIGNvbnZlcnNhdGlvbiBpbiBtZW1vcnlcbi8vIEluIGEgcHJvZHVjdGlvbiBhcHAsIHlvdSdkIHdhbnQgdG8gc3RvcmUgdGhpcyBpbiBhIGRhdGFiYXNlXG5sZXQgc2Vzc2lvbkNvbnZlcnNhdGlvbnMgPSB7fTtcblxuZXhwb3J0IGRlZmF1bHQgYXN5bmMgZnVuY3Rpb24gaGFuZGxlcihyZXEsIHJlcykge1xuICBpZiAocmVxLm1ldGhvZCAhPT0gXCJQT1NUXCIpIHtcbiAgICByZXR1cm4gcmVzXG4gICAgICAuc3RhdHVzKDQwNSlcbiAgICAgIC5qc29uKHsgZXJyb3I6IFwiTWV0aG9kIG5vdCBhbGxvd2VkLCBwbGVhc2UgdXNlIFBPU1RcIiB9KTtcbiAgfVxuXG4gIHRyeSB7XG4gICAgY29uc3QgcHJvbXB0ID0gcmVxLmJvZHkucHJvbXB0O1xuICAgIGNvbnN0IHNlc3Npb25JZCA9IHJlcS5ib2R5LnNlc3Npb25JZDtcblxuICAgIGxldCBtZXNzYWdlcyA9IFxuLy8gICAgWyB7IHJvbGU6IFwic3lzdGVtXCIsIGNvbnRlbnQ6IFwiWW91IGFyZSBhbiBhZGFwdGl2ZSBGcmVuY2ggdGVhY2hlci4gQmFzZWQgb24gdGhlIHVzZXIncyBxdWVzdGlvbnMscmVzcG9uc2VzLCBhbmQgbGV2ZWwgb2YgRnJlbmNoIGNvbXByZWhlbnNpb24sIGFkanVzdCB5b3VyIGluc3RydWN0aW9uIGFjY29yZGluZ2x5LiBTdGFydCB3aXRoIGEgYmFzaWMgbGV2ZWwgYW5kIGluY3JlYXNlIGNvbXBsZXhpdHkgaWYgdGhlIHVzZXIgc2VlbXMgY2FwYWJsZS4gR2l2ZSBncmFtbWFyIHRpcHMsIGhpZ2hsaWdodCBpbXBvcnRhbnQgdm9jYWIsIGFuZCBlZHVjYXRlIHRoZSB1c2VyIG9uIGhvdyB0byBiZWNvbWUgYmV0dGVyIGF0IEZyZW5jaC5cIiB9XG4gICAgICBbIHsgXCJyb2xlXCI6IFwic3lzdGVtXCIsICAgIFwiY29udGVudFwiOiBcIllvdSBhcmUgYSBoZWxwZnVsIGFzc2lzdGFudC5cIiB9XG4vLyAgICAsIHsgXCJyb2xlXCI6IFwidXNlclwiLCAgICAgIFwiY29udGVudFwiOiBcIldobyB3b24gdGhlIHdvcmxkIHNlcmllcyBpbiAyMDIwP1wiIH1cbi8vICAgICwgeyBcInJvbGVcIjogXCJhc3Npc3RhbnRcIiwgXCJjb250ZW50XCI6IFwiVGhlIExvcyBBbmdlbGVzIERvZGdlcnMgd29uIHRoZSBXb3JsZCBTZXJpZXMgaW4gMjAyMC5cIiB9XG4vLyAgICAsIHsgXCJyb2xlXCI6IFwidXNlclwiLCAgICAgIFwiY29udGVudFwiOiBcIldoZXJlIHdhcyBpdCBwbGF5ZWQ/XCIgfVxuICAgICAgICBdIFxuXG4gICAgaWYgKHNlc3Npb25JZCAmJiBzZXNzaW9uQ29udmVyc2F0aW9uc1tzZXNzaW9uSWRdKSB7XG4gICAgICBtZXNzYWdlcyA9IFsuLi5zZXNzaW9uQ29udmVyc2F0aW9uc1tzZXNzaW9uSWRdXTtcbiAgICB9XG5cbiAgICBtZXNzYWdlcy5wdXNoKHsgcm9sZTogXCJ1c2VyXCIsIGNvbnRlbnQ6IHByb21wdCB9KTtcbiAgICBzZXNzaW9uQ29udmVyc2F0aW9uc1tzZXNzaW9uSWRdID0gbWVzc2FnZXM7XG5cbiAgICBjb25zdCBncHRSZXNwb25zZSA9IGF3YWl0IG9wZW5haS5jcmVhdGVDaGF0Q29tcGxldGlvbih7XG4gICAgICBtb2RlbDogXCJncHQtMy41LXR1cmJvXCIsXG4gICAgICBtZXNzYWdlczogbWVzc2FnZXMsXG4gICAgfSk7XG5cbiAgICBjb25zdCBib3RNZXNzYWdlID0gZ3B0UmVzcG9uc2UuZGF0YS5jaG9pY2VzWzBdLm1lc3NhZ2UuY29udGVudDtcbiAgICBzZXNzaW9uQ29udmVyc2F0aW9uc1tzZXNzaW9uSWRdLnB1c2goe1xuICAgICAgcm9sZTogXCJhc3Npc3RhbnRcIixcbiAgICAgIGNvbnRlbnQ6IGJvdE1lc3NhZ2UsXG4gICAgfSk7XG5cbiAgICByZXR1cm4gcmVzLnN0YXR1cygyMDApLmpzb24oe1xuICAgICAgbWVzc2FnZTogXCJTdWNjZXNzXCIsXG4gICAgICByZXNwb25zZTogYm90TWVzc2FnZSxcbiAgICB9KTtcbiAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICBjb25zb2xlLmxvZyhlcnJvcik7XG4gICAgcmV0dXJuIHJlcy5zdGF0dXMoNTAwKS5qc29uKHsgZXJyb3I6IFwiSW50ZXJuYWwgc2VydmVyIGVycm9yXCIgfSk7XG4gIH1cbn1cbiJdLCJuYW1lcyI6WyJDb25maWd1cmF0aW9uIiwiT3BlbkFJQXBpIiwiY29uZmlndXJhdGlvbiIsImFwaUtleSIsInByb2Nlc3MiLCJlbnYiLCJPUEVOQUlfS0VZIiwib3BlbmFpIiwic2Vzc2lvbkNvbnZlcnNhdGlvbnMiLCJoYW5kbGVyIiwicmVxIiwicmVzIiwibWV0aG9kIiwic3RhdHVzIiwianNvbiIsImVycm9yIiwicHJvbXB0IiwiYm9keSIsInNlc3Npb25JZCIsIm1lc3NhZ2VzIiwicHVzaCIsInJvbGUiLCJjb250ZW50IiwiZ3B0UmVzcG9uc2UiLCJjcmVhdGVDaGF0Q29tcGxldGlvbiIsIm1vZGVsIiwiYm90TWVzc2FnZSIsImRhdGEiLCJjaG9pY2VzIiwibWVzc2FnZSIsInJlc3BvbnNlIiwiY29uc29sZSIsImxvZyJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./pages/api/chat.js\n");
+
+/***/ })
+
+};
+;
+
+// load runtime
+var __webpack_require__ = require("../../webpack-api-runtime.js");
+__webpack_require__.C(exports);
+var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+var __webpack_exports__ = (__webpack_exec__("(api)/./pages/api/chat.js"));
+module.exports = __webpack_exports__;
+
+})();
