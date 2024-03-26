@@ -1,0 +1,500 @@
+/* Basic Blocks Custom App */
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond');
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap');
+
+/*=======================================*/
+/* root REPLACE Point - :root */
+/*-----------------------------------------
+:root selector for variables
+-------------------------------------------*/
+:root {
+  --Body_background-color: #E5E4E2; /*platinum*/
+ 
+  --Header_background-color: #FF7034; /*dark orange*/
+  --Header_hover-color: white;
+  --HeaderLogo-image: url( 'assets/images/formr-logo-blue.gif' );
+  --HeaderLogo_margin: 0px 0 0 50px;
+  --HeaderLogo-FontFamily: "Roboto Slab";
+  --HeaderList-font-size: 1.2rem;
+
+  --Section1_background-color: whitesmoke;
+  --Section1_background-image: url( 'assets/images/monaco-blue-soft.jpg' );
+
+  --Section2_background-color: whitesmoke;
+  --Section2Paragraph-font-color: #ff7034;  /* dark orange */
+
+  --Footer_background-color: #FF7034; /*dark orange*/
+  --Footer_hover-color: white;
+  --FooterList-font-size: .9rem;  
+  
+  --GlobalFontFamily: "Frank Ruhl Libre", "EB Garamond";
+
+  --Button_Logo_font-color: whitesmoke;
+} 
+/* END REPLACE :root =====================*/
+
+
+/*=====================================*/
+/* HTML REPLACE Point */
+/*---------------------------------------
+The <html> tag properites (unchanged)
+----------------------------------------*/
+html {
+  background: var(--Body_background-color);
+  height: 100%;
+  text-align: center;
+  max-width: 1000px;
+  margin: auto;
+}
+/* END HTML ===========================*/
+
+
+/*-----------------------------------------
+The body properites
+------------------------------------------*/
+body {
+    background: var(--Body_background-color);
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: var(--GlobalFontFamily);
+}
+
+/*-----------------------------------------
+The <h2> tag properties
+-------------------------------------------*/
+h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+/*=======================================*/
+/* HR-1 REPLACE Point - .Header */
+/*-----------------------------------------
+The .Header properites
+------------------------------------------*/
+.Header {
+  background: var(--Header_background-color);
+  width: 100%;
+  height: 80px;
+  position: fixed;  /*was relative*/
+  z-index: 100;
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* END HR-1 .Header =====================*/
+
+
+/*===========================================*/
+/* H-1 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/* H-1 INSERT Point - .HeaderNavBars */
+/*-----------------------------------------
+The .HeaderNavBars (menu) properites
+------------------------------------------*/
+.HeaderNavBars {
+  display: none;
+  height: 24px;
+  width: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+  box-sizing: border-box;
+  margin-left: 20px;
+  margin-top: 0px;
+}
+
+/*=======================================*/
+/* INSERT Point - .HeaderNavBars:focus */
+/*-----------------------------------------
+The .HeaderNavBars:focus properites
+------------------------------------------*/
+.HeaderNavBars:focus {
+    outline: none;
+}
+/* H-1 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+
+/*===============================================*/
+/* H-2 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/*=======================================*/
+/* H-2 INSERT Point - .HeaderLogo */
+/*-----------------------------------------
+The .HeaderLogo properites
+------------------------------------------*/
+.HeaderLogo {
+  width: 224px;
+  height: 64px;
+  margin-bottom: 0px;
+
+  background-image: var(--HeaderLogo-image);
+  background-size: 224px 64px;
+  background-repeat: no-repeat;
+  margin: var(--HeaderLogo_margin);
+  font-size: 25px;
+  font-weight: 600;
+}
+
+/*=======================================*/
+/* INSERT Point - .HeaderSpacer */
+/*-----------------------------------------
+The .HeaderSpacer properites
+------------------------------------------*/
+.HeaderSpacer {
+    flex: 1;
+}
+/* H-2 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+
+/*==============================================*/
+/* H-3 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/*========================================*/
+/* H-3 INSERT Point - .HeaderNavList */
+/*-----------------------------------------
+The .HeaderNavList (horizontal menu) properites
+------------------------------------------*/
+.HeaderNavList {
+  list-style: none;
+  margin-right: 30px;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: var(--HeaderList_font-size);
+}
+
+/* INSERT Point .HeaderNavListItem a */
+/*-----------------------------------------
+The .HeaderNavListItem a properites
+------------------------------------------*/
+.HeaderNavListItem a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 8px 0;
+  padding: 25px;
+}
+
+/* INSERT Point .HeaderNavListItem a:hover
+              .HeaderNavListItem a:active */
+/*-----------------------------------------
+The .HeaderNavListItem a properites
+------------------------------------------*/
+.HeaderNavListItem a:hover,
+.HeaderNavListItem a:active {
+  color: var(--Header_hover-color);
+}
+/* H-3 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+
+/*=======================================*/
+/* H-4 INSERT Point - .HeaderNavListItemCTA a */
+/*-----------------------------------------
+The .HeaderNavListItemCTA a properties
+------------------------------------------*/
+.HeaderNavListItemCTA a {
+  color: var(--Button_Logo_font-color);
+  background: blue ;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--GlobalFontFamily);
+  font-weight: 600;
+}
+/* END H-4 .HeaderNavListItemCTA a ======*/
+
+
+/*===========================================*/
+/* H-5 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/* H-5 INSERT Point - .HeaderNavListItemCTA */
+/*-----------------------------------------
+The .HeaderNavListItemCTA properties
+------------------------------------------*/
+.HeaderNavListItemCTA {
+  animation     : wiggle 400ms 2s 8 ease-out none;
+  }
+
+/*=======================================*/
+/* INSERT Point - @keyframes wiggle */
+/*-----------------------------------------
+The @keyframes wiggle properties
+------------------------------------------*/
+@keyframes wiggle {
+    0% { transform: rotateZ(  0deg ); }
+   50% { transform: rotateZ(-10deg ); }
+  100% { transform: rotateZ( 10deg ); }
+}
+/* H-5 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+
+/*=======================================*/
+/* S1R-1 REPLACE Point - Section1 */
+/*-----------------------------------------
+The .Section1 properites
+------------------------------------------*/
+.Section1 {
+  background: var(--Section1_background-image);
+  background-color: var(--Section1_background-color);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 46%;
+  position: relative;
+  top: 80px;
+}
+/* END S1R-1 .Section1 =====================*/
+
+
+/*===========================================*/
+/* S1-1 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/*=======================================*/
+/* S1-1 INSERT Point - .Section1ImageText */
+/*-----------------------------------------
+The .Section1ImageText properties
+------------------------------------------*/
+.Section1ImageText {
+  font-family: var(--GlobalFontFamily);
+  font-size: 3rem;
+  font-weight: 800;
+  color: lightgray;
+  text-shadow: 1px 1px 3px #000000;
+  padding: 80px 350px 20px 0px;
+}
+
+/*=======================================*/
+/* INSERT Point - .Section1ImageText::first-letter */
+/*-----------------------------------------
+The .Section1ImageText::first-letter properties
+------------------------------------------*/
+.Section1ImageText::first-letter {
+  font-size: 150%;
+  color: cornflowerblue;
+}
+/* S1-1 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+
+/*=======================================*/
+/* S2R-1 REPLACE Point - Section2 */
+/*-----------------------------------------
+The .Section2 properites
+------------------------------------------*/
+.Section2 {
+  background: var(--Section2_background-color);
+  width: 100%;
+  height: 46%;
+  position: relative;
+  color: black;
+  font-family: var(--GlobalFontFamily);
+  font-size: 1.2rem;
+  font-weight: 600;
+  top: 80px; /*<---ADD to adjust the top position*/
+}
+/* END S2R-1 .Section2 =====================*/
+
+
+/*=======================================*/
+/* S2-1 INSERT Point - Section2 h2 */
+/*      DELETE Point - Section2 h2 */
+/*-----------------------------------------
+The .Section2 h2 properites
+------------------------------------------*/
+.Section2 h2 {
+    padding: 1.5;
+    color: black;
+}
+/* END S2-1 .Section2 h2==================*/
+
+
+/*===========================================*/
+/* S2-2 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/* S2-2 INSERT Point - Section2Paragraph */
+/*-----------------------------------------
+The .Section2Paragraph properites
+------------------------------------------*/
+.Section2Paragraph {
+  font-family: var(--GlobalFontFamily);
+  margin-top: 0px;
+  font-size: 1.3rem;
+  color: var(--Section2Paragraph-font-color); /* dark orange*/
+  font-weight: bolder;
+  padding-top: 1rem;
+}
+
+/*=======================================*/
+/* INSERT Point - Section2Paragraph::firstLetter/line */
+/*-----------------------------------------
+The .Section2Paragraph::firstLetter/line properites
+------------------------------------------*/
+.Section2Paragraph::first-line {
+font-size: 125%;
+}
+
+.Section2Paragraph::first-letter {
+font-size: 150%;
+}
+/* S2-2 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+
+/*=======================================*/
+/* FR-1 REPLACE Point - Footer */
+/*-----------------------------------------
+The .Footer properites
+------------------------------------------*/
+.Footer {
+  background: var(--Footer_background-color);
+  width: 100%; 
+  /*top: 80px;  Removed in place of the bottom property*/
+  bottom: 0;
+  position: fixed;
+  z-index: 99;
+  max-width: 1000px;
+  margin: auto;
+} 
+/* END FR-1 .Footer =====================*/
+
+
+/*=============================================*/
+/* F-1 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/*=======================================*/
+/* F1 INSERT Point - .FooterNavList */
+/*-----------------------------------------
+The .FooterNavList properties
+------------------------------------------*/
+.FooterNavList {
+  list-style: none;
+  margin: 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: var(--FooterList-font-size);
+}
+
+/*=======================================*/
+/* INSERT Point - .FooterNavListItem a */
+/*-----------------------------------------
+The .FooterNavListItem a properties
+------------------------------------------*/
+.FooterNavListItem a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 8px 0;
+  padding: 12px;
+}
+
+/*=======================================*/
+/* INSERT Point - .FooterNavListItem a:hover
+                .FooterNavListItem a:active */
+/*-----------------------------------------
+The .FooterNavListItem a:hover,
+  .FooterNavListItem a:active properties
+------------------------------------------*/
+.FooterNavListItem a:hover,
+.FooterNavListItem a:active {
+color: var(--Footer_hover-color);
+}
+/* F-1 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+/*===========================================*/
+/* R-1 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/* Responsive Code */  
+/* R-1 INSERT Point - @media (responsive max-width)*/
+/*-----------------------------------------
+The @media query properties
+Tablet Portrait
+=========================================*/
+@media only screen
+and (min-width: 741px)
+and (max-width: 1000px) 
+{
+  .Section1ImageText {
+    font-size: 3rem;
+    padding: 20px 200px 0px 0px;
+  }
+  .Section2Paragraph {
+    font-size: 1rem;
+    padding: 0px 0px 0px 0px;
+    margin: -30px 0px 0px 0px;
+  }
+}  
+/*-----------------------------------------
+The @media query properties
+Mobile Landscape
+=========================================*/
+@media only screen
+and (min-width: 441px)
+and (max-width: 740px) 
+{
+  .HeaderLogo {
+      font-size: 1.2rem;
+      margin-left: 10px;
+      background-size: 180px 51px;
+  }
+  .HeaderNavBars {
+    display: flex;
+  }
+  .HeaderNavList {
+      display: none;
+  }
+  .Section1ImageText {
+    font-size: 2.5rem;
+    text-align: center;
+    vertical-align: center;
+    padding: 0px 150px 20px 0px;
+  }
+  .Section2 h2 {
+    font-size: 1.7rem;
+  }
+  .Section2Paragraph {
+    font-size: 75%;
+    margin-top: -45px;
+  }
+  .Footer {
+    display: none;
+  }
+}
+
+/*-----------------------------------------
+The @media query properties
+Mobile Portrait
+=========================================*/
+@media only screen
+and (max-width: 440px)  
+{
+  .HeaderLogo {
+      font-size: .8rem;
+      margin-left: 15px;
+      margin-top: 15px;
+      background-size: 144px 41px;
+  }
+  .HeaderNavBars {
+    display: flex;
+  }
+  .HeaderNavList {
+      display: none;
+  }
+  .Section1ImageText {
+      font-size: 2rem;
+      padding: 40px 80px 20px 0px;
+      text-align: center;
+      vertical-align: center;
+    }
+  .Section2Paragraph {
+      font-size: 60%;
+    }
+  h2 {
+      padding: 0;
+  }
+}
+/* R-1 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+/* END CSS */
