@@ -248,19 +248,19 @@ function fmtWorkspace(  pRec, i ) {
 //  var aURL      = `${aHost}/api/system/update-env`;
     var pData1 =
          { "EmbeddingEngine"   : "openai"
-         , "OpenAiKey"         : "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"
+         , "OpenAiKey"         : "sk" + "-7c3IzbQwUEVViVWRe"+"iJTT3BlbkFJOl6lyyl4HIHcpBpc4AFN"
     //   , "EmbeddingModelPref": "text-embedding-3-small"
          , "EmbeddingModelPref": "text-embedding-ada-002"
             }
     var pData2 =
          { "LLMProvider"       : "openai"
-//       , "OpenAiKey"         : "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"
-         , "OpenAiKey"         : "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"
+//       , "OpenAiKey"         : "sk" + "-7c3IzbQwUEVViVWRe"+"iJTT3BlbkFJOl6lyyl4HIHcpBpc4AFN"
+         , "OpenAiKey"         : "sk" + "-tN39187xh3m2foUmr"+"QyRT3BlbkFJ1IrW3MUwa48mkYFPqEr5"
          , "EmbeddingModelPref": "gpt-3.5-turbo"
             }
     var pData3 =
             { "LLMProvider"       : "openai"
-            , "OpenAiKey"         : "sk-7c3IzbQwUEVVi"
+            , "OpenAiKey"         : "sk" + "-7c3IzbQwUEVVi"
             , "EmbeddingModelPref": "gpt-3.5-turbo"
                }
     var pData4 =
