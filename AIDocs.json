@@ -2,9 +2,9 @@
   "apps": [
     {
       "name": "AI Docs Review",
-      "cwd": "/webs/AIDocs/nextjs1/c11_first-nextjs1-app",
+      "cwd": "/webs/AIDocs/client1/c16_aidocs-review-app",
       "script": "npm",
-      "args": ["run","dev"],
+      "args": ["run","start"],
       "instances": 1,
       "exec_mode": "fork",
       "autorestart": true,
