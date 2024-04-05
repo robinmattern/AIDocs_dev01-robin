@@ -1,13 +1,14 @@
 //            import    dotenv     from  'dotenv'; // dotenv.config()
 //            import  { inspect }  from  'util'
 
-        var __fullpath  =   import.meta.url.replace( /\/$/, '' );                                   // console.log( `__fullname: ${__fullname}`)
-        var __filename  = __fullpath.replace( /.+\//, "" );                                         //  console.log( `__filename: ${__filename}`)
-        var __dirname   = __fullpath.replace( `/${__filename}`  , "").replace( /^file:\/\//, "" );  // console.log( `__dirname:  ${__dirname}` )
-        var __APP_DIR   = __dirname.replace(  /\/[A-Z]:/, '' );                                     // console.log( `__APP_DIR:  ${__APP_DIR}` )
+        var __fullpath  =   import.meta.url.replace( /\/$/, '' );                                   // .(40402.04.1 RAM Refactor dotenv not installed) // console.log( `__fullname: ${__fullname}`)
+        var __filename  = __fullpath.replace( /.+\//, "" );                                         //                                                    console.log( `__filename: ${__filename}`)
+        var __dirname   = __fullpath.replace( `/${__filename}`  , "").replace( /^file:\/\//, "" );  //                                                    console.log( `__dirname:  ${__dirname}` )
+        var __APP_DIR   = __dirname.replace(  /\/[A-Z]:/, '' );                                     //                                                    console.log( `__APP_DIR:  ${__APP_DIR}` )
 
   try { var { dotenv  } =  await import( 'dotenv' )                                                 // .(40331.02.1 RAM Beg to work in browser)
         var { inspect } =  await import( 'util'   ) }
+//    catch( e ) { bInstalled = !e.message.match( /Cannot find package/ );                          //#.(40402.04.2).(40401.04.2 RAM Beg Oops)
       catch( e ) { if (typeof(window) != 'undefined') { window.process = { env: { } }               // .(40331.02.2 RAM Enable process.env in browser).(40401.0x.x)
      } else { console.log( "\n* Module dotenv not installed. Please run npm install in folder.");   // .(40401.0x.1 RAM Catch Module not installed)
               console.log(   `    ${__APP_DIR.replace( /\/._3c.+/, '' )}\n` );  process.exit() }    // .(40401.0x.2)
@@ -15,13 +16,21 @@
         }                                                                                           // .(40331.02.1 RAM End)
 // --------------------------------------------------------------
 
-    if (typeof(dotenv) != 'undefined') {                                                // .(40331.02.3)
+    if (typeof(dotenv) != 'undefined') {                                                            // .(40331.02.3)
         dotenv.config( { path: `${__APP_DIR}/.env` } )
-    } else {                                                                             // .(40331.02.4 RAM Beg)
-        process.env[    'ANYLLM_API_KEY'] = "FP1VRGD-5R9M00Q-GYETX1F-5HV8S27"
-        process.env[    'SERVER_PORT'   ] =  3001
-        }                                                                                // .(40331.02.4 RAM End)
+    } else {                                                                                        // .(40331.02.4 RAM Beg)
 
+//      console.log( `\n* Can find .env file: ${__APP_DIR}/.env`); // process.exit()                //#.(40402.04.3 RAM Beg)
+//      console.log( `  Using the ANYLLM_API_KEY: FP1VRGD-5R9M00Q-GYETX1F-5HV8S27\n` )
+//      console.log( `  Using the ANYLLM_API_KEY: 6Q5P8YR-JXAMFGB-KGGEZ6T-W94PXE3\n` )              // .(40401.04.4 RAM Key in Vultr ??)
+//      bInstalled = false
+//      }
+//  } else {                                                                                        // .(40331.02.4 RAM Beg)
+// if (!bInstalled) {                                                                               //#.(40402.04.3 RAM End)
+//      process.env[    'ANYLLM_API_KEY'] = "FP1VRGD-5R9M00Q-GYETX1F-5HV8S27"
+        process.env[    'ANYLLM_API_KEY'] = "6Q5P8YR-JXAMFGB-KGGEZ6T-W94PXE3"                       // .(40401.04.5 RAM Key in Vultr)
+        process.env[    'SERVER_PORT'   ] =  3001
+        }                                                                                           // .(40331.02.4 RAM End)
     var bQuiet = false
     var ANYLLM_API_KEY = process.env.ANYLLM_API_KEY
    if (!ANYLLM_API_KEY) {
@@ -41,6 +50,7 @@
 //      dotenv.config( { path: `${__APP_DIR}/.env` } )
 //      ANYLLM_API_KEY = process.env.ANYLLM_API_KEY
         aAPI_KEY  =  aAPI_KEY ? aAPI_KEY : ANYLLM_API_KEY
+//      console.log( `  Using THE ANYLLM_API_KEY: ${aAPI_KEY}` )  // .(40402.0205)
 try {
     if (!bQuiet) {
         console.log(   `  Request:  ${aMethod.toUpperCase()} ${aURL}` );
@@ -212,7 +222,7 @@ function console_log( aMsg, nQuiet ) {                                          
           aMsg += " " + String( a[1] )
           } )
 //  var bQuiet = (nQuiet == -2) ? false : (typeof( nQuiet ) == 'boolean' ? nQuiet : false)
-    var bQuiet = (nQuiet == -2) ? false : (nQuiet == 1); aMsg = aMsg.substr(1)                              // .(40401.0x.1 RAM Remove leading space)
+    var bQuiet = (nQuiet == -2) ? false : (nQuiet == 1); aMsg = aMsg.substr(1)   // .(40402.                           // .(40401.0x.1 RAM Remove leading space)
     if (bQuiet) { return }
 //  if (typeof(aMsg) == 'object' ) { aMsg = "  " + inspect( aMsg, { depth: 9 } ) }
     if (nQuiet == -1) { aMsg  = "\n" + aMsg   }

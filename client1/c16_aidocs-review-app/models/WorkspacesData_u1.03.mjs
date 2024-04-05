@@ -1,9 +1,9 @@
-    import  JPTfns    from '../../._3c1/JPTs/getAPI_u1.02.mjs';  var getAPI = JPTfns.getAPI
+    import  JPTfns    from '../../._3c1/JPTs/getAPI_u1.03.mjs';  var getAPI = JPTfns.getAPI  // .(40402.06.2)
   
    var  console_log    =  JPTfns.console_log 
 
-  var __APP_DIR        =  JPTfns.appDir( import.meta.url ) // 's31_text-to-sql-apis' or 's31-openai-sql-generator-apis'
-  var   SERVER_PORT    =  process.env.SERVER_PORT          // .(40320.01.1 RAM ENV vars set in getAPI.mjs with dotenv )
+  var __APP_DIR        =  JPTfns.appDir( import.meta.url )                                   // 's31_text-to-sql-apis' or 's31-openai-sql-generator-apis'
+  var   SERVER_PORT    =  process.env.SERVER_PORT                                            // .(40320.01.1 RAM ENV vars set in getAPI.mjs with dotenv )
 
 //      --------------------------------------------------------
 

@@ -10,7 +10,8 @@
 //  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.01.mjs/'; var getAPI = APIfns.getAPI
 //  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.01.mjs';  var getAPI = APIfns.getAPI
 //  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.02.mjs';  var getAPI = APIfns.getAPI                  //#.(40402.03.1)
-    import   APIfns    from          '../../c16_aidocs-review-app/utils/getAPI_u1.02.mjs'; var getAPI = APIfns.getAPI  // .(40402.03.1 RAM Move getAPI_u1.02.mjs to c16/utils)
+//  import   APIfns    from          '../../c16_aidocs-review-app/utils/getAPI_u1.02.mjs'; var getAPI = APIfns.getAPI  //#.(40402.03.1 RAM Move getAPI_u1.02.mjs to c16/utils).(40402.06.1)
+    import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.03.mjs';  var getAPI = APIfns.getAPI                  // .(40402.06.1 RAM Move getAPI_u1.03 back to ._3/JPTs) 
 
     var __APP_DIR      =  APIfns.appDir( import.meta.url ) // 's31_text-to-sql-apis' or 's31-openai-sql-generator-apis'
     var SERVER_PORT    =  process.env.SERVER_PORT          // .(40320.01.1 RAM ENV vars set in getAPI.mjs with dotenv )
