@@ -1,6 +1,6 @@
   import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 //import { unsafeCSS             } from 'https://cdn.jsdelivr.net/npm/lit-html@3.1.2/directives/unsafe-css.js'
-  import { getPromptValue        } from '../utils/GlobalState_u1.02.mjs';
+  import { getPromptValue        } from '../utils/GlobalState_u1.02.mjs';       // Import setPromptValue"
   import   MessagesFns             from '../utils/getData_u1.03.mjs'
 
   //-------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ return  aColor
           margin          :  5px auto;
           margin-left     :  4px;
           margin-right    :  6px;
-          padding         :  5px;             /* was 20px; or 10px; */
+          padding         :  5px;            /* was 20px; or 10px; */
 
           border          :  2px solid #ddd;  /* or #ccc */
           border-radius   :  5px;
@@ -66,7 +66,7 @@ return  aColor
         .assistant-message {
           background-color: #338b33; /* var(--Assistant-BkgnColor); */
           color           : #fff;    /* var(--Assistant-FontColor); */
-          text-align      : left;
+          text-align      : left;          
           }
       `;
       }
@@ -94,7 +94,7 @@ return  aColor
         } // eof constructor
 //    ---------------------------------------------------------
 
-async fetchMessages( aPromptValue ) {
+  async fetchMessages( aPromptValue ) {
   try {
         this.Alert( `Fetching messages for, '${aPromptValue}'` )
 
@@ -109,17 +109,21 @@ async fetchMessages( aPromptValue ) {
         }
 //    ---------------------------------------------------------
 
-async populateMessages( aPromptValue ) {
-        aPromptValue = aPromptValue ? aPromptValue : await getPromptValue( ); 	// don't use const to redefine promptValue
+  async populateMessages( aPromptValue ) {
+//      const promptValue = promptValue ? promptValue : await getPromptValue( ); // Retrieve prompt value from global state
+        aPromptValue = aPromptValue ? aPromptValue : await getPromptValue( );    // don't use const to redefine promptValue
 
+// Use promptValue to create your message array (details depend on your API logic)
+//      this.messages = await createMessagesFromPrompt( promptValue ); // Assuming a createMessagesFromPrompt function
         this.Alert( `Received prompt, '${aPromptValue}', in the MessagesComponent` )
-
         await this.fetchMessages( aPromptValue );        						// Call the method to fetch data
         this.Alert( `Fetched messages for, '${aPromptValue}', in the MessagesComponent` )
         }
 //    ---------------------------------------------------------
     render() {
-      return html`
+//      const promptValue = getPromptValue(); // Get prompt value f
+//      alert( `Submitting prompt: ${promptValue}`)
+ return html`
         <div id="spacer"></div>
         <div id="messages-container">
           ${this.Messages.map( ( message ) => this.renderMessage( message ) ) }
