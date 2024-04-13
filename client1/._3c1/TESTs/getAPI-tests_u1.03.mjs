@@ -1,5 +1,61 @@
-    import { inspect } from 'util'
-    import   fs        from 'fs'
+/*\
+##=========+====================+================================================+
+##RD       getAPI-tests         | AnythingLLM API Tests
+##RFILE    +====================+=======+===============+======+=================+
+##FD   getAPI-tests.mjs         |  35066|  4/09/24 16:00|   664| u1.03`40409.1600
+##FD   getAPI-tests.mjs         |  34720|  4/12/24 15:12|   668| u1.03`40412.1512
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#           This JavaScript file test over 15 APIs in the AnythingLLM server
+#           The tests are identified in the TheTests array.  Use this bash
+#           script, run-tests.sh, in the repo root folder with one or more
+#           test numbers.  This script in the client1\._3c1\TESTs folder can
+#           be run with VSCode's debugger for tests identified in var, aTests.
+
+##LIC      .--------------------+----------------------------------------------+
+#           Copyright (c) 2024 8020-Data_formR * Released under
+#           MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNCS     .--------------------+----------------------------------------------+
+#           Test No.  1:  Get Workspaces without API_KEY
+#           Test No.  2:  Get Workspaces with API_KEY
+#           Test No.  3:  Get Workspace {slug}
+#           Test No.  4:  Upload File
+#           Test No.  5:  Get Web Upload Link
+#           Test No.  6:  Get Documents
+#           Test No.  7:  Get Document
+#           Test No.  8:  Change Embeddings
+#           Test No.  9:  Set AI Platform Key
+#           Test No. 10:  Check Model Keys, then Update System ENV Keys
+#           Test No. 11:  List AI Platform Preferences
+#           Test No. 12:  Generate ANYLM_API_KEY
+#           Test No. 13:  AnythingLLM API_KEYS
+#           Test No. 14:  Delete System ANYLM_API_KEY (Not Admin Key)
+#           Test No. 15:  Submit prompt to OpenAPI's ChatCPT API
+#           Test No. 17:  Get Admin Preferences
+#           Test No. 18:  List AI Platform Preferences
+#           Test No. 28:  Get System Preferences
+#           Test No. 29:  Get System Preferences
+#           Test No. 99:  Get Example
+#
+##CHGS     .--------------------+----------------------------------------------+
+# .(40402.03  4/02/24 RAM  7:30a|  Move getAPI_u1.02.mjs to c16/utils
+# .(40402.06  4/02/24 RAM  5:30p|  Move FRTools to client1/._3c1/JPTs from ._2/FRTs
+# .(40402.08  4/02/24 RAM  6:30p|  Add .Env error msg
+# .(40402.09  4/02/24 RAM  6:40p|  Change workspaces test heading
+# .(40405.02  4/02/24 RAM  5:30p|  Rework getting OPENAI_API_KEY
+# .(40406.02  4/05/24 RAM  3:38p|  Rename fmtEnv & Update getEnv, process.env
+# .(40407.01  4/09/24 RAM  3:00p|  Improve API Error messages
+# .(40407.02  4/07/24 RAM  6:30p|  Move FRTools back to client1/c16_app/Utils folder
+# .(40407.05  4/07/24 RAM  2:45p|  Rename dirName and appDir fns
+# .(40407.06  4/07/24 RAM  4:05p|  Replace inspect with fmtObj
+# .(40409.02  4/09/24 RAM  3:00p|  Improve API Error messages
+# .(40409.03  4/09/24 RAM  4:00p|  Add SERVER_HOST
+# .(40409.04  4/09/24 RAM  4:00p|  Add ANYLLM_WORKSP
+# .(40412.01  4/12/24 RAM  3:12p|  Add JPT's Doc Header Info
+                                |
+##SRCE     +====================+===============================================+
+\*/
+//  import { inspect } from 'util'
+//  import   fs        from 'fs'
 
 //  import { getAPI, setAPIoptions  } from          './getAPI.mjs';
 //  import   APIfns    from                         './getAPI.mjs';        var getAPI = APIfns.getAPI
@@ -9,23 +65,34 @@
 //  import   APIfns    from  '../../client1/._3c1/JPTs/getAPI.mjs';        var getAPI = APIfns.getAPI
 //  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.01.mjs/'; var getAPI = APIfns.getAPI
 //  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.01.mjs';  var getAPI = APIfns.getAPI
-//  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.02.mjs';  var getAPI = APIfns.getAPI                  //#.(40402.03.1)
-//  import   APIfns    from          '../../c16_aidocs-review-app/utils/getAPI_u1.02.mjs'; var getAPI = APIfns.getAPI  //#.(40402.03.1 RAM Move getAPI_u1.02.mjs to c16/utils).(40402.06.1)
-    import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.03.mjs';  var getAPI = APIfns.getAPI                  // .(40402.06.1 RAM Move getAPI_u1.03 back to ._3/JPTs) 
+//  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.02.mjs';  var getAPI = APIfns.getAPI                   //#.(40402.03.1)
+//  import   APIfns    from          '../../c16_aidocs-review-app/utils/getAPI_u1.02.mjs'; var getAPI = APIfns.getAPI   //#.(40402.03.1 RAM Move getAPI_u1.02.mjs to c16/utils).(40402.06.1)
+//  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.03.mjs';  var getAPI = APIfns.getAPI                   //#.(40402.06.4 RAM Move getAPI_u1.03 back to ._3/JPTs)
+//  import   APIfns           from   '../../._3c1/JPTs/getAPI_u1.03.mjs';            var getAPI = APIfns.getAPI         //#.(40402.06.4 RAM Move getAPI_u1.03 back to ._3/JPTs).(40407.02.1)
+//  import   APIfns           from  '../../../._2/FRTs/getAPI_u1.04.mjs';            var getAPI = APIfns.getAPI         //#.(40407.02.1 RAM Move getAPI_u1.03 to ._2/FRTs).(40407.02.4)
+    import   APIfns           from  '../../c16_aidocs-review-app/utils/FRTs/getAPI_u1.04.mjs'; var getAPI=APIfns.getAPI // .(40407.02.6 RAM Move getAPI_u1.04 to ./utils/FRTs)
+    import { FRT, __appDir  } from  '../../../._2/FRTs/formr_utility-fns_u1.08.mjs'; var fmtObj = FRT.fmtObj            // .(40407.02.5)
 
-    var __APP_DIR      =  APIfns.appDir( import.meta.url ) // 's31_text-to-sql-apis' or 's31-openai-sql-generator-apis'
-    var SERVER_PORT    =  process.env.SERVER_PORT          // .(40320.01.1 RAM ENV vars set in getAPI.mjs with dotenv )
+    var __APP_DIR      =  APIfns.getAppDir( import.meta.url )                                               // .(40407.05.4 RAN Changed name)
+//  var __APP_DIR      =  __appDir                                                                          //#.(40407.05.5 RAM Needs work)
+
+    var SERVER_HOST    =  process.env.SERVER_HOST           // .(40409.03.2)
+    var SERVER_PORT    =  process.env.SERVER_PORT           // .(40320.01.1 RAM ENV vars set in getAPI.mjs with dotenv )
     var ANYLLM_API_KEY =  process.env.ANYLLM_API_KEY
     var OPENAI_API_KEY =  process.env.OPENAI_API_KEY
-    var openaiApiKey   =  process.env.OPENAI_API_KEY; console.log( `Using OPENAI_API_KEY: ${OPENAI_API_KEY}`) // .(40402.03.2)
+//  var openaiApiKey   =  process.env.OPENAI_API_KEY;       // console.log( `OPENAI_API_KEY: ${OPENAI_API_KEY}`)        //#.(40405.02.8)
+    var ANYLLM_WORKSP  =  process.env.ANYLLM_WORKSP         // .(40409.04.1)
 
-    var aTests         =  "15" // "18,1"
-    var bCalled        =  APIfns.isCalled( import.meta.url )       // aCallee
+    var aTests         =  2
+//  var aTests         =  15 // "18,1"
     var aTests         = (process.argv[2] > "") ? process.argv[2] : (bCalled ? "" : aTests)
-//  --------------------------------------------------------------
 
-    var aHost          = `http://localhost:${SERVER_PORT}`
-    var aWrksp         = 'workspace2'
+    var bCalled        =  APIfns.isCalled( import.meta.url )       // aCallee
+    //  --------------------------------------------------------------
+
+//  var aHost          = `http://localhost:${SERVER_PORT}`  //#.(40409.03.3)
+    var aHost          = `${SERVER_HOST}:${SERVER_PORT}`    // .(40409.03.3)
+    var aWrksp         = `${ANYLLM_WORKSP}`                 // .(40409.04.2 Was: 'workspace2')
 
     var TheTests =
          {  '1':  { Func: doTest01,  Method: 'GET',    URL: `/api/workspaces`         }
@@ -86,7 +153,7 @@
         console.log( "" )
 //      console.log( "  Id          Workspace                       ':slug'             Hst     CreatedAt          UpdatedAt     " )  //#.(40402.09.1)
 //      console.log( " ----  ------------------------------  -------------------------  ---  -----------------  -----------------" )  //#.(40402.09.2)
-        console.log( "  Id          Workspace                       ':slug'             Hst     UpdatedAt     " )                     // .(40402.09.1 RAM Modify Test02 Heading) 
+        console.log( "  Id          Workspace                       ':slug'             Hst     UpdatedAt     " )                     // .(40402.09.1 RAM Modify Test02 Heading)
         console.log( " ----  ------------------------------  -------------------------  ---  -----------------" )                     // .(40402.09.2)
         console.log( mRecs.map( fmtWorkspace ).join( "\n" ) )
     } else {
@@ -159,7 +226,8 @@ function fmtWorkspace(  pRec, i ) {
 
     var aURL      = `${aHost}/api/v1/documents`;
     var pResponse =  await getAPI( aURL )
-        console.log( inspect( pResponse || {}, { depth: 99 } ) )
+        console.log( fmtObj( pResponse || {}, { depth: 99 } ) )                                             // .(40407.06.9)
+//      FRT.traceR( 'doTest06[1]', 'pResponse', 2, pResponse )
         } // eof doTest06
 //  --- ------------------------------------------------
 
@@ -180,7 +248,7 @@ function fmtWorkspace(  pRec, i ) {
     var pJSON     =  JSON.parse( aContents )
     var mProducts =  JSON.parse( pJSON.pageContent )
         mProducts.forEach( pProduct => { delete pProduct.productURLs; delete pProduct.imageURLs } )
-        console.log( inspect( mProducts, { depth: 99 } ) )
+        console.log( fmtObj( mProducts, { depth: 99 } ) )                                                   // .(40407.06.10)
     } catch ( pErr ) {
         console.log( "* ERROR:", pErr )
         }
@@ -244,7 +312,7 @@ function fmtWorkspace(  pRec, i ) {
 //      console.log( pResponse || {} )
         } // eof doTest09
 //  --- ------------------------------------------------
- 
+
 //  Test No. 10: Check Model Keys, then Update System ENV Keys
 //  --------------------------------------------------------------
   async function doTest10( aURL, aMethod, pData ) {
@@ -366,7 +434,7 @@ function fmtAPI_Key( pRec, i ) {
         } // eof doTest14
 //  --- ------------------------------------------------
 
-//  Test No. 15: AnythingLLM API_KEYSworkspace
+//  Test No. 15: Submit prompt to OpenAPI's ChatCPT API
 //  --------------------------------------------------------------
   async function doTest15( aURL, aMethod, pData ) { // this one formats the answer
         APIfns.setAPIoptions( { bQuiet: true } )
@@ -386,14 +454,16 @@ function fmtAPI_Key( pRec, i ) {
         console.log( `  Sources:  ${ pResponse.sources.length }, Mode: ${ pData.mode }` )
         console.log( `  Answer:   ${ pResponse.response.replace( /\n/g, "\n            ") }` )
     } else {
-//     throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}` );
-        console.log( `\n* API request failed to return a response. Is .env present.` )           // .(40402.08.1 RAM Add .Env error msg)
+    var aLLM_Key     = `LLM_API_KEY: '${OPENAI_API_KEY.substr(0,20)}...${OPENAI_API_KEY.slice(-3)}'`// .(40405.02.4 RAM)
+//      throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}`);
+        console.log( `\n* API request failed to return a response. Is .env present.` )              // .(40402.08.1 RAM Add .Env error msg)
+        console.log(   `  Is there a problem with the ${aLLM_Key}?  Try chat in AnythingLLM.`)      // .(40409.02.8 RAM Add to msg)
         process.exit( )
         }
         } // eof doTest15
 //  --- ------------------------------------------------
 
-//  Test No. 16a: /api/workspace/:slug/stream-chat
+//  Test No. 16a: Submit prompt to OpenAPI's ChatCPT API (no workie)
 //  --------------------------------------------------------------
   async function doTest16a( aURL ) {  // this one doesn't work
 
@@ -435,7 +505,7 @@ async function streamChat( { slug }, message, handleChat ) {
         } // eof doTest16a
 //  --- ------------------------------------------------
 
-//  Test No. 16b: /api/workspace/:slug/stream-chat
+//  Test No. 16b: Submit prompt to OpenAPI's ChatCPT API
 //  --------------------------------------------------------------
   async function doTest16b( aURL ) {  // this one returns data: streams
 
@@ -480,7 +550,7 @@ async function submitMessage( aWrksp, message ) {
 //  Test No. 17: Get Admin Preferences
 //  --------------------------------------------------------------
   async function doTest17( aURL ) {
-//  APIfns.setAPIoptions( { bQuiet: true } )
+//      APIfns.setAPIoptions( { bQuiet: true } )
 
     var aURL      = `${aHost}/api/v1/admin/preferences`;
     var pResponse =  await getAPI( aURL ) || {}
@@ -591,5 +661,8 @@ export async function doTests( aTests, pValues ) {
         } // eof doTests
 //  --- ------------------------------------------------
 //  --------------------------------------------------------------
-
+/*\
+##SRCE     +====================+===============================================+
+##=========+====================+================================================+
+\*/
 
