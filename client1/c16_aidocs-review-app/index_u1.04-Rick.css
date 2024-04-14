@@ -339,11 +339,11 @@ and (max-width: 1000px)
   }                                                                     /* .(40412.02.26 RJS End)
   .HeaderLogoText a {                                                   /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
     font-size: 1.7rem;
-    font-weight: 400px;
+    font-weight: 400;
   }
   .AIMyDocsText {
     font-size: 1rem;                                                    /* .(40412.02.27 RJS Was: .08rem) */
-    font-weight: 400px;
+    font-weight: 400;
     text-decoration: underline;
   }
   .MarketingBreak {
@@ -367,6 +367,7 @@ The .MarketingText properites
 /* END MarketingText properties ===========================*/           /* .(40410.06.4 RJS End) */
 
 
+}
 /*-----------------------------------------
 The @media MAX-width query properties
 iPhone Landscape
