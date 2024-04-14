@@ -1,4 +1,4 @@
-#!/bin/bash .
+#!/bin/bash  
 
 if [ "${OSTYPE:0:5}" == "linux" ]; then
    if which "run-node-apps"  >/dev/null 2>&1; then run-node-apps stop demo1; else echo -e "\n* run-node-apps is not available"; fi
@@ -17,6 +17,3 @@ if [ "${OS:0:7}" == "Windows" ]; then   # Running in DOS, will it ever happen?
    killport 8080
    node server.mjs
    fi
-
-
-
