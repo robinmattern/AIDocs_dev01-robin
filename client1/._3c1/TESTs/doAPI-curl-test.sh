@@ -4,7 +4,12 @@
   aWorkspace="visitor1-workspace"
   aAPI="api/v1/workspace/${aWorkspace}/chat"
   aANYLLM_API_KEY="6Q5P8YR-JXAMFGB-KGGEZ6T-W94PXE3"
-  aPrompt="What is AnythingLLM?"
+  aPrompt="What is this document about?"
+  aPrompt="How will the Biden administration Cut wasteful spending?"
+  aPrompt="How will the Biden administration Make the wealthy and corporations pay more tax?"
+  aPrompt="What is the gross receipts tax? How does it work?"
+# aPrompt="How much is the stock repurchase excise tax?"
+
   aMode="query"
 
 #curl -X 'POST' \
