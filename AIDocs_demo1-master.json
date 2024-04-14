@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "AI Docs Review - demo1-master",
+      "script": "/webs/aidocs_/demo1-master/client1/c16_aidocs-review-app/server.mjs",   // Path to your server.mjs file
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "1G",
+      "env": { "NODE_ENV": "development" }
+    }
+  ]
+}
