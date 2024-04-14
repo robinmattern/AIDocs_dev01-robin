@@ -4,6 +4,7 @@
 ##RFILE    +====================+=======+===============+======+=================+
 ##FD   getAPI-tests.mjs         |  35066|  4/09/24 16:00|   664| u1.03`40409.1600
 ##FD   getAPI-tests.mjs         |  34720|  4/12/24 15:12|   668| u1.03`40412.1512
+##FD   getAPI-tests.mjs         |  35056|  4/14/24 13:05|   670| u1.03`40414.1305
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file test over 15 APIs in the AnythingLLM server
 #           The tests are identified in the TheTests array.  Use this bash
@@ -50,6 +51,7 @@
 # .(40409.03  4/09/24 RAM  4:00p|  Add SERVER_HOST
 # .(40409.04  4/09/24 RAM  4:00p|  Add ANYLLM_WORKSP
 # .(40412.01  4/12/24 RAM  3:12p|  Add JPT's Doc Header Info
+# .(40414.03  4/14/24 RAM 13:05p|  Move getAPI_u1.04 back to ./utils/FRTs
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -67,10 +69,11 @@
 //  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.02.mjs';  var getAPI = APIfns.getAPI                   //#.(40402.03.1)
 //  import   APIfns    from          '../../c16_aidocs-review-app/utils/getAPI_u1.02.mjs'; var getAPI = APIfns.getAPI   //#.(40402.03.1 RAM Move getAPI_u1.02.mjs to c16/utils).(40402.06.1)
 //  import   APIfns    from          '../../._3c1/JPTs/getAPI_u1.03.mjs';  var getAPI = APIfns.getAPI                   //#.(40402.06.4 RAM Move getAPI_u1.03 back to ._3/JPTs)
-//  import   APIfns           from   '../../._3c1/JPTs/getAPI_u1.03.mjs';            var getAPI = APIfns.getAPI         //#.(40402.06.4 RAM Move getAPI_u1.03 back to ._3/JPTs).(40407.02.1)
-//  import   APIfns           from  '../../../._2/FRTs/getAPI_u1.04.mjs';            var getAPI = APIfns.getAPI         //#.(40407.02.1 RAM Move getAPI_u1.03 to ._2/FRTs).(40407.02.4)
-    import   APIfns           from  '../../c16_aidocs-review-app/utils/FRTs/getAPI_u1.04.mjs'; var getAPI=APIfns.getAPI // .(40407.02.6 RAM Move getAPI_u1.04 to ./utils/FRTs)
-    import { FRT, __appDir  } from  '../../../._2/FRTs/formr_utility-fns_u1.08.mjs'; var fmtObj = FRT.fmtObj            // .(40407.02.5)
+//  import   APIfns           from   '../../._3c1/JPTs/getAPI_u1.03.mjs';  var getAPI = APIfns.getAPI                   //#.(40402.06.4 RAM Move getAPI_u1.03 back to ._3/JPTs).(40407.02.1)
+//  import   APIfns           from  '../../../._2/FRTs/getAPI_u1.04.mjs';  var getAPI = APIfns.getAPI                   //#.(40407.02.1 RAM Move getAPI_u1.03 to ._2/FRTs).(40407.02.4)
+//  import { FRT, __appDir  } from  '../../../._2/FRTs/formr_utility-fns_u1.08.mjs';                      var fmtObj = FRT.fmtObj    //#.(40407.02.5).(40414.03.1)
+    import   APIfns           from  '../../c16_aidocs-review-app/utils/FRTs/getAPI_u1.04.mjs';            var getAPI = APIfns.getAPI // .(40407.02.6 RAM Move getAPI_u1.04 to ./utils/FRTs)
+    import { FRT, __appDir  } from  '../../c16_aidocs-review-app/utils/FRTs/formr_utility-fns_u1.08.mjs'; var fmtObj = FRT.fmtObj    // .(40414.03.1 RAM Move it).(40407.02 RAM As before)
 
     var __APP_DIR      =  APIfns.getAppDir( import.meta.url )                                               // .(40407.05.4 RAN Changed name)
 //  var __APP_DIR      =  __appDir                                                                          //#.(40407.05.5 RAM Needs work)
