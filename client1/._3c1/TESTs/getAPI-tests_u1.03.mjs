@@ -1,4 +1,4 @@
-/*\ .
+/*\ . .
 ##=========+====================+================================================+
 ##RD       getAPI-tests         | AnythingLLM API Tests
 ##RFILE    +====================+=======+===============+======+=================+
@@ -43,7 +43,6 @@
 # .(40402.09  4/02/24 RAM  6:40p|  Change workspaces test heading
 # .(40405.02  4/02/24 RAM  5:30p|  Rework getting OPENAI_API_KEY
 # .(40406.02  4/05/24 RAM  3:38p|  Rename fmtEnv & Update getEnv, process.env
-# .(40407.01  4/09/24 RAM  3:00p|  Improve API Error messages
 # .(40407.02  4/07/24 RAM  6:30p|  Move FRTools back to client1/c16_app/Utils folder
 # .(40407.05  4/07/24 RAM  2:45p|  Rename dirName and appDir fns
 # .(40407.06  4/07/24 RAM  4:05p|  Replace inspect with fmtObj
