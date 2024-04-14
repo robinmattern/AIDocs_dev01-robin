@@ -30,6 +30,7 @@
 # .(40411.03  4/11/24 RAM  9:30a|  Add <br>s to chat response
 # .(40411.05  4/11/24 RAM  8:00p|  Use main page variable
 # .(40412.01  4/12/24 RAM  6:50p|  Add JPT's Doc Header Info
+# .(40414.02  4/14/24 RAM 10:00p|  Add better test to pResponse.sources
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -157,7 +158,8 @@
     var pResponse    =  await getAPI( aURL, pData ) || { }                                          // .(40405.02.3 RAM Don't pass it here)
 
     var aLLM_Key     = `LLM_API_KEY: '${OPENAI_API_KEY.substr(0,20)}...${OPENAI_API_KEY.slice(-3)}'`          // .(40405.02.4 RAM)
-    if (pResponse.sources) {
+//  if (pResponse.sources && pResponse.sources.length > 0) {                                                  //#.(40414.02.1 RAM Add better test to pResponse.sources)
+    if (pResponse.response) {                                                                                 // .(40414.02.2 RAM Maybe this is better)
         console_log( `  Sources:  ${ pResponse.sources.length}, Mode: '${pData.mode}', ${aLLM_Key}`, bQuiet ) // .(40405.02.4 RAM)
         console_log( `  Answer:   ${ pResponse.response.replace( /\n/g, "\n            ")        }`, bQuiet )
     var pResponse =
@@ -170,8 +172,11 @@
 //    throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}` );
 //  var aMsg         = `* API request failed with ${pResponse.status}: ${pResponse.statusText}`
 //  var aMsg         =    pResponse.data ? '* API Data request failed.\n  Error: ${pResponse.data.error}.' ? aMsg                 //#.(40405.04.5 RAM ??)
-//  var aMsg         = `* API request failed with AnyLLM ${pResponse.data.type || ''} error:\n  ${pResponse.data.error}`          // .(40405.04.5)
-    var aMsg         = `* API request failed with AnythingLLM ${pResponse.data.type || ''} error:\n    '${pResponse.data.error}'` // .(40409.02.6)
+//  var aMsg         = `* API request failed with AnyLLM ${pResponse.data.type || ''} error:\n  ${pResponse.data.error}`          //#.(40405.04.5)
+//  var aMsg         = `* API request failed with AnythingLLM ${pResponse.data.type || ''} error:\n    '${pResponse.data.error}'` //#.(40409.02.6).(40414.02.5)
+    var aErr         =    pResponse.data.error ? pResponse.data.error : (pResponse.data.textResponse || "unknown")                // .(40414.02.3 RAM Who knows)
+    var aMsg         =    pResponse.response   ? pResponse.response   :  aErr                                                     // .(40414.02.4) 
+    var aMsg         = `* API request failed with AnythingLLM ${pResponse.data.type || ''} error:\n    '${aMsg}'`                 // .(40414.02.5).(40409.02.6)
         aMsg        +- `\n  Is there a problem with the ${aLLM_Key}?  Try chat in AnythingLLM.`                                   // .(40409.02.7 RAM Add to msg)
     var bErr         =  true                                                                                                      // .(40409.02.9 RAM Beg Send back an error)
     } else {                                                                                                                      // .(40409.02.3)
