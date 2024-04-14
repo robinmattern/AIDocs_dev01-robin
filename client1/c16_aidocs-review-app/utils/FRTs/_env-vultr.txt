@@ -1,0 +1,8 @@
+  CLIENT_PORT    =  8080
+  SERVER_PORT    =  3001
+  SERVER_HOST    =  http://155.138.193.41
+  JWT_SECRET     = "my-random-string-for-seeding"  # Please generate random string at least 12 chars long.
+  ANYLLM_API_KEY = "6K8TTW4-GN7MW5Q-QKRX78E-49BEM8R"
+  OPENAI_API_KEY = "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"
+  ANYLLM_WORKSP  = "visitor1-workspace"
+# ANYLLM_WORKSP  = "constitution"
