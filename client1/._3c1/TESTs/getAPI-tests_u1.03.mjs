@@ -52,6 +52,7 @@
 # .(40409.04  4/09/24 RAM  4:00p|  Add ANYLLM_WORKSP
 # .(40412.01  4/12/24 RAM  3:12p|  Add JPT's Doc Header Info
 # .(40414.03  4/14/24 RAM 13:05p|  Move getAPI_u1.04 back to ./utils/FRTs
+# .(40415.01  4/15/24 RAM 10:08a|  Add workspace and prompt to test 15 
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -111,16 +112,17 @@
          , '12':  { Func: doTest12,  Method: 'POST',   URL: `/api/system/generate-api-key`        }
          , '13':  { Func: doTest13,  Method: 'GET',    URL: `/api/system/api-keys/`   }
          , '14':  { Func: doTest14,  Method: 'DELETE', URL: `/api/system/api-key/:id` }
-         , '15':  { Func: doTest15,  Method: 'POST',   URL: `/api/v1/workspace/:slug/stream-chat`,     Data: { "message": "List the state and signers of the Constitution.", "mode": "query" } }
+//       , '15':  { Func: doTest15,  Method: 'POST',   URL: `/api/v1/workspace/:slug/stream-chat`,     Data: { "message": "List the state and signers of the Constitution.", "mode": "query" } }
+//       , '15':  { Func: doTest15,  Method: 'POST',   URL: `/api/v1/workspace/:slug/stream-chat` }    // .(40415.01.5 RAM Remove these args)
 //       , '16':  { Func: doTest16a, Method: 'GET',    URL: `/api/workspace/:slug/stream-chat/`   }
          , '16':  { Func: doTest16b, Method: 'POST',   URL: `/api/workspace/:slug/stream-chat/`   }
 
-         , '17':  { Func: doTest17,  Method: 'GET',    URL: `/api/v1/admin/preferences/`      }
-         , '18':  { Func: doTest18,  Method: 'GET',    URL: `/api/admin/system-preferences/`  }  // Unauthorized
-         , '28':  { Func: doTest28,  Method: 'GET',    URL: `/api/system/preferences/`        }  // ??
-         , '29':  { Func: doTest29,  Method: 'GET',    URL: `/settings/system-preferences/`   }  // client URL
+         , '17':  { Func: doTest17,  Method: 'GET',    URL: `/api/v1/admin/preferences/`          }
+         , '18':  { Func: doTest18,  Method: 'GET',    URL: `/api/admin/system-preferences/`      }  // Unauthorized
+         , '28':  { Func: doTest28,  Method: 'GET',    URL: `/api/system/preferences/`            }  // ??
+         , '29':  { Func: doTest29,  Method: 'GET',    URL: `/settings/system-preferences/`       }  // client URL
 
-         , '99':  { Func: doTest99,  Method: 'GET',    URL: `/api.example.com/submit`     }
+         , '99':  { Func: doTest99,  Method: 'GET',    URL: `/api.example.com/submit` }
             }
 
         if (!bCalled) { doTests( aTests ) }
@@ -441,15 +443,22 @@ function fmtAPI_Key( pRec, i ) {
   async function doTest15( aURL, aMethod, pData ) { // this one formats the answer
         APIfns.setAPIoptions( { bQuiet: true } )
 
+    var aWorksp   =  process.argv[3] ?  process.argv[3] : 'constitution'                        // .(40415.01.1 RAM Beg Add Args )
+    var aMode     =  process.argv[4] ?  process.argv[4] : 'query'
+    var aPrompt   =  process.argv[5] ?  process.argv[5] : "What is this about?"
+    if (aPrompt.match(/query|chat/)) { var a = aMode; aMode = aPrompt; aPrompt = a }            // .(40415.01.1 RAM End)
+        console.log( `process.argv[5]: ${process.argv[5]}, aPrompt: "${aPrompt}"` )
 //  var aURL      = `${aHost}/api/api/workspace/:slug/stream-chat`;          // unauthorized
-    var aURL      = `${aHost}/api/v1/workspace/constitution/stream-chat`;
+    var aURL      = `${aHost}/api/v1/workspace/${aWorksp}/stream-chat`;                         // .(40415.01.2)
 
     var pData     =  pData ? pData :
-         { "message": "List the state and signers of the Constitution."
-         , "mode"   : "chat"
+//       { "message" : "List the state and signers of the Constitution."                        //#.(40415.01.3)
+         { "message" :  aPrompt                                                                 // .(40415.01.3)
+         , "mode"    :  aMode                                                                   // .(40415.01.4 RAM Was: "chat")
             }
         console.log( `Server API: ${aURL}`)
         console.log( `  Question: ${pData.message}`)
+        return 
     var pResponse =  await getAPI( aURL, pData ) || { }
 
     if (pResponse.response) {
