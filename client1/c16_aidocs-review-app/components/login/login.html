@@ -69,7 +69,7 @@
         <link rel="stylesheet"    href="./css/09_variables.css">               <!-- .(40413.02.5 RAM End)
 
     <!--BEGINNING OF LOCAL STYLE SHEETS (CSS)-->
-        <link rel="stylesheet"    href="login_u1.07.css">                      <!-- .(40413.02.4)
+        <link rel="stylesheet"    href="login.css">                      <!-- .(40413.02.4)
 
     <style>
       #MenuBlank                { display: block; }
@@ -108,8 +108,8 @@
 
 //      import { setAPI_URL, setHTML   } from    '../assets/mjs/formr_utility-fns_u1.07.mjs' //#.(30415.02.1 RAM Avoid CORS error).(30423.02.1 RAM New version with fetchFile).(30430.03.1).(40413.02.1)
         import { setAPI_URL, setHTML   } from '../../utils/FRTs/formr_utility-fns_u1.08.mjs' // .(40413.02.1 RAM Get current version).(30415.02.1 RAM Avoid CORS error).(30423.02.1 RAM New version with fetchFile).(30430.03.1)
-        import { getID, setCookie, clearListCookies }            from './login_u1.07.mjs'    // .(40413.02.2).(30421.03.2 RAM Move to module here).(30430.03.2 RAM Must be .js on server)
-        import { onLoginForm_Submit, setLoginForm   }            from './login_u1.07.mjs'    // .(40413.02.3).(30421.03.3).(30425.02.1 RAM Add onLoginForm_Submit).(30430.03.3)
+        import { getID, setCookie, clearListCookies }            from './login.mjs'    // .(40413.02.2).(30421.03.2 RAM Move to module here).(30430.03.2 RAM Must be .js on server)
+        import { onLoginForm_Submit, setLoginForm   }            from './login.mjs'    // .(40413.02.3).(30421.03.3).(30425.02.1 RAM Add onLoginForm_Submit).(30430.03.3)
             console.log( "login.html[2]  Begin module script" )                         // .(30423.03.2 RAM Add FName[LNo])
             await setAPI_URL( )                                                         // .(30412.03.1 RAM Set window.aAPI_URL )
         var  nID = getID()                                                               // .(30415.03.1)

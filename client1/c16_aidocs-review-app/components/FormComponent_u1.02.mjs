@@ -142,7 +142,7 @@ class FormComponent extends LitElement {
 //      document.getElementById('f01_prompt').value = ""                                                    //#.(40408.03.1 RAM Like this, no workie either)
         this.shadowRoot.getElementById('f01_prompt').value = ""                                             // .(40408.03.1 RAM Like this!!)
     } else {
-        Alert( `* Please enter a prompt!`, -2 );                                                            // .(40405.05.11).(40405.06.4)
+        Alert( `* Please enter a question!`, -2 );                                                            // .(40405.05.11).(40405.06.4)
         }
     }
 //  -------------------------------------------------------
