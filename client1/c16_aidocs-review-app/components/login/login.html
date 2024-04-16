@@ -54,11 +54,12 @@
         <link rel="stylesheet"    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
 
     <!--BEGINNING OF Global STYLE SHEETS (CSS)-->
-        <link rel="stylesheet"    href="./css/00_global_variables.css">        <!-- .(40413.02.6 RAM Beg Keep them local to components/login. Was ="../css/....")-->
-        <link rel="stylesheet"    href="./css/01_hamburger.css">               
-        <link rel="stylesheet"    href="./css/02_header.css">
-        <link rel="stylesheet"    href="./css/03_footer.css">
-        <link rel="stylesheet"    href="./css/04_index.css">
+
+<!--    <link rel="stylesheet"    href="./css/00_global_variables.css">-->        <!-- .(40413.02.6 RAM Beg Keep them local to components/login. Was ="../css/....")-->
+<!--    <link rel="stylesheet"    href="./css/01_hamburger.css"> -->              
+<!--    <link rel="stylesheet"    href="./css/02_header.css"> -->
+<!--    <link rel="stylesheet"    href="./css/03_footer.css"> -->
+<!--    <link rel="stylesheet"    href="./css/04_index.css">  -->
 
     <!--RESPONSIVE STYLE SHEETS (CSS)-->
         <link rel="stylesheet"    href="./css/05_resp_GT0950-bigScreen.css">
@@ -68,7 +69,7 @@
         <link rel="stylesheet"    href="./css/09_variables.css">               <!-- .(40413.02.5 RAM End)
 
     <!--BEGINNING OF LOCAL STYLE SHEETS (CSS)-->
-        <link rel="stylesheet"    href="login_u1.07.css">                      <!-- .(40413.02.4)
+        <link rel="stylesheet"    href="login.css">                      <!-- .(40413.02.4)
 
     <style>
       #MenuBlank                { display: block; }
@@ -96,7 +97,7 @@
 </script>
 
 <!-- <script src="/client3/c32_home-wi-mysql-api_v1.03-rjs-ram/assets/mjs/formr_utility-fns_u1.06.mjs" type="module"></script> -->
-
+<!--
 <script type="module">                                                            // .(30412.02.7 RAM Use type="module")
       console.log( "login.html[1]  Hello from regular script"  )                  // .(30423.03.2 RAM Add FName[LNo])
 
@@ -107,8 +108,8 @@
 
 //      import { setAPI_URL, setHTML   } from    '../assets/mjs/formr_utility-fns_u1.07.mjs' //#.(30415.02.1 RAM Avoid CORS error).(30423.02.1 RAM New version with fetchFile).(30430.03.1).(40413.02.1)
         import { setAPI_URL, setHTML   } from '../../utils/FRTs/formr_utility-fns_u1.08.mjs' // .(40413.02.1 RAM Get current version).(30415.02.1 RAM Avoid CORS error).(30423.02.1 RAM New version with fetchFile).(30430.03.1)
-        import { getID, setCookie, clearListCookies }            from './login_u1.07.mjs'    // .(40413.02.2).(30421.03.2 RAM Move to module here).(30430.03.2 RAM Must be .js on server)
-        import { onLoginForm_Submit, setLoginForm   }            from './login_u1.07.mjs'    // .(40413.02.3).(30421.03.3).(30425.02.1 RAM Add onLoginForm_Submit).(30430.03.3)
+        import { getID, setCookie, clearListCookies }            from './login.mjs'    // .(40413.02.2).(30421.03.2 RAM Move to module here).(30430.03.2 RAM Must be .js on server)
+        import { onLoginForm_Submit, setLoginForm   }            from './login.mjs'    // .(40413.02.3).(30421.03.3).(30425.02.1 RAM Add onLoginForm_Submit).(30430.03.3)
             console.log( "login.html[2]  Begin module script" )                         // .(30423.03.2 RAM Add FName[LNo])
             await setAPI_URL( )                                                         // .(30412.03.1 RAM Set window.aAPI_URL )
         var  nID = getID()                                                               // .(30415.03.1)
@@ -144,7 +145,7 @@
 
             console.log( "login.html[4]  End module script" )                           // .(30423.03.3)
 </script>
-
+-->
   </head>
   <body data-server-no-reload>                                                        <!-- .(30421.09.1 RAM FiveServer option) -->
 <!--<body>                                                                         --><!--#.(30421.09.1) -->
@@ -193,7 +194,7 @@
       <div class="Section1Title"></div>
       <div class="login">
         <h1>
-          <a href="../index.html">Login</a><br>
+          <a href="/client1/c16_aidocs-review-app/index.html">Login</a><br>
           <div id="login-error"><div id="errMsg"></div>Contact <a href="#">System Administrator</a> for Help</div>   <!-- .(30429.08.1 RAM)-->
         <form id="LoginForm"             >                                              <!-- .(30429.01.6 RAM Not defined globally. Set listener above) -->
 

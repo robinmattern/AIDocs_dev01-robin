@@ -75,7 +75,7 @@ return  aColor
 
         .message {
           flex            :  1;
-          max-width       :  550px;
+          max-width       :  655px;
           min-width       :  300px;
           min-height      :  15px;
           margin          :  5px auto;

@@ -48,7 +48,8 @@ class FormComponent extends LitElement {
         font-family     :  sans-serif;
         font-size       :  14px;
         padding-top     :  5px;
-        width:          : 280px;
+        width:          :  280px;
+        padding-left    :  15px;
         }
 
       button {
@@ -64,7 +65,7 @@ class FormComponent extends LitElement {
       .fld-text {
         flex            :  1;
         color           : #333;
-        max-width       :  600px;
+        max-width       :  700px;
         min-width       :  340px;
         height          :  15px;
         margin          :  0 auto;
@@ -81,6 +82,26 @@ class FormComponent extends LitElement {
         font-family     :  sans-serif;
         font-size       :  14px;
         }
+      .prompt {
+        color           :  blue;
+        font-size       :  1.3rem;
+        font-weight     :  700;
+        padding-bottom  :  10px;
+      } 
+      
+      @media only screen
+      and (max-width: 440px)  
+      {
+        .fld-text {
+          max-width       :  0px;
+        } 
+        .prompt {
+          font-size       :  1.2rem;
+          font-weight     :  700;
+          padding-bottom  :  10px;
+          margin-left     :   0px;
+        } 
+      }
 
     ` }; // eof get Styles
 //  -------------------------------------------------------
@@ -121,7 +142,7 @@ class FormComponent extends LitElement {
 //      document.getElementById('f01_prompt').value = ""                                                    //#.(40408.03.1 RAM Like this, no workie either)
         this.shadowRoot.getElementById('f01_prompt').value = ""                                             // .(40408.03.1 RAM Like this!!)
     } else {
-        Alert( `* Please enter a prompt!`, -2 );                                                            // .(40405.05.11).(40405.06.4)
+        Alert( `* Please enter a question!`, -2 );                                                            // .(40405.05.11).(40405.06.4)
         }
     }
 //  -------------------------------------------------------
@@ -129,7 +150,8 @@ class FormComponent extends LitElement {
   render() {
     return html`
       <form @submit=${ this.handleSubmit}>
-        <label for="f01_prompt">&nbsp;Prompt: </label>
+        <label for="f01_prompt">&nbsp;<font class="prompt">?</font></label>
+<!--    <label for="f01_prompt">&nbsp;Prompt: </label>-->
         <input  id="f01_prompt" type="text" class="fld-text" value=${this.f01_prompt} @change=${ ( e ) => this.f01_prompt = e.target.value}>
         <button type="submit">Send</button>
       </form>
