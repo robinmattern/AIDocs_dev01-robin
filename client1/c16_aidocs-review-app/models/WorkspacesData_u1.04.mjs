@@ -2,7 +2,8 @@
 ##=========+====================+================================================+
 ##RD        Workspaces Data     | Retrieve List of workspaces
 ##RFILE    +====================+=======+===============+======+=================+
-##FD   WorkspacesData.mjs       |  12186|  4/12/24 18:10|   262| u1.04`40412.1810
+##FD   WorkspacesData.mjs       |  12186|  4/12/24 18:10|   262| v1.04`40412.1810
+##FD   WorkspacesData.mjs       |  12420|  4/16/24 15:20|   264| v1.04`40416.1520
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file retreive the list of Workspaces in AnythingLLM
 #           and then formats them as a table and or a select list.
@@ -38,6 +39,7 @@
 # .(40409.03  4/09/24 RAM  4:00p|  Add SERVER_HOST
 # .(40411.06  4/11/24 RAM  8:30p|  Deal with single data response
 # .(40412.01  4/12/24 RAM  6:10p|  Add JPT's Doc Header Info
+# .(40416.01  4/16/24 RAM  3:20p|  Remove colon from URL if no nPort
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -59,8 +61,8 @@
 
 //      --------------------------------------------------------
 
-    var aHost          = `http://localhost:${SERVER_PORT}`
-    var aHost          = `${SERVER_HOST}:${SERVER_PORT}`                                            // .(40409.03.5)
+//  var aHost          = `http://localhost:${SERVER_PORT}`                                          // .(40409.03.5)
+    var aHost          = `${SERVER_HOST}${SERVER_PORT ? `:${SERVER_PORT}` : '' }`                   // .(40416.01.2 RAM).(40409.03.5)
 
     var bQuiet         =  false
 
