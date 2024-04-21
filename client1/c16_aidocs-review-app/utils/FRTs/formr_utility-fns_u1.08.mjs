@@ -12,6 +12,7 @@
 ##FD formr_utility-fns_u1.07.mjs|  27716|  5/08/23 11:52|   356| u1-07`30515.1152
 ##FD formr_utility-fns_u1.07.mjs|  29323|  5/27/23 16:45|   380| u1-07`30527.1645
 ##FD   formr_utility-fns.mjs    |  33952|  4/12/24 18:26|   439| u1.08`40412.1826
+##FD   formr_utility-fns.mjs    |  34168|  4/15/24 17:30|   441| u1.08`40415.1730
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This Javascript file contains various utility functions that work
 #           both in NodeJS and in the browser.
@@ -75,6 +76,7 @@
 # .(40407.06  4/07/24 RAM  4:05p|  Replace inspect with fmtObj
 # .(40409.01  4/09/24 RAM  8:38a|  Add, remove a space
 # .(40412.01  4/12/24 RAM  6:26p|  Add JPT's Doc Header Info
+# .(40415.04  4/15/24 RAM  5:30p|  Remove trailing quotes after # in .env
                                 |
 ##SRCE     +====================+===============================================+
 #*/
@@ -224,10 +226,10 @@ async function  setAPI_URL( pEnv,  aNum ) {                                     
 
        var  mVars   =  aEnvText.split(/[\r\n]/), pVars = { }
             mVars.forEach( aVar => { if (aVar.replace( /^ +/, "" ) > "" && aVar.match( /^ *#/ ) == null ) {
-       var  aKey    =  aVar.replace( /=.*/,  '' ).replace( /[ '"]/g,  '' );                                 // .(30320.05.1 RAM No Quotes or spaces)
-       var  aVal    =  aVar.replace( /.+?=/, '' ).replace( /^[ '"]*/, '' ).replace( /[ '"]*$/, '' );        // .(30320.05.1 RAM No leading Quotes or spaces)
-            aVal    =  aVal.replace( / *#.*$/, '' ).replace( /'$/, '' )                                     // .(30412.03.1 RAM Remove trailing #s)
-       var  bNum    =  aVal.match( /^ *([0-9]+|true|false|null|undefined) *$/i ) != null                    // .(30322.06.3 RAM Add null and undefined)
+       var  aKey    =  aVar.replace( /=.*/,    '' ).replace(  /[ '"]/g, '' );                                 // .(30320.05.1 RAM No Quotes or spaces)
+       var  aVal    =  aVar.replace( /.+?=/,   '' ).replace( /^[ '"]*/, '' ).replace( /[ '"]*$/, '' );        // .(30320.05.1 RAM No leading Quotes or spaces)
+            aVal    =  aVal.replace( / *#.*$/, '' ).replace(  /[ "']$/, '' )                                  // .(40415.04.1 RAM Remove trailing quotes after #).(30412.03.1 RAM Remove trailing #s)
+       var  bNum    =  aVal.match( /^ *([0-9]+|true|false|null|undefined) *$/i ) != null                      // .(30322.06.3 RAM Add null and undefined)
             pVars[aKey] = bNum ? (aVal.match(  /false|null|undefined/i ) ? false : (aVal.match( /true/i ) ? true : aVal * 1 )) : aVal } } )   // .(30322.06.4)
      return pVars
             } // eof fmtEnv
