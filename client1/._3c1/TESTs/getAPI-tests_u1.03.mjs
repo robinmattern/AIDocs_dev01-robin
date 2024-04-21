@@ -5,6 +5,7 @@
 ##FD   getAPI-tests.mjs         |  35066|  4/09/24 16:00|   664| u1.03`40409.1600
 ##FD   getAPI-tests.mjs         |  34720|  4/12/24 15:12|   668| u1.03`40412.1512
 ##FD   getAPI-tests.mjs         |  35056|  4/14/24 13:05|   670| u1.03`40414.1305
+##FD   getAPI-tests.mjs         |  37247|  4/15/24 15:46|   686| u1.03`40420.1546
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file test over 15 APIs in the AnythingLLM server
 #           The tests are identified in the TheTests array.  Use this bash
@@ -52,7 +53,9 @@
 # .(40409.04  4/09/24 RAM  4:00p|  Add ANYLLM_WORKSP
 # .(40412.01  4/12/24 RAM  3:12p|  Add JPT's Doc Header Info
 # .(40414.03  4/14/24 RAM 13:05p|  Move getAPI_u1.04 back to ./utils/FRTs
-# .(40415.01  4/15/24 RAM 10:08a|  Add workspace and prompt to test 15 
+# .(40415.01  4/15/24 RAM 10:08a|  Add workspace, prompt and mode to test 15
+# .(40415.02  4/15/24 RAM 12:30p|  Make source an MT array if not found
+# .(40415.05  4/15/24 RAM  3:46p|  Add toLowercase() to ANYLLM_WORKSP
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -84,10 +87,10 @@
     var ANYLLM_API_KEY =  process.env.ANYLLM_API_KEY
     var OPENAI_API_KEY =  process.env.OPENAI_API_KEY
 //  var openaiApiKey   =  process.env.OPENAI_API_KEY;       // console.log( `OPENAI_API_KEY: ${OPENAI_API_KEY}`)        //#.(40405.02.8)
-    var ANYLLM_WORKSP  =  process.env.ANYLLM_WORKSP         // .(40409.04.1)
+    var ANYLLM_WORKSP  =  process.env.ANYLLM_WORKSP.toLowerCase()                                                       // .(40415.05.1 RAM Add toLowercase()).(40409.04.1)
 
     var aTests         =  2
-//  var aTests         =  15 // "18,1"
+    var aTests         =  15 // "18,1"
     var aTests         = (process.argv[2] > "") ? process.argv[2] : (bCalled ? "" : aTests)
 
     var bCalled        =  APIfns.isCalled( import.meta.url )       // aCallee
@@ -112,8 +115,8 @@
          , '12':  { Func: doTest12,  Method: 'POST',   URL: `/api/system/generate-api-key`        }
          , '13':  { Func: doTest13,  Method: 'GET',    URL: `/api/system/api-keys/`   }
          , '14':  { Func: doTest14,  Method: 'DELETE', URL: `/api/system/api-key/:id` }
-//       , '15':  { Func: doTest15,  Method: 'POST',   URL: `/api/v1/workspace/:slug/stream-chat`,     Data: { "message": "List the state and signers of the Constitution.", "mode": "query" } }
-//       , '15':  { Func: doTest15,  Method: 'POST',   URL: `/api/v1/workspace/:slug/stream-chat` }    // .(40415.01.5 RAM Remove these args)
+         , '15':  { Func: doTest15,  Method: 'POST',   URL: `/api/v1/workspace/:slug/stream-chat`,     Data: { "message": "List the state and signers of the Constitution.", "mode": "query" } }  // .(40415.01.1 RAM it's ok)
+//       , '15':  { Func: doTest15,  Method: 'POST',   URL: `/api/v1/workspace/:slug/stream-chat` }    //#.(40415.01.1 RAM Remove these args)
 //       , '16':  { Func: doTest16a, Method: 'GET',    URL: `/api/workspace/:slug/stream-chat/`   }
          , '16':  { Func: doTest16b, Method: 'POST',   URL: `/api/workspace/:slug/stream-chat/`   }
 
@@ -443,32 +446,42 @@ function fmtAPI_Key( pRec, i ) {
   async function doTest15( aURL, aMethod, pData ) { // this one formats the answer
         APIfns.setAPIoptions( { bQuiet: true } )
 
-    var aWorksp   =  process.argv[3] ?  process.argv[3] : 'constitution'                        // .(40415.01.1 RAM Beg Add Args )
-    var aMode     =  process.argv[4] ?  process.argv[4] : 'query'
-    var aPrompt   =  process.argv[5] ?  process.argv[5] : "What is this about?"
-    if (aPrompt.match(/query|chat/)) { var a = aMode; aMode = aPrompt; aPrompt = a }            // .(40415.01.1 RAM End)
-        console.log( `process.argv[5]: ${process.argv[5]}, aPrompt: "${aPrompt}"` )
-//  var aURL      = `${aHost}/api/api/workspace/:slug/stream-chat`;          // unauthorized
-    var aURL      = `${aHost}/api/v1/workspace/${aWorksp}/stream-chat`;                         // .(40415.01.2)
+    var aWorksp   =  process.argv[3] ?  process.argv[3] : '' // 'constitution'                  // .(40415.01.2 RAM Beg Add Args )
+    var aMode     =  process.argv[4] ?  process.argv[4] : '' // 'query'
+    var aPrompt   =  process.argv[5] ?  process.argv[5] : '' // "What is this about?"
+    if (aMode.match(  /query|chat/) == null && aPrompt == '') { aPrompt = aMode; aMode = '' }
+    if (aPrompt.match(/query|chat/)) { var a = aMode; aMode = aPrompt; aPrompt = a }
+    if (aPrompt.match(/none/)) { aPrompt = aMode }                                              // .(40415.01.2 RAM End)
+//      console.log( `process.argv[5]: ${process.argv[5]}, aPrompt: "${aPrompt}", aMode: ${aMode}` )
 
     var pData     =  pData ? pData :
-//       { "message" : "List the state and signers of the Constitution."                        //#.(40415.01.3)
-         { "message" :  aPrompt                                                                 // .(40415.01.3)
-         , "mode"    :  aMode                                                                   // .(40415.01.4 RAM Was: "chat")
+//       { "message" :  aPrompt  .... }                                                         //#.(40415.01.3)
+         { "message" : "List the state and signers of the Constitution."                        // .(40415.01.3 RAM No change)
+         , "mode"    : 'chat' // aMode                                                          //#.(40415.01.4 RAM Was: "chat")
             }
+        pData.message =  aPrompt ? aPrompt : pData.message                                      // .(40415.01.5 RAM Cmd Args override function arg, pData)
+        pData.mode    =  aMode   ? aMode   : pData.mode                                         // .(40415.01.6)
+        aWrksp        =  aWorksp ? aWorksp : aWrksp                                             // .(40415.01.7 RAM The global in _Env)
+
+//  var aURL      = `${aHost}/api/api/workspace/:slug/stream-chat`;          // unauthorized
+    var aURL      = `${aHost}/api/v1/workspace/${aWrksp}/stream-chat`;                          // .(40415.01.8 RAM Was: hard coded)
+
         console.log( `Server API: ${aURL}`)
-        console.log( `  Question: ${pData.message}`)
-        return 
+        console.log( `    Prompt: ${pData.message}`)
+//      console.log( `      Mode: ${pData.mode}`)                                               //#.(40415.01.9 RAM Add)
+
     var pResponse =  await getAPI( aURL, pData ) || { }
 
     if (pResponse.response) {
-        console.log( `  Sources:  ${ pResponse.sources.length }, Mode: ${ pData.mode }` )
-        console.log( `  Answer:   ${ pResponse.response.replace( /\n/g, "\n            ") }` )
+    var pResponse_sources = pResponse.sources[0] == "No Citations" ? [] : pResponse.sources        // .(40415.02.1 RAM MAke length == 0)
+        console.log( `   Sources: ${ pResponse_sources.length }, Mode: ${ pData.mode }` )          // .(40415.02.2 RAM CHange leading spaces)
+        console.log( `  Response: ${ pResponse.response.replace( /\n/g, "\n            ") }` )     // .(40415.02.3)
+        console.log( `   Sources: ${ fmtObj( pResponse_sources ) }` )                              // .(40415.02.8 RAM CHange leading spaces)
     } else {
     var aLLM_Key     = `LLM_API_KEY: '${OPENAI_API_KEY.substr(0,20)}...${OPENAI_API_KEY.slice(-3)}'`// .(40405.02.4 RAM)
 //      throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}`);
-        console.log( `\n* API request failed to return a response. Is .env present.` )              // .(40402.08.1 RAM Add .Env error msg)
-        console.log(   `  Is there a problem with the ${aLLM_Key}?  Try chat in AnythingLLM.`)      // .(40409.02.8 RAM Add to msg)
+        console.log( `\n* API request failed to return a response. Is _env present?` )             // .(40415.02.4).(40402.08.1 RAM Add .Env error msg)
+        console.log(   `  Is there a problem with the ${aLLM_Key}?  Try chat in AnythingLLM.`)     // .(40409.02.8 RAM Add to msg)
         process.exit( )
         }
         } // eof doTest15
