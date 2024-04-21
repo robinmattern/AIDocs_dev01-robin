@@ -86,7 +86,7 @@
     var SERVER_HOST    =  process.env.SERVER_HOST           // .(40409.03.2)
     var SERVER_PORT    =  process.env.SERVER_PORT           // .(40320.01.1 RAM ENV vars set in getAPI.mjs with dotenv )
     var ANYLLM_API_KEY =  process.env.ANYLLM_API_KEY
-    var OPENAI_API_KEY =  process.env.OPENAI_API_KEY
+    var OPENAI_API_KEY =  process.env.OPENAI_API_KEY 
 //  var openaiApiKey   =  process.env.OPENAI_API_KEY;       // console.log( `OPENAI_API_KEY: ${OPENAI_API_KEY}`)        //#.(40405.02.8)
     var ANYLLM_WORKSP  =  process.env.ANYLLM_WORKSP.toLowerCase()                                                       // .(40415.05.1 RAM Add toLowercase()).(40409.04.1)
 
