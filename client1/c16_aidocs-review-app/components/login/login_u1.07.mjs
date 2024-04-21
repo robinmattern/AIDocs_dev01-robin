@@ -361,20 +361,20 @@ var id = 90
             }
 
        var  pLogin       =  pJSON.login[362]                                                        // .(30428.03.4)
-            sayMsg( 1,     `onLog~Succ[3]  Username and Password found:`)                         // .(30423.03.8).(30503.01.23)
-            sayMsg( 2, `onLoginSuccess[3]  Username and Password found for ${pLogin.FullName}`)   // .(30428.03.5).(30503.01.24)
-            sayMsg( 2,      pLogin )                                                              // .(30503.01.25)
-            setCookie(      pLogin.MemberNo )                                                     // .(30502.05.1 RAM Oops)
-//          setLoginForm( pJSON )                                                                 // .(30429.06.2 RAM Use function againp for fetch API)
+            sayMsg( 1,     `onLog~Succ[3]  Username and Password found:`)                           // .(30423.03.8).(30503.01.23)
+            sayMsg( 2, `onLoginSuccess[3]  Username and Password found for ${pLogin.FullName}`)     // .(30428.03.5).(30503.01.24)
+            sayMsg( 2,      pLogin )                                                                // .(30503.01.25)
+            setCookie(      pLogin.MemberNo )                                                       // .(30502.05.1 RAM Oops)
+//          setLoginForm( pJSON )                                                                   // .(30429.06.2 RAM Use function againp for fetch API)
 
-            location.href = `${aVIR_DIR}/`                                                        // .(30508.01.5 RAM Go Home. Was:"/")
+            location.href = `${aVIR_DIR}/`                                                          // .(30508.01.5 RAM Go Home. Was:"/")
 
             } // eof onLoginSuccess
 //    ----  ------------------------------------------------
          }; // eof onLoginForm_Submit
 //--------  ---------------------------------------------------------
 
-  async  function fetchLoginData_v1( nID ) {                                            // .(30329.04.2 Beg RAM Write function fetchLoginData)
+  async  function fetchLoginData_v1( nID ) {                                                        // .(30329.04.2 Beg RAM Write function fetchLoginData)
 
     var  pLoginData = { id: 0, code: "", name : "", email: "" }
 
