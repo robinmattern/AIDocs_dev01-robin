@@ -2,8 +2,9 @@
 ##=========+====================+================================================+  . . . . ----  . ----  . . . .
 ##RD        Get Data            | Get data from AnythingLLM API
 ##RFILE    +====================+=======+===============+======+=================+
-##FD   getData.mjs              |  14293|  4/12/24 18:51|   205| u1.03`40412.1851
-##FD   getData.mjs              |  15205|  4/14/24 12:08|   210| u1.03`40414.1208
+##FD   getData.mjs              |  14293|  4/12/24 18:51|   205| v1.03`40412.1851
+##FD   getData.mjs              |  15205|  4/14/24 12:08|   210| v1.03`40414.1208
+##FD   getData.mjs              |  15840|  4/16/24 15:20|   215| v1.03`40416.1520
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file calls getAPI and deals with the response from
 #           the AnythingLLM API.
@@ -32,7 +33,10 @@
 # .(40411.05  4/11/24 RAM  8:00p|  Use main page variable
 # .(40412.01  4/12/24 RAM  6:50p|  Add JPT's Doc Header Info
 # .(40414.02  4/14/24 RAM 10:00p|  Add better test to pResponse.sources
-                                |
+# .(40415.02  4/15/24 RAM 12:40p|  Make source an MT array if not found
+# .(40415.05  4/15/24 RAM  3:46p|  Add toLowercase() to ANYLLM_WORKSP
+# .(40416.01  4/16/24 RAM  3:20p|  Remove colon from URL if no nPort
+
 ##SRCE     +====================+===============================================+
 \*/
 //  import  JPTfns        from   '../../._2/JPTs/getAPI.mjs';        var getAPI = JPTfns.getAPI     //#.(40402.03.1)
@@ -66,8 +70,8 @@
 
 //      --------------------------------------------------------
 
-    var aHost          = `http://localhost:${SERVER_PORT}`
-    var aHost          = `${SERVER_HOST}:${SERVER_PORT}`                                            // .(40409.03.7)
+//  var aHost          = `http://localhost:${SERVER_PORT}`                                          // .(40409.03.7)
+    var aHost          = `${SERVER_HOST}${SERVER_PORT ? `:${SERVER_PORT}` : '' }`                   // .(40416.01.1 RAM).(40409.03.7)
     var bQuiet         =  false
 
 //  var aANYLLM_API_KEY= '6Q5P8YR-JXAMFGB-KGGEZ6T-W94PXE3'                                          //#.(40402.02.2)
@@ -111,9 +115,9 @@
           ] ];
 */
     var pData       =
-        {  workspace:  aWorkspace
+        {  workspace:  aWorkspace.toLowerCase()                                                                         // .(40415.05.2)
         ,  message  :  aPrompt
-        ,  mode     :  aChatMode                                                                    // .(40411.05.4)
+        ,  mode     :  aChatMode                                                                                        // .(40411.05.4)
         ,  quiet    :  bQuiet
            }
     var pResponse   =  await getChatResponse( pData )   // also contains pResponse.sources
@@ -161,8 +165,9 @@
     var aLLM_Key     = `LLM_API_KEY: '${OPENAI_API_KEY.substr(0,20)}...${OPENAI_API_KEY.slice(-3)}'`          // .(40405.02.4 RAM)
 //  if (pResponse.sources && pResponse.sources.length > 0) {                                                  //#.(40414.02.1 RAM Add better test to pResponse.sources)
     if (pResponse.response) {                                                                                 // .(40414.02.2 RAM Maybe this is better)
-        console_log( `  Sources:  ${ pResponse.sources.length}, Mode: '${pData.mode}', ${aLLM_Key}`, bQuiet ) // .(40405.02.4 RAM)
-        console_log( `  Answer:   ${ pResponse.response.replace( /\n/g, "\n            ")        }`, bQuiet )
+    var pResponse_sources = pResponse.sources[0] == "No Citations" ? [] : pResponse.sources                   // .(40415.02.5 RAM MAke length == 0)
+        console_log( `   Sources: ${ pResponse_sources.length}, Mode: '${pData.mode}', ${aLLM_Key}`, bQuiet ) // .(40415.02.6).(40405.02.4 RAM)
+        console_log( `  Response: ${ pResponse.response.replace( /\n/g, "\n            ")        }`, bQuiet ) // .(40415.02.7)
     var pResponse =
          {  error    :  false
          ,  sources  :  pResponse.sources
@@ -176,7 +181,7 @@
 //  var aMsg         = `* API request failed with AnyLLM ${pResponse.data.type || ''} error:\n  ${pResponse.data.error}`          //#.(40405.04.5)
 //  var aMsg         = `* API request failed with AnythingLLM ${pResponse.data.type || ''} error:\n    '${pResponse.data.error}'` //#.(40409.02.6).(40414.02.5)
     var aErr         =    pResponse.data.error ? pResponse.data.error : (pResponse.data.textResponse || "unknown")                // .(40414.02.3 RAM Who knows)
-    var aMsg         =    pResponse.response   ? pResponse.response   :  aErr                                                     // .(40414.02.4) 
+    var aMsg         =    pResponse.response   ? pResponse.response   :  aErr                                                     // .(40414.02.4)
     var aMsg         = `* API request failed with AnythingLLM ${pResponse.data.type || ''} error:\n    '${aMsg}'`                 // .(40414.02.5).(40409.02.6)
         aMsg        +- `\n  Is there a problem with the ${aLLM_Key}?  Try chat in AnythingLLM.`                                   // .(40409.02.7 RAM Add to msg)
     var bErr         =  true                                                                                                      // .(40409.02.9 RAM Beg Send back an error)

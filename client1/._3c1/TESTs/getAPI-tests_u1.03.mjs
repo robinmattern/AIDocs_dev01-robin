@@ -145,13 +145,7 @@
 //  Test No. 2: Get Workspaces with API_KEY
 //  --------------------------------------------------------------
   async function doTest02( aURL ) {
-    APIfns.setAPIoptions( { bQuiet: true } )
-
-        aURL      =  aURL ? aURL : '/api/v1/workspaces'
-    var aURL      = `${aHost}/${ aURL.replace( /^\//, '' ) }`;  // or `${aHost}/api/v1/workspaces`
-        console.log( `  Request:  GET ${aURL}` )
-
-    var pResponse =  await getAPI( aURL ) || {}
+c
 //      console.log( pResponse || {} )
 
     if (pResponse.workspaces) {
