@@ -5,6 +5,7 @@
 ##FD   getAPI.mjs               |  15778|  4/05/24 17:40|   273| v1.02`40405.1740
 ##FD   getAPI_u1.04.mjs         |  19442|  4/08/24 15:51|   299| u1.04`40408.1551
 ##FD   getAPI.mjs               |  18666|  4/12/24 19:05|   294| u1.04`40412.1905
+##FD   getAPI.mjs               |  19234|  4/15/24 13:05|   297| v1.04`40415.1305
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file calls getAPI and deals with the response from
 #           the AnythingLLM API. It hanles, text, json, errors and streaming data.
@@ -34,6 +35,7 @@
 # .(40409.02  4/09/24 RAM  3:48p|  Improve API Error messages
 # .(40410.02  4/10/24 RAM  4:15a|  Fix Chat response with no sources
 # .(40412.01  4/12/24 RAM  7:05p|  Add JPT's Doc Header Info
+# .(40415.03  4/15/24 RAM  1:05p|  Change error msg
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -121,13 +123,13 @@ try {
     if ((pResponse ? pResponse.ok : true) == false) {                                                       // .(40320.02.1 RAM Beg ??? if bQuiet ).(40330.01.3)
     var aMsg = `* Error:    ${aMethod}, * API request failed with ${pResponse.status}: ${pResponse.statusText}`              // .(40405.01.6)
 //      console_log( `* Error:    ${aMethod}, * API request failed with ${pResponse.status}: ${pResponse.statusText}`, -2 ); //#.(40405.01.7)
-        console_log( aMsg, -2 ); if (window) { alert( aMsg ) }                                                               // .(40405.01.7)
+        console_log( aMsg, -2 ); if (typeof(window) == 'undefined') { alert( aMsg ) }                       // .(40415.03.1).(40405.01.7)
     } else {
     var aMsg = `* Error:    ${aMethod}, ${pError.message}.\n`                                               // .(40405.01.3 RAM Beg)
-             + `  URL:     '${ aURL }'. Is it alive?\n`
+             + `  URL:     '${ aURL }'. Is API for workspace working?\n`                                    // .(40415.03.2 RAM Was "Is it alive")
              + `  API_KEY: '${aAPI_KEY}'. Is it valid?`
-        console_log( aMsg, -2 ); if (window) { alert( aMsg ) }                                              // .(40405.01.4 RAM End)
-//      console_log( `* Error:    ${aMethod}, ${pError.message}. Is ${aURL} alive.`, -2 );                  //#.(40320.02.1 RAM End).(40401.0x.x).(40405.01.4)
+        console_log( aMsg, -2 ); if (typeof(window) != 'undefined') { alert( aMsg ) }                       // .(40415.03.3).(40405.01.4 RAM End)
+//      console_log( `* Error:    ${aMethod}, ${pError.message}. Is ${aURL} alive.`, -2 );                  //#.(40320.02.1 RAM End).(40405.01.4)
 //      console_log( `  API_KEY:  ${aAPI_KEY}. Is it valid`, -2 )                                           //#.(40405.01.5)
         console_log( `  Data:     ${ fmtObj( pData || {} , { depth: 9 } ) }`, -2 )                          // .(40407.06.11)
  return pResponse                                                                                           // .(40320.02.2)
@@ -154,11 +156,13 @@ try {
 	var pResponse       =  await fetch( aURL, pOptions );
 
 	if (!pResponse.ok) {
-//  if (bQuiet) { return pResponse }                                                                        //#.(40405.01.2)
-//      throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}` );        //#.(40405.01.1)
+//  if (bQuiet) { return pResponse }                                                                                      //#.(40405.01.2)
+//      throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}` );                      //#.(40405.01.1)
 //      pResponse.message = `* API request failed with ${pResponse.status}: ${pResponse.statusText}`                      //#.(40409.02.1)
         pResponse.message = `* API request failed with error: ${pResponse.status || ''}: '${pResponse.statusText || ''}'` // .(40409.02.1 RAM Modify error msg)
-        throw new pResponse;                                                                                // .(40405.01.2 RAM Throw the error if not ok)
+//      throw new        pResponse;                                                                                       //#.(40405.01.2 RAM Throw the error if not ok).(40415.03.4)
+//      throw new Error( pResponse );                                                                                     //#.(40405.01.2 RAM Throw it correctly).(40415.03.4)
+        throw            pResponse;                                                                                       // .(40415.03.4).(40405.01.2 RAM Throw it correctly)
 	    } // eif !pResponse.ok
 //      --- ----- = ---  =  --------------------------------------------
  return pResponse;
@@ -205,7 +209,7 @@ function parseOpenAI_data( aText ) {
 //      pJSON.sources   =  mJSON.filter( pData => ( pData.sources || [] ).length > 0 )[0].sources           //# will fail is no sources elements
         pJSON.sources   =  mJSON.filter( pData => ( pData.sources || [] ).length > 0 ) // [0].sources       //  will fail is no sources elements
 //      pJSON.sources   =  pJSON.sources                      ? pJSON.sources[0] : [ "No Citations" ]       //#.(40410.02.1)
-        pJSON.sources   = (pJSON.sources && pJSON.sources[0]) ? pJSON.sources    : [ "No Citations" ]       // .(40410.02.1 RAM Pass something back)
+        pJSON.sources   = (pJSON.sources && pJSON.sources[0]) ? pJSON.sources[0] : [ "No Citations" ]       // .(40510.02.5 RAM Add [0]).(40410.02.1 RAM Pass something back)
 
         console_log(    `  Response: Found ${pJSON.response.length} chunks.`, bQuiet );
         pJSON.response  =  pJSON.response.join( "" )
