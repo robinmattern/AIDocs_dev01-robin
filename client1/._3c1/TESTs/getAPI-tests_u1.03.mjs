@@ -6,6 +6,7 @@
 ##FD   getAPI-tests.mjs         |  34720|  4/12/24 15:12|   668| u1.03`40412.1512
 ##FD   getAPI-tests.mjs         |  35056|  4/14/24 13:05|   670| u1.03`40414.1305
 ##FD   getAPI-tests.mjs         |  37247|  4/15/24 15:46|   686| u1.03`40420.1546
+##FD   getAPI-tests.mjs         |  38035|  4/22/24 09:05|   698| u1.03`40422.0905
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file test over 15 APIs in the AnythingLLM server
 #           The tests are identified in the TheTests array.  Use this bash

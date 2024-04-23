@@ -4,6 +4,7 @@
 ##RFILE    +====================+=======+===============+======+=================+
 ##FD   FormComponent.mjs        |   7453|  4/08/24  7:45|   153| u1.02`40408.0745
 ##FD   FormComponent.mjs        |   7596|  4/12/24 15:17|   155| u1.02`40412.1517
+##FD   FormComponent.mjs        |   8364|  4/21/24 21:30|   179| u1.02`40421.2130
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript Lit Component file creates the HTML tag form-component.
 #           It is defined in the class FormComponent that includes styles that
@@ -88,20 +89,20 @@ class FormComponent extends LitElement {
         font-size       :  1.3rem;
         font-weight     :  700;
         padding-bottom  :  10px;
-      } 
-      
+      }
+
       @media only screen
-      and (max-width: 440px)  
+      and (max-width: 440px)
       {
         .fld-text {
           max-width       :  0px;
-        } 
+        }
         .prompt {
           font-size       :  1.2rem;
           font-weight     :  700;
           padding-bottom  :  10px;
           margin-left     :   0px;
-        } 
+        }
       }
 
     ` }; // eof get Styles
