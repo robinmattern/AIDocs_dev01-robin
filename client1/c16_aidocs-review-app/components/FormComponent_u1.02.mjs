@@ -23,12 +23,13 @@
 # .(40405.06  4/05/24 RAM  6:30p|  Add bNoAlert to browser Alert()
 # .(40408.03  4/08/24 RAM  7:45a|  Clear Prompt Form Field
 # .(40412.01  4/12/24 RAM  3:17p|  Add JPT's Doc Header Info
+# .(40422.03  4/21/24 RAM  9:30p|  Import Msg Comp failed on Mac
                                 |
 ##SRCE     +====================+===============================================+
 \*/
    import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
    import { setPromptValue        } from '../utils/GlobalState_u1.02.mjs';  // Import setPromptValue"
-// import { MessagesComponent     } from '../models/MessagesComponent.mjs'; // Assuming MessagesComponent is in the same directory
+// import { MessagesComponent     } from './MessagesComponent.mjs';         // .(40422.03.1 RAM Indeed, Assuming MessagesComponent is in the same directory)
 
 //----------------------------------------------------------------
     var bNoAlert = true                                                                                     // .(40405.06.1)
