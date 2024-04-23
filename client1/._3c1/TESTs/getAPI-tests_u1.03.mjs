@@ -56,6 +56,7 @@
 # .(40415.01  4/15/24 RAM 10:08a|  Add workspace, prompt and mode to test 15
 # .(40415.02  4/15/24 RAM 12:30p|  Make source an MT array if not found
 # .(40415.05  4/15/24 RAM  3:46p|  Add toLowercase() to ANYLLM_WORKSP
+# .(40422.02  4/22/24 RAM  9:05a|  Replaced stepped on code in Test02
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -85,7 +86,7 @@
     var SERVER_HOST    =  process.env.SERVER_HOST           // .(40409.03.2)
     var SERVER_PORT    =  process.env.SERVER_PORT           // .(40320.01.1 RAM ENV vars set in getAPI.mjs with dotenv )
     var ANYLLM_API_KEY =  process.env.ANYLLM_API_KEY
-    var OPENAI_API_KEY =  process.env.OPENAI_API_KEY 
+    var OPENAI_API_KEY =  process.env.OPENAI_API_KEY
 //  var openaiApiKey   =  process.env.OPENAI_API_KEY;       // console.log( `OPENAI_API_KEY: ${OPENAI_API_KEY}`)        //#.(40405.02.8)
     var ANYLLM_WORKSP  =  process.env.ANYLLM_WORKSP.toLowerCase()                                                       // .(40415.05.1 RAM Add toLowercase()).(40409.04.1)
 
@@ -145,7 +146,13 @@
 //  Test No. 2: Get Workspaces with API_KEY
 //  --------------------------------------------------------------
   async function doTest02( aURL ) {
-c
+    APIfns.setAPIoptions( { bQuiet: true } )
+
+        aURL      =  aURL ? aURL : '/api/v1/workspaces'
+    var aURL      = `${aHost}/${ aURL.replace( /^\//, '' ) }`;  // or `${aHost}/api/v1/workspaces`
+        console.log( `  Request:  GET ${aURL}` )
+
+    var pResponse =  await getAPI( aURL ) || {}
 //      console.log( pResponse || {} )
 
     if (pResponse.workspaces) {
@@ -438,8 +445,12 @@ function fmtAPI_Key( pRec, i ) {
 //  Test No. 15: Submit prompt to OpenAPI's ChatCPT API
 //  --------------------------------------------------------------
   async function doTest15( aURL, aMethod, pData ) { // this one formats the answer
-        APIfns.setAPIoptions( { bQuiet: true } )
+        APIfns.setAPIoptions( { bQuiet: true } )                                                // .(40422.02.1 RAM Beg Retrieve stepped on code)
 
+    if (process.argv[3] == 'help') {
+        console.log( "\n  ./run-tests.sh 15 {workspace} {prompt} {mode}\n" )
+        process.exit()
+        }                                                                                       // .(40422.02.1 RAM End)
     var aWorksp   =  process.argv[3] ?  process.argv[3] : '' // 'constitution'                  // .(40415.01.2 RAM Beg Add Args )
     var aMode     =  process.argv[4] ?  process.argv[4] : '' // 'query'
     var aPrompt   =  process.argv[5] ?  process.argv[5] : '' // "What is this about?"
