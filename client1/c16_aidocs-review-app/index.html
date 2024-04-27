@@ -7,8 +7,8 @@
 ##FD   index.html               |  10770|  4/12/24 16:08|   206| u1.04`40412.1608
 ##FD   index.html               |   9215|  4/13/24 13:21|   164| v1.04-40413.1321
 ##FD   index.html               |   9377|  4/13/24 13:50|   166| u1.04-40413.1350
-##FD   index.html               |   9518|  4/14/24 12:30|   167| u1.04-40414.1230
-##FD   index.html               |  10287|  4/15/24 20:45|   172| u1.04`40415.2045
+##FD   index.html               |   9476|  4/14/24 12:30|   167| u1.04-40414.1230
+##FD   index.html               |   9971|  4/26/24  9:30|   165| index`40426.0930
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This HTML file displays the main page for AIDocs-Review
 #           It uses Custom HTML tags that are implemented using Lit Components.
@@ -41,6 +41,7 @@
 # .(40415.06  4/15/24 RAM  8:30p|  Change .login to .login_u1.07
 # .(40415.07  4/15/24 RJS  8:30p|  Add table classes
 # .(40415.08  4/15/24 RJS  8:45p|  Add footer text
+# .(40426.03  4/26/24 RJS  9:30a|  Change Marketing copy
                                 |
 ##SRCE     +====================+===============================================+
 -->
@@ -61,36 +62,54 @@
         <!-- Logo -->
             <div class="AIHeaderLogo"   ><a href="#">AI</a><span class="HeaderLogoText"><a href="#">MyDocs</a></span></div>                                    <!-- .(40412.03.1 RJS Chg: AI Doc Review to AI MYDocs) -->
             <div class="HeaderVideoDemo"><a href="https://robinmattern.github.io/AIDocs_demo1-master/overview/fr3022_demo1-fade2.html">[Video Demo]</a></div>  <!-- .(40412.03.2 RJS Chg: [DEMO} to Video).(40411.01.1 RAM Add link to slideshow) -->
-            <div class="HeaderLogon"    ><a href="components/login/login_u1.07.html">[Login]</a></div>                                                         <!-- .(40415.06.6).(40412.04.1 RJS Add: link to Login) -->
+            <div class="HeaderLogon"    ><a href="components/login/login.html">[Login]</a></div>                                                               <!-- .(40415.06.6).(40412.04.1 RJS Add: link to Login) -->
         <!-- END Logo -->
         </div>
-<!-- Marketing -->
-    <div class="Marketing">
-        <div class="MarketingText">
-            <table width="100%" class="MarketingTable">                       <!-- .(40415.07.1 RJS Add class MarketingTable).(40410.05.1 RJS Beg Update Mtkg text) -->
-                <tr class="TR1">                                              <!-- .(40415.07.2 RJS Add class TR1) -->
-                    <td valign="top">&#8226; Introducing AIMyDocs</td>
-                    <td valign="top">&#8226; Your AI-powered<br class="MarketingBreak">&nbsp;Document Search Engine</td>
-                    <td valign="top">&#8226; Find Anything Instantly</td>
-                </tr>
-                <tr class="TR2">                                              <!-- .(40415.07.3 RJS Add class TR2) -->
-                    <td valign="top">&#8226; Keep Everything Private</td>
-                    <td valign="top">&#8226; Drowning In A Sea Of Documents?</td>
-                    <td valign="top">&#8226; Ready To Take Control Of Your&nbsp;Documents?</td>
-                </tr>
-                <tr class="TR3">                                              <!-- .(40415.07.4 RJS Add class TR3) -->
-                    <td valign="top">&#8226; <span class="AIMyDocsText">AIMyDocs</span></u> is here to help!</td>
-                    <td colspan="2" valign="top" class="WithoutBreak">&#8226; We Use Cutting-edge AI Technology To Instantly<br class="MarketingLongBreak">&nbsp;&nbsp;Search Your Documents, Saving You Time & Frustration</td>
-                </tr>
-                <tr class="TR4">                                              <!-- .(40415.07.5 RJS Add class TR4) -->
-                    <td>
-                        <div class="box">
-                            <a href="#popup-box" title="Show more exciting attributes of AIMyDocs">Show&nbsp;More...</a> <!-- .(40415.07.6 RJS Add &nbsp;) -->
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>                                         <!-- .(40410.05.1 RJS End) -->
+
+        <div class="Marketing">                                                 <!-- .(40426.03.1 RJS Beg Chg: Marketing copy) -->
+          <ul class="list">
+            <li class="item"><span class="mysvg"></span>Introducing AIMyDocs</li>
+            <li class="item"><span class="mysvg"></span>Keep Everything Private</li>
+            <li class="item"><span class="mysvg"></span>Are You Drowning In A Sea Of Documents?</li>
+            <li class="itemshowmore"><span class="mysvg"></span><a href="#popup-box" title="Show more exciting attributes of AIMyDocs"><font color="white">Show More...</font></a></li>
+          </ul>
+          <ul class="list">
+            <li class="item"><span class="mysvg"></span>Your AI-powered Document Search Engine</li>
+            <li class="item"><span class="mysvg"></span>We Use Cutting-edge AI Technology</li>
+            <li class="item"><span class="mysvg"></span>To Instantly Search Your Documents,</li>
+            <li class="item"><span class="mysvg"></span>Saving You Time & Frustration</li>
+          </ul>
+          <ul class="list">
+            <li class="item"><span class="mysvg"></span>Find Anything Instantly</li>
+            <li class="item"><span class="mysvg"></span>AIMyDocs is here to help</li>
+            <li class="item"><span class="mysvg"></span>Are You Ready To Take Control</li>
+            <li class="item"><span class="mysvg"></span>Of Your Documents?</li>
+          </ul>
+        </div>
+
+        <div class="WorkbookLabel">
+            <div>User Document(s):  GreenbookFY2025.pdf</div>
+        </div>                                                                  <!-- .(40426.03.1 RJS End) -->
+                                                                                <!--#.(40412.03.4 RJS Cut: Hidden Section) -->
+
+<!-- Chat Section -->                                                           <!-- .(40426.03.2 RJS Beg Moved up to here) -->
+    <div class="Chat">
+      <script type="module">
+        import "./components/WorkspacesComponent_u1.04.mjs"                       // .(40408.04.1 RAM Beg New versions)
+        import "./components/MessagesComponent_u1.04.mjs"
+        import "./components/FormComponent_u1.02.mjs"
+        console.log( "  Loaded components for AI Docs Review (top: 80px)" )
+      </script>                                                                 <!-- .(40408.04.1 RAM End) -->
+
+      <div id="conversation-container" style="position: relative; top: 0px;">   <!--#.(40412.03.5 RJS Was 80px;) --><!-- .(40408.05.1 RAM Was 110px; in v1.04`40410.1727-Rick) -->
+        <workspaces-component></workspaces-component>
+        <messages-component></messages-component>
+        <form-component></form-component>
+      </div>                                                                    <!-- .(40426.03.2 RJS End Move) -->
+
+
+            </div>                                     <!-- .(40410.05.1 RJS End) -->
+<!-- END Chat Section -->
 
         <div id="popup-box" class="modal">             <!-- .(40410.06.1 RJS Beg Update Modal text) -->
             <div class="content">
@@ -137,29 +156,6 @@
                 >
             </div>
         </div>                                         <!-- .(40410.06.1 RJS End) -->
-    </div>
-
-    <!-- END Marketing -->
-
-                                                                                <!--#.(40412.03.4 RJS Cut: Hidden Section) -->
-
-<!-- Chat Section -->
-    <div class="Chat">
-      <script type="module">
-        import "./components/WorkspacesComponent_u1.04.mjs"                       // .(40408.04.1 RAM Beg New versions)
-        import "./components/MessagesComponent_u1.04.mjs"
-        import "./components/FormComponent_u1.02.mjs"
-        console.log( "  Loaded components for AI Docs Review (top: 80px)" )
-      </script>                                                                 <!-- .(40408.04.1 RAM End) -->
-
-      <div id="conversation-container" style="position: relative; top: 90px;">  <!--#.(40412.03.5 RJS Was 80px;) --><!-- .(40408.05.1 RAM Was 110px; in v1.04`40410.1727-Rick) -->
-        <workspaces-component></workspaces-component>
-        <messages-component></messages-component>
-        <form-component></form-component>
-      </div>
-
-    </div>
-<!-- END Chat Section -->
 
 
 <!-- Footer -->
