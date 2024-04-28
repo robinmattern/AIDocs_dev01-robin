@@ -98,14 +98,19 @@
         "${input:branchName}",  // Prompt for branch name
         "'${relativeFile}'",    // Get file name from selected file
          ],
-      "presentation": { "reveal": "always", "close": false },
+      "presentation": { "reveal": "always", "close": true },
     },
     {
-      "label": "echo",
-      "type": "shell",
+      "label"  : "echo",
+      "type"   : "shell",
       "command": "echo '${workspaceFolder}'"
-    }
-
+    },
+    {
+      "label"  : "Show Script Output",
+      "type"   : "shell",
+      "command": "echo",
+      "args"   : [ "$(commandOutput)" ],
+       }
   ],
   "inputs": [
    { "id": "branchName",
