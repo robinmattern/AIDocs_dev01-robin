@@ -89,6 +89,28 @@
         "clear": false
       },
       "label": "Frontend: run"
+    },
+    {
+      "label": "Compare with Branch using WinMerge",
+      "type": "shell",
+      "command": "/E/Repos/Robin/AIDocs_/demo1-master/diffit.sh",  // Script path (assuming script in workspace folder)
+      "args": [
+        "${input:branchName}",  // Prompt for branch name
+        "'${relativeFile}'",    // Get file name from selected file
+         ],
+      "presentation": { "reveal": "always", "close": false },
+    },
+    {
+      "label": "echo",
+      "type": "shell",
+      "command": "echo '${workspaceFolder}'"
     }
+
+  ],
+  "inputs": [
+   { "id": "branchName",
+     "description": "Enter a branch name: ",
+     "type": "promptString"
+     }
   ]
 }
