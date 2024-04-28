@@ -6,6 +6,7 @@
 ##FD   WorkspacesComponent.mjs  |   4113|  4/08/24 18:42|    96| u1.03`40408.1842
 ##FD   WorkspacesComponent.mjs  |   7209|  4/10/24 16:00|   141| u1.03`40410.1600
 ##FD   WorkspacesComponent.mjs  |   7398|  4/12/24 15:30|   143| u1.04`40412.1530
+##FD   WorkspacesComponent.mjs  |   7560|  4/26/24 09:30|   146| u1.04`40426.0930
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file creates the HTML tag: workspaces-component.
 #           It is defined in the class WorkspacesComponent that includes styles that
@@ -26,6 +27,7 @@
 # .(40410.03  4/10/24 RAM  4:00p|  Hardcode workspace label
 # .(40410.04  4/10/24 RJS  4:00p|  Add Filelist
 # .(40412.01  4/12/24 RAM  3:30p|  Add JPT's Doc Header Info
+# .(40426.01  4/26/24 RJS  9:30a|  Style Changes
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -51,23 +53,24 @@
     static get styles() {
       return css`
         #WorkspaceList {
+          display         : none;                                       /* .(40426.01.4 RJS Style added) */
           position        : relative;
-          top             : 40px;                                                      /* .(40408.01.7 RAM Was 10px; in _v1.03.40410.1120-Rick) */
+          top             : 20px;                                       /* .(40426.01.4 RJS Style changes, was 40px;) *//* .(40408.01.7 RAM Was 10px; in _v1.03.40410.1120-Rick) */
           text-align      : left;
           margin-right    : 10px;
           }
         #WorkspaceLabel {
-          padding-left    : 20px;                                                      /* .(40410.03.1 RJS Beg Chg CSS #WorkspaceLabel, Was 10px;) */
+          padding-left    : 20px;                                       /* .(40410.03.1 RJS Beg Chg CSS #WorkspaceLabel, Was 10px;) */
           font-size       : 15px;
           font-family     : sans-serif;
-          padding-bottom  : 0px;                                                       /* .(40408.01.8 RAM Added) */
-        }                                                                              /* .(40410.03.1 RJS End) */
-        #FileList {                                                                    /* .(40410.04.1 RJS Beg Add CSS #Filelist) */
+          padding-bottom  : 0px;                                        /* .(40408.01.8 RAM Added) */
+        }                                                               /* .(40410.03.1 RJS End) */
+        #FileList {                                                     /* .(40410.04.1 RJS Beg Add CSS #Filelist) */
           padding-left    : 20px;
           font-size       : 20px;
           color           : blue;
           font-family     : sans-serif;
-        }                                                                              /* .(40410.04.2 RJS End) */
+        }                                                               /* .(40410.04.2 RJS End) */
         select option {
           height          : 15px;
           padding-left    : 20px;
@@ -119,12 +122,12 @@
   render( ) {
  return html`
     <div id="WorkspaceList">
-       <span  id="WorkspaceLabel">User Document(s):</span>                           <!-- .(40410.03.2 RJS Add Doc Name) -->
-       <b     id="FileList">                                                         <!-- .(40410.04.2 RJS Beg Add Filelist) -->
+       <span  id="WorkspaceLabel">User Document(s):</span>            <!-- .(40410.03.2 RJS Add Doc Name) -->
+       <b     id="FileList">                                          <!-- .(40410.04.2 RJS Beg Add Filelist) -->
          <a href="./uploads/GreenbookFY2025.pdf" target="_blank"
            title="View GreenbookFY2025.pdf">GreenbookFY2025.pdf
          </a>
-       </b>                                                                          <!-- .(40410.04.2 End) -->
+       </b>                                                           <!-- .(40410.04.2 End) -->
        ${ unsafeHTML( this.HTML ) }
     </div>
     `;

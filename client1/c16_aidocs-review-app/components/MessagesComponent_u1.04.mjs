@@ -5,6 +5,7 @@
 ##FD   MessagesComponent.mjs    |   8342|  4/11/24  7:02|   165| u1.03`40411.0702
 ##FD   MessagesComponent.mjs    |  10734|  4/11/24  9:30|   203| u1.03`40411.0930
 ##FD   MessagesComponent.mjs    |  10869|  4/12/24 15:20|   206| u1.04`40412.1520
+##FD   MessagesComponent.mjs    |  11094|  4/26/24 09:30|   208| u1.04`40426.0930
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file creates the HTML tag: messages-component.
 #           It is defined in the class MessagesComponent that includes styles that
@@ -30,6 +31,7 @@
 # .(40408.01  4/08/24 RAM  4:00p|  Modify Rick's CSS Styles
 # .(40411.03  4/11/24 RAM  9:30a|  Add <br>s to chat response
 # .(40412.01  4/12/24 RAM  3:20p|  Add JPT's Doc Header Info
+# .(40426.01  4/26/24 RJS  9:30a|  Style Changes
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -75,15 +77,15 @@ return  aColor
 
         .message {
           flex            :  1;
-          max-width       :  655px;
+          max-width       :  780px;                                     /* .(40426.01.3 RJS Style changes, was 655px;) */
           min-width       :  300px;
           min-height      :  15px;
           margin          :  5px auto;
           margin-left     :  80px;
           margin-right    :  6px;
-          padding         :  5px;             /* was 20px; or 10px; */
+          padding         :  5px;           /* was 20px; or 10px; */
 
-          border          :  2px solid #ddd;  /* or #ccc */
+          border          :  2px solid #ddd;/* or #ccc */
           border-radius   :  5px;
   /*      box-shadow      :  0px 1px 3px #000000; */
           border-style    :  inset;

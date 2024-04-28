@@ -5,6 +5,7 @@
 ##FD   FormComponent.mjs        |   7453|  4/08/24  7:45|   153| u1.02`40408.0745
 ##FD   FormComponent.mjs        |   7596|  4/12/24 15:17|   155| u1.02`40412.1517
 ##FD   FormComponent.mjs        |   8364|  4/21/24 21:30|   179| u1.02`40421.2130
+##FD   FormComponent.mjs        |   8690|  4/26/24 09:30|   182| u1.02`40426.0930
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript Lit Component file creates the HTML tag form-component.
 #           It is defined in the class FormComponent that includes styles that
@@ -25,6 +26,7 @@
 # .(40408.03  4/08/24 RAM  7:45a|  Clear Prompt Form Field
 # .(40412.01  4/12/24 RAM  3:17p|  Add JPT's Doc Header Info
 # .(40422.03  4/21/24 RAM  9:30p|  Import Msg Comp failed on Mac
+# .(40426.01  4/26/24 RJS  9:30a|  Style Changes
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -51,7 +53,7 @@ class FormComponent extends LitElement {
         font-size       :  14px;
         padding-top     :  5px;
         width:          :  280px;
-        padding-left    :  15px;
+        padding-left    :  35px;                                        /* .(40426.01.1 RJS Style changes, was 15px;) */
         }
 
       button {
@@ -61,26 +63,27 @@ class FormComponent extends LitElement {
         border          :  1px solid #ddd;  /* or #ccc */
         border-radius   :  5px;
         height          : 27px;
-        padding         :  5px;            /* was 20px; or 10px; */
+        padding         :  5px;             /* was 20px; or 10px; */
         }
 
       .fld-text {
         flex            :  1;
-        color           : #333;
-        max-width       :  700px;
+        color           :  #333;
+        width           :  780px;                                       /* .(40426.01.2 RJS Added width) */
+        max-width       :  780px;                                       /* .(40426.01.2 RJS Was: 700px;) */ 
         min-width       :  340px;
         height          :  15px;
         margin          :  0 auto;
         margin-left     :  4px;
         margin-right    :  6px;
-        padding         :  5px;            /* was 20px; or 10px; */
+        padding         :  5px;             /* was 20px; or 10px; */
 
         border          :  2px solid #ddd;  /* or #ccc */
         border-radius   :  5px;
 /*      box-shadow      :  0px 1px 3px #000000; */
         border-style    :  inset;
 
-        background-color: #9ad8e3;  /* Light blue */
+        background-color: #9ad8e3;          /* Light blue */
         font-family     :  sans-serif;
         font-size       :  14px;
         }

@@ -61,6 +61,7 @@
 # .(30508.01  5/08/23 RAM  5:20p|  Redirect to home: `${aVIR_DIR}/`
 # .(40412.04  4/12/24 RJS 12:22p|  Copied from IODD login
 # .(40413.02  4/13/24 RAM  2:45p|  Prepare login for release
+# .(40425.01  4/25/24 RAM  3:30p|  Change .login_v1.07 back to .login
 
 ##SRCE     +====================+===============================================+
 */
@@ -361,13 +362,13 @@ var id = 90
             }
 
        var  pLogin       =  pJSON.login[362]                                                        // .(30428.03.4)
-            sayMsg( 1,     `onLog~Succ[3]  Username and Password found:`)                           // .(30423.03.8).(30503.01.23)
-            sayMsg( 2, `onLoginSuccess[3]  Username and Password found for ${pLogin.FullName}`)     // .(30428.03.5).(30503.01.24)
-            sayMsg( 2,      pLogin )                                                                // .(30503.01.25)
-            setCookie(      pLogin.MemberNo )                                                       // .(30502.05.1 RAM Oops)
-//          setLoginForm( pJSON )                                                                   // .(30429.06.2 RAM Use function againp for fetch API)
+            sayMsg( 1,     `onLog~Succ[3]  Username and Password found:`)                         // .(30423.03.8).(30503.01.23)
+            sayMsg( 2, `onLoginSuccess[3]  Username and Password found for ${pLogin.FullName}`)   // .(30428.03.5).(30503.01.24)
+            sayMsg( 2,      pLogin )                                                              // .(30503.01.25)
+            setCookie(      pLogin.MemberNo )                                                     // .(30502.05.1 RAM Oops)
+//          setLoginForm( pJSON )                                                                 // .(30429.06.2 RAM Use function againp for fetch API)
 
-            location.href = `${aVIR_DIR}/`                                                          // .(30508.01.5 RAM Go Home. Was:"/")
+            location.href = `${aVIR_DIR}/`                                                        // .(30508.01.5 RAM Go Home. Was:"/")
 
             } // eof onLoginSuccess
 //    ----  ------------------------------------------------

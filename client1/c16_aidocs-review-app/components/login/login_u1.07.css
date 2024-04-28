@@ -1,8 +1,9 @@
-/* . .
+/*
 ##=========+====================+================================================+
 ##RD        Login               | AIDocs-Review Login Page Stylesheet
 ##RFILE    +====================+=======+===============+======+=================+
 ##FD   login.css                |   7774|  4/13/24 14:45|   307| v1.07`40413.1445
+##FD   login.css                |   7731|  4/26/24 10:00|   311| v1.07`40426.1000
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This CSS file contains the HTML styles for the AIDocs-Review login page.
 #           It was origionally developed by Rick Shinner as parts of the IODD App
@@ -16,6 +17,8 @@
 # .(40412.04  4/12/24 RJS 12:22p|  Copied from IODD project
 # .(40412.01  4/12/24 RAM  4:00p|  Add JPT's Doc Header Info
 # .(40413.02  4/13/24 RAM  2:45p|  Prepare login for release
+# .(40425.01  4/25/24 RAM  3:30p|  Change .login_v1.07 back to .login
+# .(40426.01  4/26/24 RJS 10:00a|  Style changes ???
                                 |
 ##SRCE     +====================+===============================================+
 */

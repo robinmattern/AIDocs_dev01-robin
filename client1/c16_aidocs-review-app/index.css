@@ -6,6 +6,7 @@
 ##FD   index.css                |  17987|  4/12/24 11:39|   519| v1.04-40412.1139
 ##FD   index.css                |  17534|  4/13/24 13:50|   521| u1.04-40413.1350
 ##FD   index.css                |  17616|  4/14/24 12:30|   522| u1.04-40414.1230
+##FD   index.css                |  18193|  4/26/24  9:30|   607| u1.04`40426.0930
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This HTML file contains the CSS styles for the AIDocs-Review main page.
 #           It was developed by Rick Shinner as parts of the formR Apps project.
@@ -28,6 +29,7 @@
 # .(40412.02  4/12/24 RJS 11:39a|  Various style changes
 # .(40413.01  4/13/24 RJS  1:50p|  Prepare for release
 # .(40414.05  4/14/24 RAM 12:30p|  Release again
+# .(40426.01  4/26/24 RJS  9:30a|  Style Changes
                                 |
 ##SRCE     +====================+===============================================+
 */
@@ -43,7 +45,7 @@
 -----------------------------------------------*/
 :root {
     --Body_background-color: lightblue; /*platinum*/
-   
+
     --Header_background-color: blue;
     --Header_hover-color: white;
     --HeaderLogo-image: "";
@@ -52,21 +54,21 @@
     --HeaderList-font-size: 1.2rem;
     --Header_Menu_font-color: whitesmoke;
 
-    --ShowMoreColor: whitesmoke;                                             /* .(40410.05.3 RJS Was Black) */
+    --ShowMoreColor: whitesmoke;                                      /* .(40410.05.3 RJS Was Black) */
 
-    --Marketing_height: 20%;                                           /* .(40408.01.1 RAM Was: 120px in v1.04a.40410.1727-Rick) */
-    --Marketing_background-color: blue;                                 /* .(40410.05.4 RJS Was whitesmoke) */
+    --Marketing_height: 20%;                                            /* .(40408.01.1 RAM Was: 120px in v1.04a.40410.1727-Rick) */
+    --Marketing_background-color: blue;                               /* .(40410.05.4 RJS Was whitesmoke) */
 
     --Chat_background-color: #E5E4E2; /*platinum*/
     --Chat_top-margin: 40px;                                            /* .(40408.01.2 RAM Was: 60px; Added) */
 
     --Footer_background-color:  whitesmoke;
     --Footer_hover-color: white;
-    --FooterList-font-size: .9rem;  
-    
+    --FooterList-font-size: .9rem;
+
     --GlobalFontFamily: Arial, Helvetica, sans-serif;
 
-} 
+}
 /* END REPLACE :root ==========================*/
 
 /*----------------------------------------------
@@ -100,8 +102,8 @@ The .Header properties
     width: 100%;
     height: 60px;
     position: fixed;  /*was relative*/
-    z-index: 100;
-    max-width: 1000px;
+    z-index: 2;                                                         /* .(40426.01.6 RJS Was 1000;) */
+    max-width: 1100px;                                                  /* .(40426.01.7 RJS Was 10000;) */
     margin: auto;
     display: flex;
     justify-content:left;
@@ -115,13 +117,13 @@ The .HeaderLogo properties
 -------------------------------------------------*/
 .AIHeaderLogo {
   margin-left: 5px;
-  padding-left: 5px;
+  padding-left: 15px;                                                   /* .(40426.01.8 RJS Was 5px;) */
 }
 .AIHeaderLogo a {
   text-decoration: none;
   font-size: 2.5rem;
   font-family: var(--HeaderLogo-FontFamily);
-  font-weight: 600;    
+  font-weight: 600;
   color: var(--Header_Menu_font-color);
   font-style: italic;
 }
@@ -137,10 +139,13 @@ The .HeaderLogoText properties
     text-decoration: none;
     font-size: 2rem;
     font-family: var(--HeaderLogo-FontFamily);
-    font-weight: 600;    
+    font-weight: 600;
     color: var(--Header_Menu_font-color);
     font: style italic;
-}
+  }
+.HeaderLogoText:before {                                                /* .(40426.01.9 RJS Added) */
+    background: url(https://slack-files.com/files-pub/T043MHPU3-F078S219N-67c52b377e/gs_bullet-checkmark.svg) center center no-repeat;  /* .(40426.01.9) */
+  }
 
 .HeaderVideoDemo {
   padding-left: 400px;
@@ -149,7 +154,7 @@ The .HeaderLogoText properties
     text-decoration: none;
     font-size: 1rem;
     font-family: var(--HeaderLogo-FontFamily);
-    font-weight: 800;    
+    font-weight: 800;
     color: var(--Header_Menu_font-color);
 }
 
@@ -161,7 +166,7 @@ The .HeaderLogoText properties
     text-decoration: none;
     font-size: 1rem;
     font-family: var(--HeaderLogo-FontFamily);
-    font-weight: 800;    
+    font-weight: 800;
     color: var(--Header_Menu_font-color);
 }
 
@@ -169,82 +174,128 @@ The .HeaderLogoText properties
 /*------------------------------------------------
 The .Marketing properties
 -------------------------------------------------*/
-.Marketing {
-  background: var(--Marketing_background-color);
-  width: 100%; /*was 300px*/
-  height: 150px;
-  top: 60px; /*<---ADD to adjust the top position*/
-  position: fixed;
-  z-index: 99;
-  max-width: 1000px;
-  margin: auto;
-  color: white;
-  text-align: left;
-  visibility: visible;                                                  /* .(40410.05.6 RJS Add visibility) */
-}
+.Marketing {                                                            /* .(40426.01.10 RJS Beg Changed radically;) */
+  width: 100vw;
 
-/* END Marketing properties ===========================*/
+  top: 60px;
+  position: fixed;  /*was relative*/
+  z-index: 2;
+  display: flex;
+  max-width: 1050px;
+  align-content: center;
+  justify-content: center;
+  align-items: start;
+  padding-left: 50px;
+  background: blue;
+    .list {
+      list-style: none ;
+      width: 420px;
+      padding: 0px 0px;
+      margin: 0;
+      background: blue;
+      /*box-shadow: 0px 0px 0px rgba(0, 0, 0, .2);*/
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      .item {
+        display: flex;
+        align-items: center;
+        padding: 4px 0px;
+        margin: 2px;
+        background: blue;
+        color: #fff;
+        font-weight: 500;
+        &:hover {
+          margin-left: 0px;
+        }
+        &:before {
+          display: flex;
+          align-content: start;
+          content:' ';
+          width: 15px;
+          height: 15px;
+          margin-right: 10px;
+          background: url(https://slack-files.com/files-pub/T043MHPU3-F078S219N-67c52b377e/gs_bullet-checkmark.svg) center center no-repeat;
+      }
+      }
+      .itemshowmore {
+          display: flex;
+          align-items: center;
+          padding: 4px 0px;
+          margin: 0px;
+/*          box-shadow: 0px 2px 2px rgba(0, 0, 0, .1);*/
+          color: #fff;
+          font-weight: 700;
+          font-size: 1.2rem;;
+          &:hover {
+            box-shadow: 1px 1px 3px darken(darkcyan, 9%);
+            margin-left: 20px;
+          }
+          &:before {
+            display: flex;
+            content:'';
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+          }
+        }
+      }
+     }                                                                  /* .(40426.01.10 RJS End)
 
-/*------------------------------------------------
-The .MarketingText properties
--------------------------------------------------*/
-.MarketingText {
-  margin-left: 1rem;
-  margin-top: .5rem;
-  color: white;                                                         /* .(40410.05.7 RJS Change Mktg font color, was black) */
-  text-align: left;
-  font-size: .94rem;                                                    /* .(40410.05.8 RJS Change Mktg font size, was .86rem;) */
-}
-
-.MarketingBreak {
-  display: none;
-}
-
-.TR1, .TR2, .TR3, .TR4 {
-  height: 30px;
-}
-
-.MarketingLongBreak {
-  display: block;
-}
-.MarketingLongSpace {
-  display:block;
-}
 .AIMyDocsText {                                                         /* .(40410.05.9 RJS Beg Add .AIMyDocs style) */
   font-size: 1rem;
   font-weight: 800;
   text-decoration: underline;
   font-style: italic;
 }
+.ShowMore {                                                             /* .(40426.01.11 RJS Beg Added) */
+  color: var(--ShowMoreColor);
+  font-weight: 600;
+}
 /* END MarketingText properties ===========================*/
-
+.WorkbookLabel {
+  position: fixed;
+  z-index: 30;
+  top: 185px;
+  color: white;
+  background: blue;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-left: 35px;
+  padding: 10px 10px 10px 10px;
+}                                                                       /* .(40426.01.11 RJS End).(40410.05.9 RJS Beg Add .AIMyDocs style) */
 /*===============================================
 The .Chat properties
 -------------------------------------------------*/
 .Chat {
   background: var(--Chat_background-color);
-  width: auto;
-  height: 100%; 
+  width: 1100px;                                                        /* .(40426.01.12 RJS Was auto;) */
+  height: 2000vh;                                                       /* .(40426.01.13 RJS Was 100p%;) */
   position: relative;
   color: black;
   font-family: var(--GlobalFontFamily);
   font-size: 1.2rem;
   font-weight: 600;
-  top: 120px; /*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
+  top: 183px;                                                           /* .(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
+  overflow-y: scroll;                                                   /* .(40426.01.15 RJS Beg Added) */
   scroll-behavior: auto;
 }
+
+.Chat::-webkit-scrollbar {
+  display: none;
+}                                                                       /* .(40426.01.15 RJS End) */
 /* END S2R-1 .Chat ===========================*/
 /*===============================================
 The .Chat h2 properties
 -------------------------------------------------*/
 .Chat h2 {
-  padding: 1.5;
+  padding: 1;
   color: black;
 }
 /* END S2-1 .Chat h2=========================*/
 
 
-/*=============================================== */                    /* .(40410.06.2 RJS Beg Add Model Properties) *//*
+/*=============================================== */                    /* .(40410.06.2 RJS Beg Add Modal Properties) *//*
 The Modal Popup properties
 -------------------------------------------------*/
 /*The Show More Link in marketing*/
@@ -276,6 +327,8 @@ The Modal Popup properties
   display: none;
   align-items:first baseline;
   justify-content: center;
+  padding-left: 50px;                                                   /* .(40426.01.16 RJS Added;) */
+  top: 0px;                                                             /* .(40426.01.17 RJS Added;) */
 }
 
 .content {
@@ -283,7 +336,12 @@ The Modal Popup properties
   background: lightgray;
   padding: 1em 2em;
   border-radius: 4px;
-  width: 50%;
+  width: 70%;                                                           /* .(40426.01.18 RJS Was: 50%;) */
+  top: 130px;                                                           /* .(40426.01.19 RJS Added) */
+  /*
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  */
 }
 
 .modal:target {
@@ -291,6 +349,7 @@ The Modal Popup properties
 }
 h1 {
   font-size: .9rem;
+  text-align: left;                                                     /* .(40426.01.20 RJS Added) */
 }
 /* END Modal Popup ===========================*/                        /* .(40410.06.2 RJS End) */
 
@@ -302,28 +361,28 @@ The .Footer properties
 -------------------------------------------------*/
 .Footer {
     background: blue;/*var(--Footer_background-color);*/
-    width: 100%; 
+    width: 100%;
     height: 3%;
     /*top: 80px;  Removed in place of the bottom property*/
     bottom: 0;
     position: fixed;
-    z-index: 99;
-    max-width: 1000px;
+    z-index: 2;                                                         /* .(40426.01.21 RJS Was: 99) */
+    max-width: 1100px;                                                  /* .(40426.01.22 RJS Was: 1000px;) */
     margin: auto;
-  } 
+  }
 /* END FR-1 .Footer =============================*/
 /*------------------------------------------------
 The .FooterLogo properties
 -------------------------------------------------*/
 .AIFooterLogo {
-  margin-left: 5px;
-  padding-left: 5px;
+  margin-left: -90px;                                                   /* .(40426.01.23 RJS Was: 5px;) */
+                                                                        /* .(40426.01.24 RJS Cut: padding-left: 5px;) */
 }
 .AIFooterLogo a {
   text-decoration: none;
   font-size: .8rem;
   font-family: var(--HeaderLogo-FontFamily);
-  font-weight: 600;    
+  font-weight: 600;
   color: var(--Header_Menu_font-color);
   font-style: italic;
 }
@@ -341,7 +400,7 @@ The .FooterLogoText properties
     text-decoration: none;
     font-size: .7rem;
     font-family: var(--HeaderLogo-FontFamily);
-    font-weight: 600;    
+    font-weight: 600;
     color: var(--Header_Menu_font-color);
     font: style italic;
 }
@@ -349,7 +408,7 @@ The .FooterLogoText properties
 
 /*===========================================*/
 /* R-1 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
-/* Responsive Code */  
+/* Responsive Code */
 /*-----------------------------------------
 
 The @media MAX-width query properties
@@ -357,15 +416,16 @@ iPhone Landscape
 =========================================*/
 @media only screen
 and (min-width: 621px)
-and (max-width: 1000px) 
+and (max-width: 1000px)
 {
   .Header {
-    height: 15%;
+    height: 50px;                                                       /* .(40426.01.25 RJS Was: 15%;) */
+    width: 650px;                                                       /* .(40426.01.26 RJS Added) */
   }
   .AIHeaderLogo a {
     font-size: 2.5rem;
   }
-  .HeaderLogoText a {                                                       /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
+  .HeaderLogoText a {                                                   /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
     font-size: 1.7rem;
     font-weight: 400;
   }
@@ -376,7 +436,12 @@ and (max-width: 1000px)
   }
   .Marketing {
     top: 47px;
-    height: 185px;
+    height: 125px;                                                      /* .(40426.01.27 RJS Was: 185px;) */
+    width: 650px;                                                       /* .(40426.01.28 RJS Beg Added) */
+    padding-left: 15px;
+  }
+  .Marketing li {
+    font-size: .7rem;                                                   /* .(40426.01.28 RJS End) */
   }
   .MarketingTable tr{
     height: 20px;
@@ -387,7 +452,7 @@ and (max-width: 1000px)
     color: white;
     text-align: left;
     font-size: .95rem;
-  }  
+  }
   .MarketingBreak {
     display: block;
   }
@@ -395,7 +460,7 @@ and (max-width: 1000px)
     display: none;
   }
   .Chat{
-    top: 20px;
+    top: 150px;                                                         /* .(40426.01.29 RJS Was 20px) */
   }
   .Footer{
     display: none;
@@ -413,12 +478,12 @@ The @media MAX-width (440px) query properties
 iPhone Portrait
 =========================================*/
 @media only screen
-and (max-width: 440px)  
+and (max-width: 440px)
 {
   html {
     width: 99%;
   }
-  
+
   body {
     height: 120%;
     width: 99%;
@@ -430,7 +495,7 @@ and (max-width: 440px)
   .AIHeaderLogo a {
     font-size: 2.2rem;
   }
-  .HeaderLogoText a {                                                       /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
+  .HeaderLogoText a {                                                   /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
     font-size: 1.6rem;
     font-weight: 400;
   }
@@ -444,6 +509,9 @@ and (max-width: 440px)
     height: 120px;
     width: 99%;
   }
+  .MarketingTable {                                                     /* .(40426.01.30 RJS Added) */
+    width: 90%;
+  }
   .MarketingTable tr{
     height: 20px;
   }
@@ -453,7 +521,7 @@ and (max-width: 440px)
     color: white;
     text-align: left;
     font-size: .7rem;
-  }  
+  }
   .MarketingLongBreak {
     display: block;
   }
@@ -473,7 +541,7 @@ and (max-width: 440px)
   }
   .modal {
     width: 150%;
-  }  
+  }
   .Chat{
     top: 50px;
     width: 110%;
@@ -489,12 +557,12 @@ and (max-width: 440px)
 
   h2 {
       padding: 10;
-  } 
+  }
 
 }
 
 
-/* R-1 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/ 
+/* R-1 END BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
 
 /* The Modal (background) */
