@@ -5,7 +5,7 @@
 ##FD   getAPI.mjs               |  15778|  4/05/24 17:40|   273| v1.02`40405.1740
 ##FD   getAPI_u1.04.mjs         |  19442|  4/08/24 15:51|   299| u1.04`40408.1551
 ##FD   getAPI.mjs               |  18666|  4/12/24 19:05|   294| u1.04`40412.1905
-##FD   getAPI.mjs               |  19234|  4/15/24 13:05|   297| v1.04`40415.1305
+##FD   getAPI.mjs               |  19183|  4/19/24 22:35|   297| u1.04`40419.2235
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file calls getAPI and deals with the response from
 #           the AnythingLLM API. It hanles, text, json, errors and streaming data.
@@ -35,7 +35,7 @@
 # .(40409.02  4/09/24 RAM  3:48p|  Improve API Error messages
 # .(40410.02  4/10/24 RAM  4:15a|  Fix Chat response with no sources
 # .(40412.01  4/12/24 RAM  7:05p|  Add JPT's Doc Header Info
-# .(40415.03  4/15/24 RAM  1:05p|  Change error msg
+# .(40419.03  4/19/24 RAM 10:35p|  Return pResponse error corectly
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -156,6 +156,8 @@ try {
 	var pResponse       =  await fetch( aURL, pOptions );
 
 	if (!pResponse.ok) {
+//  if (bQuiet) { return pResponse }                                                                                      //#.(40405.01.2)
+//      throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}` );                      //#.(40405.01.1)
 //  if (bQuiet) { return pResponse }                                                                                      //#.(40405.01.2)
 //      throw new Error( `* API request failed with ${pResponse.status}: ${pResponse.statusText}` );                      //#.(40405.01.1)
 //      pResponse.message = `* API request failed with ${pResponse.status}: ${pResponse.statusText}`                      //#.(40409.02.1)
