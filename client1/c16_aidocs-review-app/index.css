@@ -1,6 +1,6 @@
 /*
 ##=========+====================+================================================+
-##RD        AIDocs-Review CSS   | AIDocs-Review Main App Page Stylesheet
+##RD        AIDocs-Review CSS   | AIDocs-Review Main App Page Style sheet
 ##RFILE    +====================+=======+===============+======+=================+
 ##FD   index.css                |  24785|  4/12/24 16:07|   883| u1.04`40412.1607
 ##FD   index.css                |  17987|  4/12/24 11:39|   519| v1.04-40412.1139
@@ -9,7 +9,7 @@
 ##FD   index.css                |  18193|  4/26/24  9:30|   607| u1.04`40426.0930
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This HTML file contains the CSS styles for the AIDocs-Review main page.
-#           It was developed by Rick Shinner as parts of the formR Apps project.
+#           It was developed by Rick Schinner as parts of the formR Apps project.
 #           The Styles for The .Marketing properites and Modal have been added.
 #
 ##LIC      .--------------------+----------------------------------------------+
@@ -176,7 +176,7 @@ The .Marketing properties
 -------------------------------------------------*/
 .Marketing {                                                            /* .(40426.01.10 RJS Beg Changed radically;) */
   width: 100vw;
-
+  height: 130px;
   top: 60px;
   position: fixed;  /*was relative*/
   z-index: 2;
@@ -193,7 +193,6 @@ The .Marketing properties
       padding: 0px 0px;
       margin: 0;
       background: blue;
-      /*box-shadow: 0px 0px 0px rgba(0, 0, 0, .2);*/
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -226,7 +225,7 @@ The .Marketing properties
 /*          box-shadow: 0px 2px 2px rgba(0, 0, 0, .1);*/
           color: #fff;
           font-weight: 700;
-          font-size: 1.2rem;;
+          font-size: 1.2rem;
           &:hover {
             box-shadow: 1px 1px 3px darken(darkcyan, 9%);
             margin-left: 20px;
@@ -240,8 +239,8 @@ The .Marketing properties
           }
         }
       }
-     }                                                                  /* .(40426.01.10 RJS End)
-
+     }                                                                  /* .(40426.01.10 RJS End) */
+        
 .AIMyDocsText {                                                         /* .(40410.05.9 RJS Beg Add .AIMyDocs style) */
   font-size: 1rem;
   font-weight: 800;
@@ -254,16 +253,23 @@ The .Marketing properties
 }
 /* END MarketingText properties ===========================*/
 .WorkbookLabel {
+  display: none;
   position: fixed;
   z-index: 30;
   top: 185px;
-  color: white;
-  background: blue;
-  font-size: 1.2rem;
+  background: var(Chat_background-color);
   font-weight: 600;
   margin-left: 35px;
   padding: 10px 10px 10px 10px;
 }                                                                       /* .(40426.01.11 RJS End).(40410.05.9 RJS Beg Add .AIMyDocs style) */
+.WorkbookText {
+  color: black;
+  font-size: 1rem;
+}
+.Workbooks {
+  font-size: 1.2rem;
+  color: blue;
+}
 /*===============================================
 The .Chat properties
 -------------------------------------------------*/
@@ -276,7 +282,7 @@ The .Chat properties
   font-family: var(--GlobalFontFamily);
   font-size: 1.2rem;
   font-weight: 600;
-  top: 183px;                                                           /* .(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
+  top: 190px;                                                           /* .(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
   overflow-y: scroll;                                                   /* .(40426.01.15 RJS Beg Added) */
   scroll-behavior: auto;
 }

@@ -83,9 +83,10 @@ class FormComponent extends LitElement {
 /*      box-shadow      :  0px 1px 3px #000000; */
         border-style    :  inset;
 
-        background-color: #9ad8e3;          /* Light blue */
+        background-color:  #DDDDDD;  /* light gray   was#9ad8e3          /* Light blue */
         font-family     :  sans-serif;
-        font-size       :  14px;
+        font-size       :  1rem;
+        font-weight     :  500;
         }
       .prompt {
         color           :  blue;
@@ -93,6 +94,33 @@ class FormComponent extends LitElement {
         font-weight     :  700;
         padding-bottom  :  10px;
       }
+      /*
+      hr {
+        color           : blue;
+        width           : 90%;
+        height          : 0px;
+        margin          : auto;
+      }
+      */
+      .Documents {
+        position        :  relative;
+        padding-left    :  40px;
+        padding-bottom  :  5px;
+        padding-top     :  20px;
+        text-align      :  left;  
+        border-top      :  blue solid 2px;
+        }
+      .DocumentTitle {
+      color             :  black;
+      font-size         :  1rem;
+        }
+      .DocumentText {
+      color             :  blue;
+      font-size         :  1.2rem;
+/*    text-decoration   :  underline; */
+      background-color  :  yellow;
+        }
+
 
       @media only screen
       and (max-width: 440px)
@@ -154,6 +182,8 @@ class FormComponent extends LitElement {
 
   render() {
     return html`
+    <!--<hr style='width:90%; height:0px; color:blue;'>-->
+    <div class="Documents"><span class="DocumentTitle">User Document(s):</span> <span class="DocumentText">&nbsp;GreenbookFY2025.pdf&nbsp;</span></div>
       <form @submit=${ this.handleSubmit}>
         <label for="f01_prompt">&nbsp;<font class="prompt">?</font></label>
 <!--    <label for="f01_prompt">&nbsp;Prompt: </label>-->

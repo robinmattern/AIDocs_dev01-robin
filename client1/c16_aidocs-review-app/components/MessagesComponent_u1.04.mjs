@@ -57,13 +57,13 @@ return  aColor
       return css`
       //  -------------------------------------------------------
       :host {
-        --User-BackgroundColor      : #9ad8e3; /* #AAA     #9ad8e3; Light blue */
+        --User-BackgroundColor      : #DDDDDD /* Light Gray was #9ad8e3; /* #AAA     #9ad8e3; Light blue */
         --User-FontColor            : #333;    /* #000     #333;    Dark */
         --Assistant-BackgroundColor : #338b33; /* #CCC     #338b33; Dark green */
         --Assistant-FontColor       : #fff;;   /* #000     #fff;;   White */
          }
         #spacer {
-          height          :  50px;                                 /* .(40408.01.6 RAM Was: 20px; in v1.03.40408.1233-Rick) */
+          height          :  0px;                                 /* .(40408.01.6 RAM Was: 20px; in v1.03.40408.1233-Rick) */
           }
         #messages-container_x {
           display         :  flex;
@@ -91,11 +91,11 @@ return  aColor
           border-style    :  inset;
 
           font-family     :  sans-serif;
-          font-size       :  14px;
+          font-size       :  1rem;
           }
 
         .user-message {
-          background-color: #9ad8e3;  /* var(--User-BackgroundColor);  */
+          background-color: #DDDDDD /* Light Gray - was #9ad8e3;  /* var(--User-BackgroundColor);  */
           color           : #000;     /* var(--User-FontColor);  */
           text-align      : left;
           margin-left     : 52px;
@@ -105,6 +105,8 @@ return  aColor
           background-color: blue;     /* #338b33; /* var(--Assistant-BackgroundColor); */
           color           : #fff;     /* var(--Assistant-FontColor); */
           text-align      : left;
+          font-weight     : 500;
+          font-size       : 1rem;
           }
       `;
       }
