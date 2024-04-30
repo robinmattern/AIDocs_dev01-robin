@@ -32,6 +32,9 @@
 # .(40411.03  4/11/24 RAM  9:30a|  Add <br>s to chat response
 # .(40412.01  4/12/24 RAM  3:20p|  Add JPT's Doc Header Info
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
+# .(40429.01  4/26/24 RJS 10:00a|  Style Changes
+# .(40429.03  4/29/24 RJS 10:03a|  Change color to grey 
+# .(40429.04  4/29/24 RJS 10:00a|  Change font size
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -57,13 +60,13 @@ return  aColor
       return css`
       //  -------------------------------------------------------
       :host {
-        --User-BackgroundColor      : #DDDDDD /* Light Gray was #9ad8e3; /* #AAA     #9ad8e3; Light blue */
+        --User-BackgroundColor      : #DDDDDD  /* Light Gray */         /* .(40429.03.3 RJS was #9ad8e3; Light blue, or #AAA) */
         --User-FontColor            : #333;    /* #000     #333;    Dark */
         --Assistant-BackgroundColor : #338b33; /* #CCC     #338b33; Dark green */
         --Assistant-FontColor       : #fff;;   /* #000     #fff;;   White */
          }
         #spacer {
-          height          :  0px;                                 /* .(40408.01.6 RAM Was: 20px; in v1.03.40408.1233-Rick) */
+          height          :  0px;                                       /* .(40429.01.4 RJS Remote spacer).(40408.01.6 RAM Was: 20px; in v1.03.40408.1233-Rick) */
           }
         #messages-container_x {
           display         :  flex;
@@ -91,11 +94,11 @@ return  aColor
           border-style    :  inset;
 
           font-family     :  sans-serif;
-          font-size       :  1rem;
+          font-size       :  1rem;                                      /* .(40429.04.4 RJS Change font size, Was 14px; ) */
           }
 
         .user-message {
-          background-color: #DDDDDD /* Light Gray - was #9ad8e3;  /* var(--User-BackgroundColor);  */
+          background-color: #DDDDDD   /* Light Gray - was #9ad8e3;      /* .(40429.03.4 RJS) *//* var(--User-BackgroundColor);  */
           color           : #000;     /* var(--User-FontColor);  */
           text-align      : left;
           margin-left     : 52px;
@@ -105,8 +108,8 @@ return  aColor
           background-color: blue;     /* #338b33; /* var(--Assistant-BackgroundColor); */
           color           : #fff;     /* var(--Assistant-FontColor); */
           text-align      : left;
-          font-weight     : 500;
-          font-size       : 1rem;
+          font-weight     : 500;                                        /* .(40429.04.5 RJS) */
+          font-size       : 1rem;                                       /* .(40429.04.6 RJS) */
           }
       `;
       }

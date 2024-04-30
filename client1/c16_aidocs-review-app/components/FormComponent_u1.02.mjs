@@ -28,7 +28,7 @@
 # .(40422.03  4/21/24 RAM  9:30p|  Import Msg Comp failed on Mac
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
 # .(40429.02  4/29/24 RJS 10:00a|  Move .documents without <hr>
-# .(40429.03  4/29/24 RJS 10:00a|  Change color to grey 
+# .(40429.03  4/29/24 RJS 10:03a|  Change color to grey 
 # .(40429.04  4/29/24 RJS 10:00a|  Change font size
                                 |
 ##SRCE     +====================+===============================================+
