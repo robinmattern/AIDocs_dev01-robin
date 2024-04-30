@@ -6,6 +6,7 @@
 ##FD   MessagesComponent.mjs    |  10734|  4/11/24  9:30|   203| u1.03`40411.0930
 ##FD   MessagesComponent.mjs    |  10869|  4/12/24 15:20|   206| u1.04`40412.1520
 ##FD   MessagesComponent.mjs    |  11094|  4/26/24 09:30|   208| u1.04`40426.0930
+##FD   MessagesComponent.mjs    |  12210|  4/30/24 12:01|   224| u1.04`40430.1201
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file creates the HTML tag: messages-component.
 #           It is defined in the class MessagesComponent that includes styles that
@@ -33,8 +34,9 @@
 # .(40412.01  4/12/24 RAM  3:20p|  Add JPT's Doc Header Info
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
 # .(40429.01  4/26/24 RJS 10:00a|  Style Changes
-# .(40429.03  4/29/24 RJS 10:03a|  Change color to grey 
+# .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
+# .(40430.01  4/30/24 RJS 12:01p|  iPad Responsiveness
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -111,7 +113,7 @@ return  aColor
           font-weight     : 500;                                        /* .(40429.04.5 RJS) */
           font-size       : 1rem;                                       /* .(40429.04.6 RJS) */
           }
-          @media only screen
+          @media only screen                                            /* .(40430.01.1 RJS Beg iPad Responsiveness) */
           and (min-width: 621px)
           and (max-width: 1000px)
           {
@@ -119,7 +121,7 @@ return  aColor
               margin-top      : 20px
               }
 
-          }        
+          }                                                             /* .(40430.01.1 RJS End) */
       `;
       }
 //    ---------------------------------------------------------
