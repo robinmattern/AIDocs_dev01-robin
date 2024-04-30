@@ -30,6 +30,10 @@
 # .(40413.01  4/13/24 RJS  1:50p|  Prepare for release
 # .(40414.05  4/14/24 RAM 12:30p|  Release again
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
+# .(40429.01  4/26/24 RJS 10:00a|  Style Changes
+# .(40429.03  4/29/24 RJS 10:00a|  Change color to grey 
+# .(40429.04  4/29/24 RJS 10:00a|  Change font size
+# .(40429.05  4/29/24 RJS 10:00a|  Add .WorkbookText
                                 |
 ##SRCE     +====================+===============================================+
 */
@@ -176,7 +180,7 @@ The .Marketing properties
 -------------------------------------------------*/
 .Marketing {                                                            /* .(40426.01.10 RJS Beg Changed radically;) */
   width: 100vw;
-  height: 130px;
+  height: 130px;                                                        /* .(40429.01.1 RJS Add Height) */
   top: 60px;
   position: fixed;  /*was relative*/
   z-index: 2;
@@ -193,6 +197,7 @@ The .Marketing properties
       padding: 0px 0px;
       margin: 0;
       background: blue;
+/*    box-shadow: 0px 0px 0px rgba(0, 0, 0, .2); */                     /* .(40429.01.2 RJS Remove Shadow)   */
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -240,7 +245,7 @@ The .Marketing properties
         }
       }
      }                                                                  /* .(40426.01.10 RJS End) */
-        
+
 .AIMyDocsText {                                                         /* .(40410.05.9 RJS Beg Add .AIMyDocs style) */
   font-size: 1rem;
   font-weight: 800;
@@ -253,23 +258,24 @@ The .Marketing properties
 }
 /* END MarketingText properties ===========================*/
 .WorkbookLabel {
-  display: none;
+  display: none;                                                        /* .(40429.01.3 RJS Add Hide WorkbookLabel) */
   position: fixed;
   z-index: 30;
   top: 185px;
-  background: var(Chat_background-color);
+  background: var(Chat_background-color);                               /* .(40429.03.1 Chg Bkg Color Was: blue) */
+                                                                        /*#.(40429.04.1 RJS Cut font size, Was 1.2rem; ) */
   font-weight: 600;
   margin-left: 35px;
   padding: 10px 10px 10px 10px;
 }                                                                       /* .(40426.01.11 RJS End).(40410.05.9 RJS Beg Add .AIMyDocs style) */
-.WorkbookText {
+.WorkbookText {                                                         /* .(40429.05.1 RJS Beg Add .WorkbookText) */
   color: black;
   font-size: 1rem;
 }
 .Workbooks {
   font-size: 1.2rem;
   color: blue;
-}
+}                                                                       /* .(40429.05.1 RJS End) */
 /*===============================================
 The .Chat properties
 -------------------------------------------------*/
@@ -282,7 +288,7 @@ The .Chat properties
   font-family: var(--GlobalFontFamily);
   font-size: 1.2rem;
   font-weight: 600;
-  top: 190px;                                                           /* .(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
+  top: 190px;                                                           /* .(40429.01.4 RJS Was: 183px;).(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
   overflow-y: scroll;                                                   /* .(40426.01.15 RJS Beg Added) */
   scroll-behavior: auto;
 }
