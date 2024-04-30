@@ -27,7 +27,7 @@
 # .(40412.01  4/12/24 RAM  3:17p|  Add JPT's Doc Header Info
 # .(40422.03  4/21/24 RAM  9:30p|  Import Msg Comp failed on Mac
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
-# .(40429.02  4/29/24 RJS 10:00a|  Move .documents without <hr>
+# .(40429.02  4/29/24 RJS 10:00a|  Move .Documents without <hr>
 # .(40429.03  4/29/24 RJS 10:03a|  Change color to grey 
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
                                 |
@@ -104,7 +104,7 @@ class FormComponent extends LitElement {
         height          : 0px;
         margin          : auto;
       }
- *//*                                                                   /* .(40429.02.2 RJS Beg Add .Documents ) */
+ */                                                                     /* .(40429.02.2 RJS Beg Add .Documents ) */
       .Documents {
         position        :  relative;
         padding-left    :  40px;
@@ -189,7 +189,7 @@ class FormComponent extends LitElement {
       <div class="Documents">                                                                             <!-- .(40429.02.4 RJS Add .Documents line) -->  
         <span class="DocumentTitle">User Document(s):</span> 
         <span class="DocumentText">&nbsp;GreenbookFY2025.pdf&nbsp;</span>
-      </div>                                                                                              <!-- .(40429.02.4 RJS End)
+      </div>                                                                                              <!-- .(40429.02.4 RJS End) -->
       <form @submit=${ this.handleSubmit}>
         <label for="f01_prompt">&nbsp;<font class="prompt">?</font></label>
 <!--    <label for="f01_prompt">&nbsp;Prompt: </label>-->
