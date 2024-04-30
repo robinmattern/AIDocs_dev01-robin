@@ -7,6 +7,7 @@
 ##FD   index.css                |  17534|  4/13/24 13:50|   521| u1.04-40413.1350
 ##FD   index.css                |  17616|  4/14/24 12:30|   522| u1.04-40414.1230
 ##FD   index.css                |  18193|  4/26/24  9:30|   607| u1.04`40426.0930
+##FD   index.css                |  19389|  4/29/24 10:04|   620| u1.04`40429.1004
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This HTML file contains the CSS styles for the AIDocs-Review main page.
 #           It was developed by Rick Schinner as parts of the formR Apps project.
@@ -31,10 +32,9 @@
 # .(40414.05  4/14/24 RAM 12:30p|  Release again
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
 # .(40429.01  4/26/24 RJS 10:00a|  Style Changes
-# .(40429.02  4/29/24 RJS 10:00a|  Hide WorkspaceLabel
+# .(40429.02  4/29/24 RJS 10:02a|  Hide WorkspaceLabel
 # .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
-# .(40429.05  4/29/24 RJS 10:05a|  Remove <hr> above .Documents
                                 |
 ##SRCE     +====================+===============================================+
 */

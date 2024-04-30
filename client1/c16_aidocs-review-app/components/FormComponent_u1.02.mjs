@@ -6,7 +6,7 @@
 ##FD   FormComponent.mjs        |   7596|  4/12/24 15:17|   155| u1.02`40412.1517
 ##FD   FormComponent.mjs        |   8364|  4/21/24 21:30|   179| u1.02`40421.2130
 ##FD   FormComponent.mjs        |   8690|  4/26/24 09:30|   182| u1.02`40426.0930
-##FD   FormComponent.mjs        |  11227|  4/29/24 10:05|   219| u1.02`40429.1005
+##FD   FormComponent.mjs        |  11244|  4/29/24 10:05|   219| u1.02`40429.1005
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript Lit Component file creates the HTML tag form-component.
 #           It is defined in the class FormComponent that includes styles that
@@ -31,7 +31,7 @@
 # .(40429.02  4/29/24 RJS 10:02a|  Add .Documents
 # .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
-# .(40429.05  4/29/24 RJS 10:05a|  Remove <hr> above .Documents
+# .(40429.05  4/29/24 RJS 10:05a|  Replace <hr> above .Documents with border-top
                                 |
 ##SRCE     +====================+===============================================+
 \*/
