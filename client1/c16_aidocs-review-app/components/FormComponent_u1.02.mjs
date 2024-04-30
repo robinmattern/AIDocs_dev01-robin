@@ -27,6 +27,9 @@
 # .(40412.01  4/12/24 RAM  3:17p|  Add JPT's Doc Header Info
 # .(40422.03  4/21/24 RAM  9:30p|  Import Msg Comp failed on Mac
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
+# .(40429.02  4/29/24 RJS 10:00a|  Move .documents without <hr>
+# .(40429.03  4/29/24 RJS 10:00a|  Change color to grey 
+# .(40429.04  4/29/24 RJS 10:00a|  Change font size
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -83,10 +86,10 @@ class FormComponent extends LitElement {
 /*      box-shadow      :  0px 1px 3px #000000; */
         border-style    :  inset;
 
-        background-color:  #DDDDDD;  /* light gray   was#9ad8e3          /* Light blue */
+        background-color:  #DDDDDD;                                     /* .(40429.03.2 RJS light gray Was #9ad8e3 Light blue) */
         font-family     :  sans-serif;
-        font-size       :  1rem;
-        font-weight     :  500;
+        font-size       :  1rem;                                        /* .(40429.04.2 RJS Change font size was 14px;) */ 
+        font-weight     :  500;                                         /* .(40429.04.3 RJS) */
         }
       .prompt {
         color           :  blue;
@@ -94,14 +97,14 @@ class FormComponent extends LitElement {
         font-weight     :  700;
         padding-bottom  :  10px;
       }
-      /*
-      hr {
+/*
+      hr {                                                              /*#.(40429.02.1 RJS Beg Don't Add  <HR> ) */
         color           : blue;
         width           : 90%;
         height          : 0px;
         margin          : auto;
       }
-      */
+ *//*                                                                   /* .(40429.02.2 RJS Beg Add .Documents ) */
       .Documents {
         position        :  relative;
         padding-left    :  40px;
@@ -119,7 +122,7 @@ class FormComponent extends LitElement {
       font-size         :  1.2rem;
 /*    text-decoration   :  underline; */
       background-color  :  yellow;
-        }
+        }                                                               /* .(40429.02.2 RJS End) */               
 
 
       @media only screen
@@ -175,15 +178,18 @@ class FormComponent extends LitElement {
 //      document.getElementById('f01_prompt').value = ""                                                    //#.(40408.03.1 RAM Like this, no workie either)
         this.shadowRoot.getElementById('f01_prompt').value = ""                                             // .(40408.03.1 RAM Like this!!)
     } else {
-        Alert( `* Please enter a question!`, -2 );                                                            // .(40405.05.11).(40405.06.4)
+        Alert( `* Please enter a question!`, -2 );                                                          // .(40405.05.11).(40405.06.4)
         }
     }
 //  -------------------------------------------------------
 
   render() {
     return html`
-    <!--<hr style='width:90%; height:0px; color:blue;'>-->
-    <div class="Documents"><span class="DocumentTitle">User Document(s):</span> <span class="DocumentText">&nbsp;GreenbookFY2025.pdf&nbsp;</span></div>
+    <!--<hr style='width:90%; height:0px; color:blue;'>-->                                                <!--#.(40429.02.3 RJS Don's add it) -->
+      <div class="Documents">                                                                             <!-- .(40429.02.4 RJS Add .Documents line) -->  
+        <span class="DocumentTitle">User Document(s):</span> 
+        <span class="DocumentText">&nbsp;GreenbookFY2025.pdf&nbsp;</span>
+      </div>                                                                                              <!-- .(40429.02.4 RJS End)
       <form @submit=${ this.handleSubmit}>
         <label for="f01_prompt">&nbsp;<font class="prompt">?</font></label>
 <!--    <label for="f01_prompt">&nbsp;Prompt: </label>-->
