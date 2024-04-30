@@ -31,9 +31,10 @@
 # .(40414.05  4/14/24 RAM 12:30p|  Release again
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
 # .(40429.01  4/26/24 RJS 10:00a|  Style Changes
+# .(40429.02  4/29/24 RJS 10:00a|  Hide WorkspaceLabel
 # .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
-# .(40429.05  4/29/24 RJS 10:05a|  Add .WorkbookText
+# .(40429.05  4/29/24 RJS 10:05a|  Remove <hr> above .Documents
                                 |
 ##SRCE     +====================+===============================================+
 */
@@ -258,24 +259,24 @@ The .Marketing properties
 }
 /* END MarketingText properties ===========================*/
 .WorkbookLabel {
-  display: none;                                                        /* .(40429.01.3 RJS Add Hide WorkbookLabel) */
+  display: none;                                                        /* .(40429.02.1 RJS Hide WorkbookLabel) */
   position: fixed;
   z-index: 30;
   top: 185px;
-  background: var(Chat_background-color);                               /* .(40429.03.1 Chg Bkg Color Was: blue) */
+  background: var(--Chat_background-color);                             /* .(40429.03.1 Chg Bkg Color Was: blue) */
                                                                         /*#.(40429.04.1 RJS Cut font size, Was 1.2rem; ) */
   font-weight: 600;
   margin-left: 35px;
   padding: 10px 10px 10px 10px;
 }                                                                       /* .(40426.01.11 RJS End).(40410.05.9 RJS Beg Add .AIMyDocs style) */
-.WorkbookText {                                                         /* .(40429.05.1 RJS Beg Add .WorkbookText) */
+.WorkbookText {                                                         /* .(40429.02.2 RJS Beg Add .WorkbookText) */
   color: black;
-  font-size: 1rem;
+  font-size: 3rem;
 }
-.Workbooks {
+.Workbooks {                                                            /* .(40429.02.2 RJS Beg Add .Workbooks) */
   font-size: 1.2rem;
   color: blue;
-}                                                                       /* .(40429.05.1 RJS End) */
+}                                                                       /* .(40429.02.2 RJS End) */
 /*===============================================
 The .Chat properties
 -------------------------------------------------*/

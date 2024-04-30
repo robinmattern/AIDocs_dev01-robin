@@ -6,6 +6,7 @@
 ##FD   FormComponent.mjs        |   7596|  4/12/24 15:17|   155| u1.02`40412.1517
 ##FD   FormComponent.mjs        |   8364|  4/21/24 21:30|   179| u1.02`40421.2130
 ##FD   FormComponent.mjs        |   8690|  4/26/24 09:30|   182| u1.02`40426.0930
+##FD   FormComponent.mjs        |  11227|  4/29/24 10:05|   219| u1.02`40429.1005
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript Lit Component file creates the HTML tag form-component.
 #           It is defined in the class FormComponent that includes styles that
@@ -27,9 +28,10 @@
 # .(40412.01  4/12/24 RAM  3:17p|  Add JPT's Doc Header Info
 # .(40422.03  4/21/24 RAM  9:30p|  Import Msg Comp failed on Mac
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
-# .(40429.02  4/29/24 RJS 10:00a|  Move .Documents without <hr>
-# .(40429.03  4/29/24 RJS 10:03a|  Change color to grey 
+# .(40429.02  4/29/24 RJS 10:02a|  Add .Documents
+# .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
+# .(40429.05  4/29/24 RJS 10:05a|  Remove <hr> above .Documents
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -73,7 +75,7 @@ class FormComponent extends LitElement {
         flex            :  1;
         color           :  #333;
         width           :  780px;                                       /* .(40426.01.2 RJS Added width) */
-        max-width       :  780px;                                       /* .(40426.01.2 RJS Was: 700px;) */ 
+        max-width       :  780px;                                       /* .(40426.01.2 RJS Was: 700px;) */
         min-width       :  340px;
         height          :  15px;
         margin          :  0 auto;
@@ -88,7 +90,7 @@ class FormComponent extends LitElement {
 
         background-color:  #DDDDDD;                                     /* .(40429.03.2 RJS light gray Was #9ad8e3 Light blue) */
         font-family     :  sans-serif;
-        font-size       :  1rem;                                        /* .(40429.04.2 RJS Change font size was 14px;) */ 
+        font-size       :  1rem;                                        /* .(40429.04.2 RJS Change font size was 14px;) */
         font-weight     :  500;                                         /* .(40429.04.3 RJS) */
         }
       .prompt {
@@ -97,33 +99,32 @@ class FormComponent extends LitElement {
         font-weight     :  700;
         padding-bottom  :  10px;
       }
-/*
-      hr {                                                              /*#.(40429.02.1 RJS Beg Don't Add  <HR> ) */
+/*                                                                    *//*#.(40429.05.1 RJS Beg Don't add  <hr> ) *//*
+      hr {
         color           : blue;
         width           : 90%;
         height          : 0px;
         margin          : auto;
       }
- */                                                                     /* .(40429.02.2 RJS Beg Add .Documents ) */
-      .Documents {
+ */                                                                     /*#.(40429.05.1 RJS End) */
+      .Documents {                                                      /* .(40429.02.3 RJS Beg Add .Documents ) */
         position        :  relative;
         padding-left    :  40px;
         padding-bottom  :  5px;
         padding-top     :  20px;
-        text-align      :  left;  
-        border-top      :  blue solid 2px;
+        text-align      :  left;
+        border-top      :  blue solid 2px;                              /* .(40429.05.2 RJS Beg Add border-top) */
         }
-      .DocumentTitle {
-      color             :  black;
-      font-size         :  1rem;
+      .DocumentTitle {                                                  /* .(40429.02.3 RJS Add .DocumentTitle ) */
+        color             :  black;
+        font-size         :  1rem;
         }
-      .DocumentText {
-      color             :  blue;
-      font-size         :  1.2rem;
-/*    text-decoration   :  underline; */
-      background-color  :  yellow;
-        }                                                               /* .(40429.02.2 RJS End) */               
-
+      .DocumentText {                                                   /* .(40429.02.3 RJS Add .DocumentText ) */
+        color             :  blue;
+        font-size         :  1.2rem;
+/*      text-decoration   :  underline; */
+        background-color  :  yellow;
+        }                                                               /* .(40429.02.3 RJS End) */
 
       @media only screen
       and (max-width: 440px)
@@ -185,9 +186,9 @@ class FormComponent extends LitElement {
 
   render() {
     return html`
-    <!--<hr style='width:90%; height:0px; color:blue;'>-->                                                <!--#.(40429.02.3 RJS Don's add it) -->
-      <div class="Documents">                                                                             <!-- .(40429.02.4 RJS Add .Documents line) -->  
-        <span class="DocumentTitle">User Document(s):</span> 
+<!--  <hr style='width:90%; height:0px; color:red;'> -->                                                  <!--#.(40429.05.3 RJS Don't add <hr>) -->
+      <div class="Documents">                                                                             <!-- .(40429.02.4 RJS Add .Documents) -->
+        <span class="DocumentTitle">User Document(s):</span>
         <span class="DocumentText">&nbsp;GreenbookFY2025.pdf&nbsp;</span>
       </div>                                                                                              <!-- .(40429.02.4 RJS End) -->
       <form @submit=${ this.handleSubmit}>
