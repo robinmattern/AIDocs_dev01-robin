@@ -111,6 +111,15 @@ return  aColor
           font-weight     : 500;                                        /* .(40429.04.5 RJS) */
           font-size       : 1rem;                                       /* .(40429.04.6 RJS) */
           }
+          @media only screen
+          and (min-width: 621px)
+          and (max-width: 1000px)
+          {
+            .user-message {
+              margin-top      : 20px
+              }
+
+          }        
       `;
       }
 //    ---------------------------------------------------------

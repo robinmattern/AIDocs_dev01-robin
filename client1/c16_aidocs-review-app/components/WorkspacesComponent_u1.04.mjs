@@ -83,6 +83,7 @@
           font-family     : serif;
           font-size       : 20px;
         }
+        /*
         table left{
           position        : relative;  /* absolute; */
           top             : 15px;
@@ -92,6 +93,7 @@
         tr {
           background-color: lightblue;
           }
+        */
         `;
         }
 //      ---------------------------------------------------------
