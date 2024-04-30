@@ -7,6 +7,7 @@
 ##FD   WorkspacesComponent.mjs  |   7209|  4/10/24 16:00|   141| u1.03`40410.1600
 ##FD   WorkspacesComponent.mjs  |   7398|  4/12/24 15:30|   143| u1.04`40412.1530
 ##FD   WorkspacesComponent.mjs  |   7560|  4/26/24 09:30|   146| u1.04`40426.0930
+##FD   WorkspacesComponent.mjs  |   7917|  4/30/24 12:02|   150| u1.04`40430.1202
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file creates the HTML tag: workspaces-component.
 #           It is defined in the class WorkspacesComponent that includes styles that
@@ -28,6 +29,7 @@
 # .(40410.04  4/10/24 RJS  4:00p|  Add Filelist
 # .(40412.01  4/12/24 RAM  3:30p|  Add JPT's Doc Header Info
 # .(40426.01  4/26/24 RJS  9:30a|  Style Changes
+# .(40430.02  4/30/24 RJS 12:02p|  Remove Table styles
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -83,7 +85,7 @@
           font-family     : serif;
           font-size       : 20px;
         }
-        /*
+/*                                                                    *//*#.(40430.02.1 RJS Beg Remove Table styles) */
         table left{
           position        : relative;  /* absolute; */
           top             : 15px;
@@ -93,7 +95,7 @@
         tr {
           background-color: lightblue;
           }
-        */
+*/                                                                      /*#.(40430.02.1 RJS End) */
         `;
         }
 //      ---------------------------------------------------------
