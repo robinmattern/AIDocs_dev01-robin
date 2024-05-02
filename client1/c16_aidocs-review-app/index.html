@@ -11,6 +11,7 @@
 ##FD   index.html               |   9971|  4/26/24  9:30|   165| u1.04`40426.0930
 ##FD   index.html               |  10369|  4/28/24 12:15|   170| u1.04`40428.1215
 ##FD   index.html               |  10535|  4/30/24 12:00|   172| u1.04`40430.1203
+##FD   index.html               |  12043|  5/01/24 17:00|   187| u1.04`40501.1700
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This HTML file displays the main page for AIDocs-Review
 #           It uses Custom HTML tags that are implemented using Lit Components.
@@ -46,6 +47,9 @@
 # .(40426.03  4/26/24 RJS  9:30a|  Change Marketing copy
 # .(40425.01  4/28/24 RAM 12:15p|  Change login file back to login_v1.07
 # .(40430.03  4/30/24 RJS 12:03p|  New favicon for AIDocs
+# .(40501.03  5/01/24 RJS 10.00a|  Add Section Comments
+
+
                                 |
 ##SRCE     +====================+===============================================+
 -->
@@ -62,6 +66,8 @@
     </head>
 
     <body>
+
+    <!-- Header Section -->                                                     <!-- .(40501.03.1 RJS Add Section Comments) -->
         <div class="Header">
         <!-- Logo -->
             <div class="AIHeaderLogo"   ><a href="#">AI</a><span class="HeaderLogoText"><a href="#">MyDocs</a></span></div>                                    <!-- .(40412.03.1 RJS Chg: AI Doc Review to AI MYDocs) -->
@@ -69,7 +75,9 @@
             <div class="HeaderLogon"    ><a href="components/login/login_u1.07.html">[Login]</a></div>                                                         <!-- .(40425.01.4).(40415.06.6).(40412.04.1 RJS Add: link to Login) -->
         <!-- END Logo -->
         </div>
+    <!-- END Header Section -->                                                 <!-- .(40501.03.2) -->
 
+    <!-- Marketing Section -->                                                  <!-- .(40501.03.3) -->
         <div class="Marketing">                                                 <!-- .(40426.03.1 RJS Beg Chg: Marketing copy) -->
           <ul class="list">
             <li class="item"><span class="mysvg"></span>Introducing AIMyDocs</li>
@@ -90,6 +98,8 @@
             <li class="item"><span class="mysvg"></span>Of Your Documents?</li>
           </ul>
         </div>
+    <!-- END Marketing Section -->                                              <!-- .(40501.03.4) -->
+
 
         <div class="WorkbookLabel">
             <div>User Document(s):  GreenbookFY2025.pdf</div>
@@ -110,12 +120,17 @@
         <messages-component></messages-component>
         <form-component></form-component>
       </div>                                                                    <!-- .(40426.03.2 RJS End Move) -->
+    </div>                                                                      <!-- .(40410.05.1 RJS End) -->
+    <!-- END Chat Section -->
 
+    <!-- Footer Section -->                                             <!-- .(40501.03.5 RAM Move Footer to here) -->
+        <div class="Footer">
+              <div class="AIFooterLogo"><a href="#">AI</a><span class="FooterLogoText"><a href="#">MyDocs</a></span></div><!-- .(40415.08.1 RJS Add footer text) -->
+        </div>
+    <!-- END Footer Section -->                                         <!-- .(40501.03.6) -->
 
-            </div>                                     <!-- .(40410.05.1 RJS End) -->
-<!-- END Chat Section -->
-
-        <div id="popup-box" class="modal">             <!-- .(40410.06.1 RJS Beg Update Modal text) -->
+    <!-- Popup Section -->                                              <!-- .(40501.03.7) -->
+        <div id="popup-box" class="modal">                              <!-- .(40410.06.1 RJS Beg Update Modal text) -->
             <div class="content">
                 <h1 style="color: black">
                     Here's what makes AIMyDocs special:
@@ -159,7 +174,13 @@
                     >&times;</a
                 >
             </div>
-        </div>                                         <!-- .(40410.06.1 RJS End) -->
+        </div>                                                          <!-- .(40410.06.1 RJS End) -->
+    <!-- END Popup Section -->                                          <!-- .(40501.03.8) -->
+
+
+
+
+
 
 
 <!-- Footer -->
