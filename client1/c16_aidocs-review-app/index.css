@@ -38,7 +38,7 @@
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
 # .(40501.01  5/01/24 RJS 10:01a|  Style changes
 # .(40501.02  5/01/24 RJS 10:02a|  Fix Scrollbar in .Chat
-
+# .(40501.06  5/01/24 RAM  4:45p|  Adjust Marketing font and height
 
 
                                 |
@@ -198,7 +198,7 @@ The .Marketing properties
   align-items: start;
   padding-left: 50px;
   background: blue;
-
+  font-size: 16px;                                                      /* .(40501.06.1 RAM Set font-size ) */
     .list {
       list-style: none ;
       width: 420px;
@@ -207,12 +207,12 @@ The .Marketing properties
       background: blue;
 /*    box-shadow: 0px 0px 0px rgba(0, 0, 0, .2); */                     /* .(40429.01.2 RJS Remove Shadow)   */
       display: flex;
-      justify-content: center;
+      justify-content: left;                                            /* .(40501.06.2 RAM Chg Marketing.list, Was: center;) */
       flex-direction: column;
       .item {
         display: flex;
-        align-items: center;
-
+/*      align-items: center;      */                                    /*#.(40501.06.3 RAM Cut Align-item only valid for containers) */
+        text-align: left;                                               /* .(40501.06.3 RAM Add Marketing.item: left) */
         padding: 4px 0px;
         margin: 2px;
         background: blue;
@@ -461,7 +461,7 @@ and (max-width: 1000px)
   }
   .Marketing {
     top: 47px;
-    height: 125px;                                                      /* .(40426.01.27 RJS Was: 185px;) */
+    height: 180px;                                                      /* .(40501.06.4 RAM Chg height due to word wrap; was 125px).(40426.01.27 RJS Was: 185px;) */
     width: 650px;                                                       /* .(40426.01.28 RJS Beg Added) */
     padding-left: 15px;
   }
@@ -485,7 +485,7 @@ and (max-width: 1000px)
     display: none;
   }
   .Chat{
-    top: 150px;                                                         /* .(40426.01.29 RJS Was 20px) */
+    top: 230px;                                                         /* .(40501.06.5 RAM was 150px;).(40426.01.29 RJS Was 20px) */
   }
   .Footer{
     display: none;
