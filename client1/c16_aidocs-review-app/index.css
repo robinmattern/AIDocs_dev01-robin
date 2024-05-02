@@ -37,7 +37,7 @@
 # .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
 # .(40501.01  5/01/24 RJS 10:01a|  Style changes
-
+# .(40501.02  5/01/24 RJS 10:02a|  Fix Scrollbar in .Chat
 
 
 
@@ -89,7 +89,7 @@ html {
     background: var(--Body_background-color);
     height: 100%;
     text-align: center;
-    max-width: 1000px;                                                  
+    max-width: 1000px;
     margin: auto;
 }
 /* END HTML ===================================*/
@@ -100,7 +100,7 @@ The body properties
 body {
     background: var(--Body_background-color);
     height: 100%;
-    width: 1000px;                                                      
+    width: 1000px;
     margin: 0 auto;                                                     /* .(40501.01.2 RJS Add 0 auto to body margin) */
     font-family: var(--GlobalFontFamily);
 }
@@ -302,10 +302,10 @@ The .Chat properties
   top: 190px;                                                           /* .(40429.01.4 RJS Was: 183px;).(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
   overflow-y: scroll;                                                   /* .(40426.01.15 RJS Beg Added) */
   scroll-behavior: auto;
-                                     
+  scrollbar-color: #A1A1A1 #DDDDDD;                                     /* .(40501.02.1 RJS Fix Scrollbar for .chat) */
 }
 
-.Chat::-webkit-scrollbar {
+body::-webkit-scrollbar {                                               /* .(40501.02.2 RJS Hide Scrollbar for body) */
   display: none;
 }                                                                       /* .(40426.01.15 RJS End) */
 /* END S2R-1 .Chat ===========================*/
