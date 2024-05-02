@@ -34,7 +34,7 @@
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
 # .(40429.05  4/29/24 RJS 10:05a|  Replace <hr> above .Documents with border-top
 # .(40501.01  5/01/24 RJS 10:01a|  Style changes
-
+# .(40501.05  5/01/24 RAM  4:30p|  Add space to top of .Documents
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -117,7 +117,7 @@ class FormComponent extends LitElement {
         padding-bottom  :  5px;
         padding-top     :  20px;
         text-align      :  left;
-                                                
+        margin-top      :  10px;                                        /* .(40501.05.1 RAM Add space to top of .Documents) */
         border-top      :  blue solid 2px;                              /* .(40429.05.2 RJS Beg Add border-top) */
         }
       .DocumentTitle {                                                  /* .(40429.02.3 RJS Add .DocumentTitle ) */
