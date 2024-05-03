@@ -7,6 +7,8 @@
 ##FD   MessagesComponent.mjs    |  10869|  4/12/24 15:20|   206| u1.04`40412.1520
 ##FD   MessagesComponent.mjs    |  11094|  4/26/24 09:30|   208| u1.04`40426.0930
 ##FD   MessagesComponent.mjs    |  12210|  4/30/24 12:01|   224| u1.04`40430.1201
+##FD   MessagesComponent.mjs    |  12556|  5/01/24 17:54|   226| u1.04`40501.1754
+##FD   MessagesComponent.mjs    |  13556|  5/03/24 11:01|   236| u1.04`40503.1101
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file creates the HTML tag: messages-component.
 #           It is defined in the class MessagesComponent that includes styles that
@@ -37,6 +39,8 @@
 # .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
 # .(40429.04  4/29/24 RJS 10:04a|  Change font size
 # .(40430.01  4/30/24 RJS 12:01p|  iPad Responsiveness
+# .(40501.07  5/01/24 RAM  5:54p|  Move Messages over to align with prompt
+# .(40503.01  5/03/24 RJS 11:01a|  iPad Responsiveness
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -70,7 +74,7 @@ return  aColor
         #spacer {
           height          :  0px;                                       /* .(40429.01.4 RJS Remote spacer).(40408.01.6 RAM Was: 20px; in v1.03.40408.1233-Rick) */
           }
-        #messages-container_x {
+        #messages-container_x {                                         /*#.(40501.07.3 RAM Beg When was this disabled?) */
           display         :  flex;
           width           :  80%;
           flex-direction  :  column;
@@ -78,8 +82,10 @@ return  aColor
           padding         :  20px;
           border          :  1px solid #ddd;
           border-radius   :  5px;
-          }
-
+          }                                                             /*#.(40501.07.3 RAM End) */
+        #messages-container {                                           /* .(40501.07.4 RAM Beg Add it back) */
+          padding         :  8px;                                       /* .(40501.07.5 RAM Move it over to align with Prompt field) */
+          }                                                             /* .(40501.07.4 RAM End) */
         .message {
           flex            :  1;
           max-width       :  780px;                                     /* .(40426.01.3 RJS Style changes, was 655px;) */
@@ -118,9 +124,15 @@ return  aColor
           and (max-width: 1000px)
           {
             .user-message {
-              margin-top      : 20px
+              margin-top      : 20px;                                   /* .(40503.01.3 RJS Opps Add ;) */
+              max-width       : 615px;                                  /* .(40503.01.4 RJS Add max-width) */
               }
-
+            .message {                                                  /* .(40503.01.5 RJS Beg Add .message) */
+              max-width       : 590px;
+              margin-left     : 40px;
+              margin-top      : 10px;
+              font-size       : 14px
+            }                                                           /* .(40503.01.5 RJS End) */
           }                                                             /* .(40430.01.1 RJS End) */
       `;
       }

@@ -8,6 +8,7 @@
 ##FD   FormComponent.mjs        |   8690|  4/26/24 09:30|   182| u1.02`40426.0930
 ##FD   FormComponent.mjs        |  11244|  4/29/24 10:05|   219| u1.02`40429.1005
 ##FD   FormComponent.mjs        |  11693|  5/01/24 16:30|   224| u1.02`40501.1630
+##FD   FormComponent.mjs        |  12229|  5/03/24 11:01|   235| u1.02`40503.1101
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript Lit Component file creates the HTML tag form-component.
 #           It is defined in the class FormComponent that includes styles that
@@ -35,6 +36,7 @@
 # .(40429.05  4/29/24 RJS 10:05a|  Replace <hr> above .Documents with border-top
 # .(40501.01  5/01/24 RJS 10:01a|  Style changes
 # .(40501.05  5/01/24 RAM  4:30p|  Add space to top of .Documents
+# .(40503.01  5/03/24 RJS 11:01a|  iPad Responsiveness
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -131,6 +133,15 @@ class FormComponent extends LitElement {
         background-color  :  yellow;
         }                                                               /* .(40429.02.3 RJS End) */
 
+        @media only screen                                              /* .(40503.01.1 RJS Beg iPad Responsiveness) */
+        and (min-width: 621px)
+        and (max-width: 1000px)
+          {
+            .fld-text {
+              max-width       :  550px;
+              width: 1500px;
+            }
+          }                                                             /* .(40503.01.1 RJS End) */
       @media only screen
       and (max-width: 440px)
       {
