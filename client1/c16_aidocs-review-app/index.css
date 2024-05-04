@@ -248,7 +248,7 @@ The .Marketing properties
           margin-right: 10px;
 /*        background: url(https://slack-files.com/files-pub/T043MHPU3-F078S219N-67c52b377e/gs_bullet-checkmark.svg) center center no-repeat; *//*#.(40501.09.x RJS Cut Item icon) */
           }
-      }
+      }  /* eos .item  */
       .itemshowmore {
           display: flex;
           align-items: center;
@@ -269,9 +269,9 @@ The .Marketing properties
             height: 20px;
             margin-right: 15px;
           }
-        }
-      }
-     }                                                                  /* .(40426.01.10 RJS End) */
+        } /* eoc .itemshowmore */
+      } /* eoc .list */
+    } /* eoc Marketing */                                               /* .(40426.01.10 RJS End) */
 
 .AIMyDocsText {                                                         /* .(40410.05.9 RJS Beg Add .AIMyDocs style) */
   font-size: 1rem;
@@ -337,7 +337,7 @@ The .Chat h2 properties
 /* END S2-1 .Chat h2=========================*/
 
 
-/*=============================================== */                    /* .(40410.06.2 RJS Beg Add Modal Properties) *//*
+/*=============================================== */                    /* .(40410.06.2 RJS Beg Add Modal Properties) */
 The Modal Popup properties
 -------------------------------------------------*/
 /*The Show More Link in marketing*/
