@@ -44,12 +44,12 @@
 # .(40501.07  5/01/24 RAM  5:00p|  Set width to 1100 in HTML and Body
 # .(40501.06  5/03/24 RJS 11:00a|  Re-Adjust Marketing font and height
 ##.(40502.01  5/02/24 RAM  1:01p|  Add, Don't center messages
-# .(40502.02  5/02/24 RJS  3:02p|  Add main .container class
-# .(40503.01  5/03/24 RJS 11:01a|  iPad Responsiveness
-# .(40503.02  5/03/24 RJS 11:02a|  Chg widths back to 100% from 1100px
-# .(40503.03  5/03/24 RJS 11:03a|  Change .Marketing radically again
-# .(40503.04  5/03/24 RJS 11:04a|  Adjust Modal window
-# .(40503.05  5/03/24 RJS 11:05a|  Add SevenHundredPixelWidth
+# .(40502.02  5/02/24 RJS  3:00p|  Add main .container class
+# .(40503.01  5/03/24 RJS 11:00a|  iPad Responsiveness 
+# .(40503.02  5/03/24 RJS 11:00a|  Chg widths back to 100% from 1100px
+# .(40503.03  5/03/24 RJS 11:00a|  Change .Marketing radically again
+# .(40503.04  5/03/24 RJS 11:00a|  Adjust Modal window
+# .(40503.05  5/03/24 RJS 11:00a|  Add SevenHundredPixelWidth
                                 |
 ##SRCE     +====================+===============================================+
 */
@@ -316,7 +316,7 @@ The .Chat properties
   font-family: var(--GlobalFontFamily);
   font-size: 1.2rem;
   font-weight: 600;
-/*text-align: left;                                                   *//*#.(40502.02.5 RJS Cut).(40502.01.3 RAM Add, Don't center messages) */
+/*text-align: left;                                                   *//*#.(40502.02.5 RJS Cut).(40502.01.3 RAM Add, Don't center messages) */  
   top: 190px;                                                           /* .(40429.01.4 RJS Was: 183px;).(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
   overflow-y: scroll;                                                   /* .(40426.01.15 RJS Beg Added) */
   scroll-behavior: auto;
@@ -515,7 +515,7 @@ and (max-width: 1000px)
   }
   .container {                                                          /* .(40502.02.6 RJS Beg Add for iPhone) */
     width: var(--SevenHundredPixelWidth);                               /* .(40503.05.4 RJS Use SevenHundredPixelWidth) */
-  }                                                                     /* .(40502.02.6 RJS End) */
+  }                                                                     /* .(40502.02.6 RJS End) */                                                               
   .Header {
     height: 50px;                                                       /* .(40426.01.25 RJS Was: 15%;) */
     width: var(--SevenHundredPixelWidth);                               /* .(40503.05.5 RJS Use SevenHundredPixelWidth) */
