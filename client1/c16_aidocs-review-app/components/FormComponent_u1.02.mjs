@@ -10,6 +10,7 @@
 ##FD   FormComponent.mjs        |  11693|  5/01/24 16:30|   224| u1.02`40501.1630
 ##FD   FormComponent.mjs        |  12229|  5/03/24 11:01|   235| u1.02`40503.1101
 ##FD   FormComponent.mjs        |  16239|  5/10/24 10:00|   310| u1.02`40510.1000
+##FD   FormComponent.mjs        |  16477|  5/11/24 10:31|   312| u1.02`40511.1031
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript Lit Component file creates the HTML tag form-component.
 #           It is defined in the class FormComponent that includes styles that
@@ -41,6 +42,7 @@
 # .(40510.02  5/10/24 RJS 10:00a|  Style changes to Form Component
 # .(40510.03  5/10/24 RJS 10:00a|  Add two text links
 # .(40510.04  5/10/24 RJS 10:00a|  Add Media Portrait
+# .(40511.02  5/11/24 RJS 10:31a|  Remove dangling }
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -62,7 +64,7 @@ class FormComponent extends LitElement {
         margin-top      :  20px;
         margin-bottom   :  100px;                                       /* .(40501.01.1 RJS Add: margin-bottom to form) */
         margin-right    :  10px;                                        /* .(40510.02.2 RJS Add: margin-right) */
-        padding         :  0 10px;                                      /* .(40510.02.3 RJS Add: padding) */
+        padding         :  0 10px;                                      /* .(40510.02.3 RJS Add: padding).(40501.01.1 RJS Add margin-bottom to form) */
         }
 
       label {
@@ -93,7 +95,7 @@ class FormComponent extends LitElement {
         background      : white;
         color           : blue;
         padding         : 0px 10px 25px 10px;
-      }                                                                 /* .(40510.03.3 RJS End) */  
+      }                                                                 /* .(40510.03.3 RJS End) */
       .fld-text {
         flex            :  1;
         color           :  #333;
@@ -185,10 +187,10 @@ class FormComponent extends LitElement {
         .DocumentText {
           font-size: 1rem;
         }
-      }                                                                 /* .(40510.02.9 RJS End) */
+      }                                                                 /* .(40510.02.9 RJS End).(40503.01.1 RJS End) */
       @media only screen
-      and (max-width: 440px)                                            /* .(40510.04.1 RJS Add: Media portrait Beg) */  
-      {
+      and (max-width: 440px)                                            /* .(40510.04.1 RJS Add: Media portrait Beg) */
+                                                                        /* .(40511.02.1 RJS Ops: Remove extra { ) */
       and (max-width: 500px)
       and (orientation: portrait) {
 
@@ -285,8 +287,8 @@ class FormComponent extends LitElement {
         <label for="f01_prompt">&nbsp;<font class="prompt">?</font></label>
 <!--    <label for="f01_prompt">&nbsp;Prompt: </label>-->
         <input  id="f01_prompt" type="text" class="fld-text" value=${this.f01_prompt} @change=${ ( e ) => this.f01_prompt = e.target.value}>
-        <button type="submit" class="SendText">SEND</button>                                              <!-- .(40510.03.1 RJS Add: class) -->  
-        <button type="submit" class="GreaterText">></button>                                              <!-- .(40510.03.2 RJS Add: GreaterText) -->  
+        <button type="submit" class="SendText">SEND</button>                                              <!-- .(40510.03.1 RJS Add: class) -->
+        <button type="submit" class="GreaterText">></button>                                              <!-- .(40510.03.2 RJS Add: GreaterText) -->
       </form>
     `;
     }
