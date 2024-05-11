@@ -209,7 +209,7 @@ The .HeaderLogoText properties
     color: var(--Header_Menu_font-color);
 }
 
-.AboutAI {                                                              /* .(40510.07.1 RJS Beg Add .AboutAI) */
+.AboutAI {                                                              /* .(40510.07.1 RJS Beg Add .AboutAI) */  
   display: none;
 }                                                                       /* .(40510.07.1 RJS End) */
 /*------------------------------------------------
