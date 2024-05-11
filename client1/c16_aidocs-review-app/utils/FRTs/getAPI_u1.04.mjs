@@ -211,7 +211,7 @@ function parseOpenAI_data( aText ) {
 //      pJSON.sources   =  mJSON.filter( pData => ( pData.sources || [] ).length > 0 )[0].sources           //# will fail is no sources elements
         pJSON.sources   =  mJSON.filter( pData => ( pData.sources || [] ).length > 0 ) // [0].sources       //  will fail is no sources elements
 //      pJSON.sources   =  pJSON.sources                      ? pJSON.sources[0] : [ "No Citations" ]       //#.(40410.02.1)
-        pJSON.sources   = (pJSON.sources && pJSON.sources[0]) ? pJSON.sources[0] : [ "No Citations" ]       // .(40510.02.5 RAM Add [0]).(40410.02.1 RAM Pass something back)
+        pJSON.sources   = (pJSON.sources && pJSON.sources[0]) ? pJSON.sources[0] : [ "No Citations" ]       // .(40410.02.5 RAM Add [0]).(40410.02.2 RAM Pass something back)
 
         console_log(    `  Response: Found ${pJSON.response.length} chunks.`, bQuiet );
         pJSON.response  =  pJSON.response.join( "" )

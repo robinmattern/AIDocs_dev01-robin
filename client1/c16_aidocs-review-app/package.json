@@ -11,7 +11,7 @@
   "main": "index.html",
 
   "scripts": {
-    "start": "nodemon server.mjs",
+    "start": "nodemon -e js.mjs,json,html server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": { },
