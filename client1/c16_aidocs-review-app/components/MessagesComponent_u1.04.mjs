@@ -232,7 +232,7 @@ return  aColor
         <div class="message ${ message.role === 'user' ? 'user-message' : 'assistant-message'}">
           ${ message.role === 'user' ? message.message : unsafeHTML( message.message ) }                  <!-- .(40411.03.5 RAM fmt <br>s) -->
           </div>
-<!--      <div><button type="submit">Print</button></div>-->                                              <!--#.(40510.06.1 RJS Add Print Button) -->
+<!--      <div><button type="submit">Print</button></div>-->                                              <!--#.(40510.06.1 RJS Add Print Button) -->  
         `;
         }
 //    ---------------------------------------------------------
