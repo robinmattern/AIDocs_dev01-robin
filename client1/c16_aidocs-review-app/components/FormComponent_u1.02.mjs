@@ -93,7 +93,7 @@ class FormComponent extends LitElement {
         background      : white;
         color           : blue;
         padding         : 0px 10px 25px 10px;
-      }                                                                 /* .(40510.03.3 RJS End) */
+      }                                                                 /* .(40510.03.3 RJS End) */  
       .fld-text {
         flex            :  1;
         color           :  #333;
@@ -285,8 +285,8 @@ class FormComponent extends LitElement {
         <label for="f01_prompt">&nbsp;<font class="prompt">?</font></label>
 <!--    <label for="f01_prompt">&nbsp;Prompt: </label>-->
         <input  id="f01_prompt" type="text" class="fld-text" value=${this.f01_prompt} @change=${ ( e ) => this.f01_prompt = e.target.value}>
-        <button type="submit" class="SendText">SEND</button>                                              <!-- .(40510.03.1 RJS Add: class) -->
-        <button type="submit" class="GreaterText">></button>                                              <!-- .(40510.03.2 RJS Add: GreaterText) -->
+        <button type="submit" class="SendText">SEND</button>                                              <!-- .(40510.03.1 RJS Add: class) -->  
+        <button type="submit" class="GreaterText">></button>                                              <!-- .(40510.03.2 RJS Add: GreaterText) -->  
       </form>
     `;
     }
