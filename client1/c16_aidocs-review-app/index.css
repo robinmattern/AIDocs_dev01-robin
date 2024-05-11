@@ -11,6 +11,7 @@
 ##FD   index.css                |  21391|  5/01/24 17:23|   632| u1.04`40501.1723
 ##FD   index.css                |  26113|  5/03/24 11:05|   693| u1.04`40503.1105
 ##FD   index.css                |  33649|  5/10/24 10:00|   815| u1.04`40510.1000
+##FD   index.css                |  33747|  5/11/24 10:33|   817| u1.04`40511.1033
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This HTML file contains the CSS styles for the AIDocs-Review main page.
 #           It was developed by Rick Schinner as parts of the formR Apps project.
@@ -54,6 +55,7 @@
 # .(40510.01  5/10/24 RJS 10:00a|  Style changes to index.css
 # .(40510.04  5/10/24 RJS 10:00a|  Add Media Portrait
 # .(40510.07  5/10/24 RJS 10:00a|  Change AboutAI popup
+# .(40511.03  5/11/24 RJS 10:33a|  Change .Chat Height and .content
                                 |
 ##SRCE     +====================+===============================================+
 */
@@ -122,7 +124,7 @@ body {
 }
 
 .container {                                                            /* .(40502.02.3 RJS Beg Add .container) */
-/*  align-self: center;                                               *//*#.(40510.01.2 RJS) *//*
+/*  align-self: center;                                               *//*#.(40510.01.2 RJS Beg) *//*
     margin: 0 auto;
     width: 80%;*/
     display: flex;                                                      /* .(40510.01.2 RJS Beg Chg container styles) */
@@ -209,7 +211,7 @@ The .HeaderLogoText properties
     color: var(--Header_Menu_font-color);
 }
 
-.AboutAI {                                                              /* .(40510.07.1 RJS Beg Add .AboutAI) */  
+.AboutAI {                                                              /* .(40510.07.1 RJS Beg Add .AboutAI) */
   display: none;
 }                                                                       /* .(40510.07.1 RJS End) */
 /*------------------------------------------------
@@ -608,7 +610,7 @@ The .Marketing properties
   .Chat{
     top: 70px;                                                          /* .(40510.01.16 RJS Was: 130px;).(40426.01.29 RJS Was 20px) */
     width: var(--SevenHundredPixelWidth);                               /* .(40503.05.7 RJS Use SevenHundredPixelWidth) */
-    height: 620px;                                                      /* .(40510.01.17 RJS Was: 620px;)
+    height: 550px;                                                      /* .(40511.03.1 RJS Was: 620px;) */
   }
   .Footer {                                                             /* .(40510.01.18 RJS Was: .footer) */
    display: none;                                                       /* .(40510.01.19 RJS Add: display;) */
@@ -619,9 +621,9 @@ The .Marketing properties
   }
   /*For popup*/
   .content {
-    top: 65px;                                                          /* .(40510.01.20 RJS Was: 65px;) */
-    width: 75%;                                                         /* .(40510.01.21 RJS Was: 75%) */
-    padding: 8px 14px;                                                  /* .(40510.01.22 RJS Was: 8px 14px;) */
+    top: -45px;                                                         /* .(40511.03.2 RJS Was: 65px;).(40510.01.20 RJS Was: 65px;) */
+    width: 90%;                                                         /* .(40511.03.3 RJS Was: 75%) */
+    padding: 4px 4px;                                                   /* .(40511.03.4 RJS Was: 8px 14px;) */
     overflow-y: scroll;                                                 /* .(40510.01.23 RJS Beg Add scroll stuff) */
     scroll-behavior: auto;
     scrollbar-color:  blue cornflowerblue;                              /* .(40510.01.23 RJS End) */
@@ -651,7 +653,7 @@ The .Marketing properties
 The @media MAX-width (450px) query properties
 iPhone Portrait
 =========================================*/
-@media only screen                                                      /* .(40510.04.3 RJS Chg: Lots of changes to Portrait) */  
+@media only screen                                                      /* .(40510.04.3 RJS Chg: Lots of changes to Portrait) */
 and (min-width: 375px)
 and (max-width: 510px)                                                  /* .(40510.04.4 RJS Was: 440px) */
 and (orientation: portrait) {                                           /* .(40510.04.5 RJS Add: orientation) */
