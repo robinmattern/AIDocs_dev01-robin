@@ -651,7 +651,7 @@ The .Marketing properties
 The @media MAX-width (450px) query properties
 iPhone Portrait
 =========================================*/
-@media only screen                                                      /* .(40510.04.3 RJS Chg: Lots of changes to Portrait) */
+@media only screen                                                      /* .(40510.04.3 RJS Chg: Lots of changes to Portrait) */  
 and (min-width: 375px)
 and (max-width: 510px)                                                  /* .(40510.04.4 RJS Was: 440px) */
 and (orientation: portrait) {                                           /* .(40510.04.5 RJS Add: orientation) */

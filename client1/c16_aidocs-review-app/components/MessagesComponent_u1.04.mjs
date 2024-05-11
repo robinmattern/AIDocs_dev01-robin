@@ -138,7 +138,7 @@ return  aColor
               font-size       : 14px
             }                                                           /* .(40503.01.5 RJS End) */
           }                                                             /* .(40430.01.1 RJS End) */
-          @media only screen                                            /* .(40510.04.2 RJS Add: Portrait Beg) */
+          @media only screen                                            /* .(40510.04.2 RJS Add: Portrait Beg) */  
           and (min-width: 375px)
           and (max-width: 500px)
           and (orientation: portrait) {

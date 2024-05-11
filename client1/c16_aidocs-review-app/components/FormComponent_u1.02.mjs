@@ -187,7 +187,7 @@ class FormComponent extends LitElement {
         }
       }                                                                 /* .(40510.02.9 RJS End) */
       @media only screen
-      and (max-width: 440px)                                            /* .(40510.04.1 RJS Add: Media portrait Beg) */
+      and (max-width: 440px)                                            /* .(40510.04.1 RJS Add: Media portrait Beg) */  
       {
       and (max-width: 500px)
       and (orientation: portrait) {
