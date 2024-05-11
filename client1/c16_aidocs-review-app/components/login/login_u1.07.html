@@ -16,6 +16,7 @@
 ##FD   login.html               |  12957|  4/12/24 14:22|   246| u1-07`40412.1422
 ##FD   login.html               |  13106|  4/13/24 14:45|   248| v1.07`40413.1445
 ##FD   login.html               |  13753|  4/15/24 20:30|   251| v1.07`40415.2030
+##FD   login.html               |  13939|  5/10/24 10:00|   253| u1.07`40510.1000
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This HTML file ...
 ##LIC      .--------------------+----------------------------------------------+
@@ -41,6 +42,7 @@
 # .(40413.02  4/13/24 RAM  2:45p|  Prepare login for release
 # .(40415.06  4/15/24 RAM  8:30p|  Change .login to .login_v1.07
 # .(40425.01  4/25/24 RAM  3:30p|  Change .login_v1.07 back to .login
+# .(40510.05  5/10/24 RJS 10:00a|  Make cleaner href to home
 
 ##SRCE     +====================+===============================================+
 #-->
@@ -197,10 +199,9 @@
       <div class="Section1Title"></div>
       <div class="login">
         <h1>
-          <a href="/client1/c16_aidocs-review-app/index.html">Login</a><br>
+          <a href="../../index.html">Home</a><br>                     <!-- .(40510.05.1 RJS Cleaner href) -->
           <div id="login-error"><div id="errMsg"></div>Contact <a href="#">System Administrator</a> for Help</div>   <!-- .(30429.08.1 RAM)-->
         <form id="LoginForm"             >                                              <!-- .(30429.01.6 RAM Not defined globally. Set listener above) -->
-
           <label class="label-styles" for="username">
             <!-- font awesome icon -->
             <i   class="fas fa-user"></i>
