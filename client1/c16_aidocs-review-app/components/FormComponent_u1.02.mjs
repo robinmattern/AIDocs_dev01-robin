@@ -9,6 +9,7 @@
 ##FD   FormComponent.mjs        |  11244|  4/29/24 10:05|   219| u1.02`40429.1005
 ##FD   FormComponent.mjs        |  11693|  5/01/24 16:30|   224| u1.02`40501.1630
 ##FD   FormComponent.mjs        |  12229|  5/03/24 11:01|   235| u1.02`40503.1101
+##FD   FormComponent.mjs        |  16239|  5/10/24 10:00|   310| u1.02`40510.1000
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript Lit Component file creates the HTML tag form-component.
 #           It is defined in the class FormComponent that includes styles that
@@ -37,6 +38,9 @@
 # .(40501.01  5/01/24 RJS 10:01a|  Style changes
 # .(40501.05  5/01/24 RAM  4:30p|  Add space to top of .Documents
 # .(40503.01  5/03/24 RJS 11:01a|  iPad Responsiveness
+# .(40510.02  5/10/24 RJS 10:00a|  Style changes to Form Component
+# .(40510.03  5/10/24 RJS 10:00a|  Add two text links
+# .(40510.04  5/10/24 RJS 10:00a|  Add Media Portrait
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -54,8 +58,11 @@ class FormComponent extends LitElement {
 
       form {
         display         :  flex;
+        flex-direction  :  row;                                         /* .(40510.02.1 RJS Add: flex direction) */
         margin-top      :  20px;
-        margin-bottom   :  100px;                                       /* .(40501.01.1 RJS Add margin-bottom to form) */
+        margin-bottom   :  100px;                                       /* .(40501.01.1 RJS Add: margin-bottom to form) */
+        margin-right    :  10px;                                        /* .(40510.02.2 RJS Add: margin-right) */
+        padding         :  0 10px;                                      /* .(40510.02.3 RJS Add: padding) */
         }
 
       label {
@@ -76,13 +83,23 @@ class FormComponent extends LitElement {
         height          : 27px;
         padding         :  5px;             /* was 20px; or 10px; */
         }
-
+      .SendText {                                                       /* .(40510.03.3 RJS Add: two Text labels Beg) */
+        display         : block;
+        background      : white;
+        color           : blue;
+      }
+      .GreaterText {
+        display          : none;
+        background      : white;
+        color           : blue;
+        padding         : 0px 10px 25px 10px;
+      }                                                                 /* .(40510.03.3 RJS End) */
       .fld-text {
         flex            :  1;
         color           :  #333;
-        width           :  780px;                                       /* .(40426.01.2 RJS Added width) */
+        width           :  auto;                                        /* .(40510.02.4 RJS Was: 780px).(40426.01.2 RJS Added width) */
         max-width       :  780px;                                       /* .(40426.01.2 RJS Was: 700px;) */
-        min-width       :  340px;
+        min-width       :  940px;                                       /* .(40510.02.5 RJS Was: 340px;) */
         height          :  15px;
         margin          :  0 auto;
         margin-left     :  4px;
@@ -117,9 +134,9 @@ class FormComponent extends LitElement {
         position        :  relative;
         padding-left    :  40px;
         padding-bottom  :  5px;
-        padding-top     :  20px;
+        padding-top     :  30px;                                        /* .(40510.02.6 RJS Was: 20px;) */
         text-align      :  left;
-        margin-top      :  10px;                                        /* .(40501.05.1 RAM Add space to top of .Documents) */
+        margin-top      :  -20px;                                       /* .(40510.02.7 RJS Was: 10px;).(40501.05.1 RAM Add space to top of .Documents) */
         border-top      :  blue solid 2px;                              /* .(40429.05.2 RJS Beg Add border-top) */
         }
       .DocumentTitle {                                                  /* .(40429.02.3 RJS Add .DocumentTitle ) */
@@ -136,25 +153,82 @@ class FormComponent extends LitElement {
         @media only screen                                              /* .(40503.01.1 RJS Beg iPad Responsiveness) */
         and (min-width: 621px)
         and (max-width: 1000px)
-          {
+/*        {                                                           *//* .(40510.02.8 RJS Mov: .fld-text Beg) *//*
             .fld-text {
-              max-width       :  550px;
-              width: 1500px;
+              max-width    :  550px;
+              width        : 1500px;
             }
-          }                                                             /* .(40503.01.1 RJS End) */
-      @media only screen
-      and (max-width: 440px)
-      {
-        .fld-text {
-          max-width       :  0px;
+          }  */                                                         /* .(40510.02.8 RJS End).(40503.01.1 RJS End) */
+        {                                                               /* .(40510.02.9 RJS Add: many lines Beg) */
+        form {
+          display          : flex;
+          flex-direction   : row;
+          margin-top       : 20px;
+          margin-bottom    : 100px;
+          margin-right     : 10px;
+          padding          : 0 10px;
         }
+
+        label {
+          padding-left     : 2px;
+        }
+        .fld-text {
+          flex-grow        : 1;
+          max-width        : 575px;
+          min-width        : 575px;
+          width            :  auto;
+          font-size        : 12px;
+        }
+        .DocumentTitle {
+          font-size: .9rem;
+        }
+        .DocumentText {
+          font-size: 1rem;
+        }
+      }                                                                 /* .(40510.02.9 RJS End) */
+      @media only screen
+      and (max-width: 440px)                                            /* .(40510.04.1 RJS Add: Media portrait Beg) */
+      {
+      and (max-width: 500px)
+      and (orientation: portrait) {
+
+        form {
+          display: flex;
+          margin-top: 20px;
+          margin-bottom: 100px;
+          margin-right: 10px;
+        }
+        .Document {
+          padding-top     : 100px;
+          width           : 20px;
+        }
+        .SendText {
+          display         : none;
+         }
+        .GreaterText {
+          display         : contents;
+          font-size       : 1.5rem;
+         }
+        .fld-text {
+          min-width       :  310px;
+          max-width       :  350px;                                     /* .(40510.02.10 RJS Was: 0px;) */
+          font-size       :  .9rem;
+        }
+        label {
+          padding-left: 18px;
+          font-weight: bold;
+        }                                                               /* .(40510.11.11 RJS End) */
         .prompt {
           font-size       :  1.2rem;
-          font-weight     :  700;
+          font-weight     :  600;                                       /* .(40510.02.11 RJS Was: 700) */
           padding-bottom  :  10px;
-          margin-left     :   0px;
+          margin-left     :  -2px;                                      /* .(40510.02.12 RJS Was: 0) */
         }
-      }
+        #f01_prompt {                                                   /* .(40510.02.13 RJS Add: #f01_prompt Beg) */
+          min-width       : 310px;
+          margin          : 0px 10px 0px 10px;
+        }                                                               /* .(40510.02.13 RJS End) */
+      }                                                                 /* .(40510.04.1 RJS End) */
 
     ` }; // eof get Styles
 //  -------------------------------------------------------
@@ -211,7 +285,8 @@ class FormComponent extends LitElement {
         <label for="f01_prompt">&nbsp;<font class="prompt">?</font></label>
 <!--    <label for="f01_prompt">&nbsp;Prompt: </label>-->
         <input  id="f01_prompt" type="text" class="fld-text" value=${this.f01_prompt} @change=${ ( e ) => this.f01_prompt = e.target.value}>
-        <button type="submit">Send</button>
+        <button type="submit" class="SendText">SEND</button>                                              <!-- .(40510.03.1 RJS Add: class) -->
+        <button type="submit" class="GreaterText">></button>                                              <!-- .(40510.03.2 RJS Add: GreaterText) -->
       </form>
     `;
     }

@@ -9,6 +9,7 @@
 ##FD   MessagesComponent.mjs    |  12210|  4/30/24 12:01|   224| u1.04`40430.1201
 ##FD   MessagesComponent.mjs    |  12556|  5/01/24 17:54|   226| u1.04`40501.1754
 ##FD   MessagesComponent.mjs    |  13556|  5/03/24 11:01|   236| u1.04`40503.1101
+##FD   MessagesComponent.mjs    |  14843|  5/10/24 10:00|   259| u1.02`40510.1000
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #           This JavaScript file creates the HTML tag: messages-component.
 #           It is defined in the class MessagesComponent that includes styles that
@@ -41,6 +42,9 @@
 # .(40430.01  4/30/24 RJS 12:01p|  iPad Responsiveness
 # .(40501.07  5/01/24 RAM  5:54p|  Move Messages over to align with prompt
 # .(40503.01  5/03/24 RJS 11:01a|  iPad Responsiveness
+# .(40510.02  5/10/24 RJS 10:00a|  Style changes to Messages Component
+# .(40510.04  5/10/24 RJS 10:00a|  Add Media Portrait
+# .(40510.06  5/10/24 RJS 10:00a|  Add Print button
                                 |
 ##SRCE     +====================+===============================================+
 \*/
@@ -72,7 +76,7 @@ return  aColor
         --Assistant-FontColor       : #fff;;   /* #000     #fff;;   White */
          }
         #spacer {
-          height          :  0px;                                       /* .(40429.01.4 RJS Remote spacer).(40408.01.6 RAM Was: 20px; in v1.03.40408.1233-Rick) */
+          height          :  30px;                                      /* .(40510.02.14 RJS Was: 0px).(40429.01.4 RJS Remote spacer).(40408.01.6 RAM Was: 20px; in v1.03.40408.1233-Rick) */
           }
         #messages-container_x {                                         /*#.(40501.07.3 RAM Beg When was this disabled?) */
           display         :  flex;
@@ -91,7 +95,7 @@ return  aColor
           max-width       :  780px;                                     /* .(40426.01.3 RJS Style changes, was 655px;) */
           min-width       :  300px;
           min-height      :  15px;
-          margin          :  5px auto;
+          margin          :  18px auto;                                 /* .(40510.02.15 RJS Was: 5px auto) */
           margin-left     :  80px;
           margin-right    :  6px;
           padding         :  5px;           /* was 20px; or 10px; */
@@ -134,6 +138,24 @@ return  aColor
               font-size       : 14px
             }                                                           /* .(40503.01.5 RJS End) */
           }                                                             /* .(40430.01.1 RJS End) */
+          @media only screen                                            /* .(40510.04.2 RJS Add: Portrait Beg) */
+          and (min-width: 375px)
+          and (max-width: 500px)
+          and (orientation: portrait) {
+            .user-message {
+              margin-left: 0px;
+            }
+            .DocumentText {
+              font-size: 10px;
+            }
+            .assistant-message {
+              font-weight     : 400;                                    /* .(40429.04.5 RJS) */
+              font-size       : .8rem;                                  /* .(40429.04.6 RJS) */
+              }
+            #messages-container {
+              padding: 5px;
+          }
+      }                                                                 /* .(40510.04.2 RJS End) */
       `;
       }
 //    ---------------------------------------------------------
@@ -205,11 +227,12 @@ return  aColor
 //    ---------------------------------------------------------
 
     renderMessage( message ) {
-//  if (message.role === 'user') { message.message = unsafeHTML( message.message ) }                             //#.(40411.03.5 RAM fmt <br>s)
+//  if (message.role === 'user') { message.message = unsafeHTML( message.message ) }                        //#.(40411.03.5 RAM fmt <br>s)
  return html`
         <div class="message ${ message.role === 'user' ? 'user-message' : 'assistant-message'}">
-          ${ message.role === 'user' ? message.message : unsafeHTML( message.message ) }                       <!-- .(40411.03.5 RAM fmt <br>s) -->
-        </div>
+          ${ message.role === 'user' ? message.message : unsafeHTML( message.message ) }                  <!-- .(40411.03.5 RAM fmt <br>s) -->
+          </div>
+<!--      <div><button type="submit">Print</button></div>-->                                              <!--#.(40510.06.1 RJS Add Print Button) -->
         `;
         }
 //    ---------------------------------------------------------
