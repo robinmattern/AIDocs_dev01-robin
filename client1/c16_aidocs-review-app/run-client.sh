@@ -23,19 +23,19 @@ if [ "${OSTYPE:0:5}" == "linux" ]; then
    fi
 
 if [ "${OSTYPE:0:6}" == "darwin" ]; then
-   anyllm killport ${PORT}
+   jpt kill port ${PORT}; echo ""
    node server.mjs
    exit
    fi
 
 if [ "${OSTYPE:0:4}" == "msys" ]; then
-   anyllm killport ${PORT}
+   jpt kill port ${PORT}; echo ""
    node server.mjs
    exit
    fi
 
 if [ "${OS:0:7}" == "Windows" ]; then   # Running in DOS, will it ever happen?
-   anyllm killport ${PORT}
+   jpt kill port ${PORT}; echo ""
    node server.mjs
    exit
    fi
