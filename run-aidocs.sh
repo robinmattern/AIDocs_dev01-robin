@@ -3,7 +3,7 @@
 ##=========+====================+================================================+
 ##RD         run-aidocs         | AIDocs Run Commands
 ##RFILE    +====================+=======+===============+======+=================+
-##FD   run-aidocs.sh            |   8228|  3/03/25 10:00|   176| v1.05`50303.1000
+##FD   run-aidocs.sh            |   8331|  3/03/25 10:15|   178| v1.05`50303.1015
 #
 #DESC     .---------------------+-------+---------------+------+-----------------+
 #            This script runs AIDocs Apps
@@ -22,6 +22,7 @@
 #                               |
 ##CHGS     .--------------------+----------------------------------------------+
 #.(50303.02   3/03/25 RAM 10:00a| Add run-docs metadata
+#.(50303.03   3/03/25 RAM 10:15a| Fix c16 mis-name
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -30,6 +31,7 @@
 #========================================================================================================== #  ===============================  #
 
   aVer="v0.01.50303.1000"  # run-aidocs.sh                                         # .(50303.02.1)
+  aVer="v0.01.50303.1015"  # run-aidocs.sh
 
 function exit_wCR() {
       if [ "${OS:0:7}" != "Windows" ]; then echo ""; fi
@@ -109,8 +111,8 @@ function doAll() {
 
 function  setDir() {
     if [ "${1:0:3}"      == "all"  ]; then aApp="all"; fi
-    if [ "${1:0:3}"      == "c16"  ]; then aApp="c16"; aName="AIDocs_${aOwnr}-8017"; aPort="8016"; aAppDir="client1/c16_aidocs-review-app"; fi
-    if [ "${1:0:3}"      == "c17"  ]; then aApp="c17"; aName="AIDocs_${aOwnr}-8016"; aPort="8017"; aAppDir="client1/c17_aidocs-review-backup"; fi
+    if [ "${1:0:3}"      == "c16"  ]; then aApp="c16"; aName="AIDocs_${aOwnr}-8016"; aPort="8016"; aAppDir="client1/c16_aidocs-review-app"; fi
+    if [ "${1:0:3}"      == "c17"  ]; then aApp="c17"; aName="AIDocs_${aOwnr}-8017"; aPort="8017"; aAppDir="client1/c17_aidocs-review-backup"; fi
     if [ "${1:0:3}"      == "s21"  ]; then aApp="s21"; aName="AIDocs_${aOwnr}-8121"; aPort="8121"; aAppDir="server2/s21_first-api"; fi
 #   echo "  aApp: '${aApp}', aName: '${aName}', aAppDir='${aAppDir}', aArg2: '${aArg2}'" ; # exit
 #   echo "  aDir: '${__basedir}/${aAppDir}'" ; # exit
