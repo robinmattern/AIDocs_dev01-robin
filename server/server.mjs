@@ -5,8 +5,8 @@ import { getDocs       } from './s01_server-api/getDocs.mjs';
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const __basedir = __dirname.replace( /\/server/, '' )
+const __dirname  = path.dirname(__filename);
+const __basedir  = __dirname.replace( /\/server/, '' )
 
 // Create Express application
 const app = express();
@@ -28,10 +28,10 @@ clientApp.get('/page1', (req, res) => {
 });
 
 // Set up routes for API server (port 8101)
-const apiServer = express();
+const serverAPI = express();
 
 // API route for getDocs
-apiServer.get('/api/getDocs', async (req, res) => {
+serverAPI.get('/api/getDocs', async (req, res) => {
   try {
     const result = await getDocs();
     res.json(result);
@@ -41,12 +41,15 @@ apiServer.get('/api/getDocs', async (req, res) => {
 });
 
 // Start the servers
-if (8001 == process.argv[2] || process.argv[2] == 'both') {
+    console.log( "" )
+var aPorts = process.argv[2] || 'both'
+if (8001 ==  aPorts || aPorts == 'both') {
     clientApp.listen(8001, () => {
-    console.log('Client App is running at http://localhost:8001');
+    console.log('  Client App is running at http://localhost:8001');
     }); }
 
-if (8101 == process.argv[2] || process.argv[2] == 'both') {
-    apiServer.listen(8101, () => {
-    console.log('Server API is running at http://localhost:8101');
+if (8101 == aPorts || aPorts == 'both') {
+    serverAPI.listen(8101, () => {
+    console.log('  Server API is running at http://localhost:8101');
     }); }
+ 
