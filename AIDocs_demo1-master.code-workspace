@@ -1,6 +1,11 @@
 {
     "folders": [
         {
+            "name": "._",
+            "path": "../._"
+        },
+        {
+            "name": "demo1-master",
             "path": "."
         }
     ],
