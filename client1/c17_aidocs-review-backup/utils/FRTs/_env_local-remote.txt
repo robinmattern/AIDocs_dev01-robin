@@ -21,7 +21,7 @@
 # ANYLLM_API_KEY = "35N2ZQB-0F54GN4-QND81BG-8KGH9VT" # In fr244p_Vultr-Docker
   ANYLLM_API_KEY = "6K8TTW4-GN7MW5Q-QKRX78E-49BEM8R" # In fr244p_Vultr-Docker
 
-  OPENAI_API_KEY = "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"
+  OPENAI_API_KEY = "sk-td..."
 
 # ANYLLM_WORKSP  = "Constitution"
   ANYLLM_WORKSP  = "visitor1-workspace"
