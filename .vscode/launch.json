@@ -6,28 +6,49 @@
   "configurations": [
 // ----------------------------------------------------------------------------
     {
-      "type": "node",  // was pwa-node
+      "name": "Debug Current Javascript file",
+      "type": "node",
       "request": "launch",
-      "name": "Launch current file",
+      "program": "${file}",
       "skipFiles": [ "<node_internals>/**" ],
-      "program": "${file}"
-       },
+      "runtimeExecutable": "node"
+    },       
 // ----------------------------------------------------------------------------
     {
       "name": "Launch Edge",
-      "request": "launch",
       "type": "msedge",
+      "request": "launch",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
     },
 // ----------------------------------------------------------------------------
     {
+      "name": "Launch Chrome against localhost",
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
+    },
+// ----------------------------------------------------------------------------
+    {
+      "name": "Debug Current TypeScript file",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "skipFiles": [ "<node_internals>/**" ],
+      "runtimeExecutable": "node",
+      "preLaunchTask": "tsc: build - 2024-03-11-embeddings/bunjs/tsconfig.json"
+    },
+// ----------------------------------------------------------------------------
+    {
+      "name": "Debug TypeScript file on Bruce's Mac",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "skipFiles": [ "<node_internals>/**" ],
+      "runtimeExecutable": "/Users/macstudio/.nvs/node/23.10.0/arm64/bin/node",
+      "preLaunchTask": "tsc: build - tsconfig.json"
     }
 // ----------------------------------------------------------------------------
-  ]
+]
 }
