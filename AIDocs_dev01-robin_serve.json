@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "name": "AI Docs Review - dev01-robin",
+      "cwd": "/webs/aidocs_/dev01-robin/client1/c11_my-html-custom-app",
+      "script": "serve",
+      "env": {
+        "PM2_SERVE_PATH": "/webs/aidocs_/dev01-robin/client1/c11_my-html-custom-app",
+        "PM2_SERVE_PORT": 8080
+         },
+       }
+    ]
+  }
