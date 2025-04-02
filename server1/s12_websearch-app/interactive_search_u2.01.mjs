@@ -2,13 +2,14 @@
 ##=========+====================+================================================+
 ##RD        interactive_search  | Main Web Search and AI Response Script
 ##RFILE    +====================+=======+===============+======+=================+
-##FD interactive_search.ts      |   3620|10/01/24  7:00|   103| p1.00.41001.0700
-##FD int...ive_search_u1.00.mjs |   8752| 3/27/25  8:30|   211| p1.00`50327.0830
-##FD int...h_u1.01-byClaude.mjs |   7230| 3/29/25 11:34|   225| p1.01`50329.1134
-##FD int...h_u1.01-byGrok.mjs   |   4541| 3/30/25 11:23|   140| p1.01`50330.1123
-##FD int...ive_search_u1.10.mjs |  10659| 3/30/25 15:32|   230| p1.10`50330.1532
-##FD int...ive_search_u1.11.mjs |  19206| 3/31/25 20:00|   332| p1.11`50331.2000
-##FD int...ive_search_u1.12.mjs |  19862| 4/02/25  7:15|   342| p1.12`50402.0715
+##FD interactive_search.ts      |   3620|10/01/24  7:00|   103| u1.00.41001.0700
+##FD int...ive_search_u1.00.mjs |   8752| 3/27/25  8:30|   211| u1.00`50327.0830
+##FD int...h_u1.01-byClaude.mjs |   7230| 3/29/25 11:34|   225| u1.01`50329.1134
+##FD int...h_u1.01-byGrok.mjs   |   4541| 3/30/25 11:23|   140| u1.01`50330.1123
+##FD int...ive_search_u1.10.mjs |  10659| 3/30/25 15:32|   230| u1.10`50330.1532
+##FD int...ive_search_u1.11.mjs |  19206| 3/31/25 20:00|   332| u1.11`50331.2000
+##FD int...ive_search_u1.12.mjs |  19862| 4/02/25  7:15|   342| u1.12`50402.0715
+##FD int...ive_search_u1.12.mjs |  20382| 4/02/25  9:55|   346| u2.01`50402.0955
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script gets a "document" from an internet search.  It then
@@ -43,6 +44,8 @@
 #.(50331.07   3/31/25 RAM  9:30p| Don't prompt when inVSCode
 #.(50331.08   3/31/25 RAM 10:00p| Write and use setEnv
 #.(50402.02   4/02/25 RAM  7:15a| Add bDebug Model warning
+#.(50402.11   4/02/25 RAM  9:15a| Save log files to docs a12 from server1
+#.(50402.14   4/02/25 RAM  9:55a| Set aDocsApp with 'a' prefix
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -68,11 +71,12 @@
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()
        var  aTS              =  FRT._TS
-       var  nVer             =  u1.12                                                   // .(50402.02.1 RAM Add Version)
+       var  nVer             = "u2.01"                                                  // .(50402.02.1 RAM Add Version)
 
       var __basedir          =  FRT.__basedir
        var  aAppPath         =  FRT.__dirname
-       var  aAppDir          =  aAppPath.split(/[\\\/]/).slice(-1)[0]   // Was splice
+       var  aAppDir          =  aAppPath.split(/[\\\/]/).slice(-1)[0]                   // Was splice
+       var  aDocsDir         = 'a' + aAppDir.slice(1)                                   // .(50402.14.1 RAM Apps in docs have 'a' prefix)
      global.aAppDir          =  aAppDir
    global.__basedir2         =  FRT.path( aAppPath )
             FRT.__basedir2   =  FRT.path( aAppPath )
@@ -81,7 +85,7 @@
 // Display configuration if verbose output is enabled
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
         if (bQuiet == 2) {
-            usrMsg(`\n -- C1201[  29]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`)
+            usrMsg(`\n -- C1201[  87]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`)
             }
 
 // Script configuration
@@ -138,16 +142,16 @@
        var  nWdt             =  pVars.WRAP_WIDTH   || 145
        var  nLog             =  pVars.TO_SCREEN_OR_FILE || 1                                                // .(50331.04.4)
 
-       var  aRespId          = `${aAppDir.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`               // .(50331.08.3 RAM Get RespId)
+       var  aRespId          = `${aDocsDir.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              // .(50402.14.2).(50331.08.3 RAM Get RespId)
        var  aNextPost        = `${ 1 + pVars.NEXT_POST * 1 }`.padStart( 2, "0" )                            // .(50331.08.4 RAM Set Next_Post)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname)                          // .(50331.08.5)
 
 //     var  aLogFile         =      `./${aAppDir}/${aAppDir.slice(0,3)}_t001.01.4.${aTS}_Response.txt`      //#.(50331.02.5)
-       var  aLogFile         = `./docs/${aAppDir}/${aRespId}.4.${aTS}_Response.txt`                         // .(50331.08.6).(50331.02.5 RAM put it in /docs)
+       var  aLogFile         = `./docs/${aDocsDir}/${aRespId}.4.${aTS}_Response.txt`                        // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
-       var  aStatsFile       = `${aAppDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.csv`                 // .(50331.04b.1 RAM Update StatsFile name)
-       var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aStatsFile}` )                    // .(50331.04b.2)
+       var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.csv`                // .(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
+       var  aStatsFile       =  FRT.join( __basedir, `./docs/${aDocsDir}/${aStatsFile}` )                   // .(50402.14.5).(50331.04b.2)
 
 // Configure prompt and Ollama parameters
 //     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"
@@ -158,7 +162,7 @@
              ,  prompt       : `{Query}.${aSysPrompt} {Text}`
              ,  stream       :  true
              ,  options      :{ num_ctx: nCTX_Size
-//                            , temperature: nTemperature
+//                            , temperature: nTemperature                                                   // .(50331.11.1 RAM Temperature has problems)
                                 }
                 }
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
