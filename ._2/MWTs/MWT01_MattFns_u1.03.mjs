@@ -39,6 +39,9 @@
 #.(50331.05   3/31/25 RAM  9:00p| Add ResponseFile to Stats and CSV
 #.(50331.05c  3/31/25 RAM 11:00p| Fix Resp_Id for Stats and CSV
 #.(50402.03   4/01/25 RAM  7:20a| Fix "Tokens Per Second" CSV heaading
+#.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
+#.(50403.04   4/03/25 RAM  2:45p| Save Stats to .tab file
+#.(50404.01   4/01/25 RAM 12:30p| Write and use shoMsg 
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -62,11 +65,11 @@ import { ftruncate } from 'fs';
             dotenv.config( { path: join( aEnvDir, '.env'), override: true } );          // .(50330.04.4)
 
 //   -- --- ---------------  =  ------------------------------------------------------  #
-
-  function  getVars( aAppDir ) {                                                        // .(50331.04.1 RAM Write getVars Beg)
+/*
+  function  getVars( aAppDir ) {                                                        //#.(50403.02.1).(50331.04.1 RAM Write getVars Beg)
             dotenv.config( { path: join( aAppDir, '.env'), override: true } );
     return  process.env
-            }                                                                           // .(50331.04.1 End)
+            }  */                                                                       //#.(50403.02.1).(50331.04.1 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
   function  wrap( text, width, indent1,  indent2 ) {                                    // .(50330.06a.1).(50330.06.1 RAM Write wrap Beg)
@@ -123,6 +126,13 @@ import { ftruncate } from 'fs';
 //  return  indent + lines.join( '\n'.padEnd( indent2 + 1 ) );                          //#.(50330.05a.8 RAM Add indent )
     return           lines.join( '\n'.padEnd( indent2 + 1 ) );                          // .(50330.05a.8 RAM Add indent )
             } // eof wrap                                                               // .(50330.05.1 End)
+//   -- --- ---------------  =  ------------------------------------------------------  #
+
+  function  shoMsg( aSection ) {                                                        // .(50404.01.1 RAM Write shoMsg Beg)
+       var  aSections =  `,${global.aPrtSections.toLowerCase()},`
+        if (aSections == ',all,') { return true }
+    return  aSections.match( `,${aSection.toLowerCase()},` ) ? 1 : 0
+            } // eof ask4Text                                                           // .(50404.01.1 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
 async  function  ask4Text( aPrompt ) {                                                  // .(50330.03.2 RAM Write ask4Text Beg)
@@ -224,7 +234,7 @@ function  fmtResults(results) {
             } // eof getServerInfo                                                      // .(50330.04.8 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
-  function  savStats( stats, parms ) {                                                  // .(50331.03.1 RAM Write savStats)
+  function  savStats( stats, parms, aExt ) {                                            // .(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.6)
        var  pStats  = {};
             pStats.RespId           =  parms.resp_id.slice(0,11)                        // .(50331.05c.2).(50331.05.4)
@@ -247,11 +257,15 @@ function  fmtResults(results) {
             pStats.Server           =  aServer
             pStats.ResponseFile     =  `file:///${parms.logfile}`                       // .(50331.05c.3).(50331.05.5)
        var  mStats                  =  Object.entries( pStats ).map( pStat => pStat[1] )
-       var  aCSV                    = `"${ mStats.join( '","' ) }"`
+//     var  aCSV                    = `"${ mStats.join( '","' ) }"`                     //#.(50403.04.2 Beg)
 //     var  aFlds                   = `Model,URL,Docs,Query,Context,Duration,PromptEvalCount,EvalCount,EvalDuration,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `Model,Context,Temperature,Duration,EvalTokens,URL,Docs,Query,EvalDuration,PromptEvalTokens,TokensPerSecond,Server,CPU_GPU_RAM`
-       var  aFlds                   = `RespId,Model,Context,Temperature,Duration,"Eval Tokens",Query,"Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search",Docs,URL,CPU_GPU,RAM,OS,Computer,Server,"Response File"`
-   return [ pStats, [ aFlds, aCSV ] ]
+//     var  aFlds                   = `RespId,Model,Context,Temperature,Duration,"Eval Tokens",Query,"Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search",Docs,URL,CPU_GPU,RAM,OS,Computer,Server,"Response File"`
+       var  mFlds                   = [ "RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]
+       var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'   
+       var  aFlds                   =  mFlds.join( aDelim )
+       var  aRow                    =  aQQ + mStats.join( aDelim ) + aQQ                // .(50403.04.2 End)
+   return [ pStats, [ aFlds, aRow ] ]                                                   // .(50403.04.3 RAM Was aCSV)
             }                                                                           // .(50331.03.1)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 /**
@@ -336,8 +350,9 @@ export default {  // Export as default object with named functions
   fmtResults,
   fmtStats,
   savStats,                                               // .(50331.03.3)
-  getVars,                                                // .(50331.04.2)
+//getVars,                                                //#.(50403.02.5).(50331.04.2)
   showHiddenChars,
   fmtStream,
+  shoMsg                                                  // .(50404.01.x)
 //createUserInput                                         //#.(50330.03.5)
   };

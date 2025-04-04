@@ -30,6 +30,7 @@
 # async ion  function createDirectoryIfNotExists( dirPath ) {
 #       ion  lastFile( aPath, reFind ) {
 #       ion  setEnv( aVar, aVar, aDir ) {
+#       ion  getEnvVars( aDir ) {
 #       ion  getDir(  pattern, aDir ) {
 #       ion  getFile( pattern ) {
 #       ion  firstFile( aPath, reFind ) {
@@ -54,6 +55,7 @@
 #.(50209.01c  3/17/25 RAM  6:36p| Format code 
 #.(50331.02   3/31/25 RAM 10:00a| Save log to docs  
 #.(50331.08   3/31/25 RAM  8:00p| Write and use setEnv
+#.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -93,7 +95,7 @@
         if (bDebug) { debugger }                                                                            // .(50206.01.2)
             setVars( bDebug )                                                                               // .(50206.01.3).(50125.01.16 RAM Run here too)
         if (bQuiet == 0) {                                                                                  // .(50301.01.2)
-            console.log( `\n -- AIC90[  92]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: N/A, bIsCalled: N/A` )                                          // .(50202.03.12)
+            console.log( `\n -- AIC90[  98]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: N/A, bIsCalled: N/A` )                                          // .(50202.03.12)
             }
 //          console.log(   `  - AI202[  88]  process.argv[ '${ process.argv.slice(2).join("', '") }' ]` ); 
 /* 
@@ -115,6 +117,7 @@
 */ 
   function  sayMsg( aMsg, nSay, bCR ) {                                                 // .(50107.02.3 RAM Add sayMsg Beg)
 //      if (bCR) { console.log("") }                                                                        //#.(50121.03.5).(50121.03b.5)
+        if (global.bQuiet == 2 ) { return }                                             // .(50404.01.x RAM Make sure it gets turned back to 1 or 0)                    
         if (aMsg == "" || aMsg.slice(0,1) == "\n" ){ say( aMsg ); return }              // .(50218.02.5 RAM Just say it) 
             nSay    =  nSay > 0 ? nSay : -[0,3,2,1,4][-nSay]                                                // .(50209.01c.1 RAM -e,-c,-b,-g) 
        var  nDebug_ = ((typeof(global.bDebug) != 'undefined') ? global.bDebug : bDebug ) * 1                // .(50209.01.6 RAM Add * 1 here).(50125.01.7 RAM bDebug is local to this script) 
@@ -135,6 +138,7 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #  
 
   function  say( aChr, aMsg, nLog2 ) {                                                  // .(50209.01b.7) 
+//      if (aMsg == 1 || aMsg == 2 || aMsg == 3) { nLog2 = aMsg, aMsg == '' }           // .(50404.02.x RAM ??)
             aMsg  =  aMsg ? `  ${aChr} ${aMsg}` : aChr; 
        var  nLog_ = ((typeof(global.nLog) != 'undefined') ? global.nLog : nLog ) * 1    // .(50218.01.6 RAM Add File logging Beg)
             nLog_ =  nLog2 ? nLog2 : nLog_
@@ -172,7 +176,7 @@
             fsync.writeFileSync( global.aLogFile, '' ); 
 
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
-            console.log( `  - AIC90[ 171]  Setting logfile to: '${global.aLogFile}` )
+            console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.x RAM Flag for later)
             }  }                                                                        // .(50301.02.2)
          }; // eof saySet                                                               // .(50218.01.7 End)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -187,7 +191,7 @@
 
   function  usrMsg( aMsg, nOpt, bCR ) {                                                 // .(50125.01.1 RAM Write usrMsg)
        var  bQuiet_   =  global.bQuiet == 1; if (typeof( bQuiet_ ) == 'undefined') { bQuiet_ = bQuiet }
-        if (bQuiet_ ) {  return }
+        if (bQuiet_ || nOpt == 0) { say( aMsg, '', 2 ); return }                      // .(50404.01.x RAM Print to file is specified)
         if (bCR)      {  say( "" ) }                                                    // .(50218.01.8 RAM Was: console.log) 
                          say( aMsg );                                                   // .(50218.01.9) 
         if (nOpt == 2) { exit_wCR( ) }                                                  // .(50129.02.2 RAM Was process.exit())
@@ -529,7 +533,17 @@ createDirectoryIfNotExists(dirPath).then( result => {
             mMyEnvs[ iEnv ] = `  ${aEnvVar}="${aVal}"`            
             process.env[    aEnvVar ] = aVal
                             writeFileSync( aEnvFile , mMyEnvs.join( "\n" ) )                     
-            }                                                                           // .(50331.08.1 End)
+            } // eof setEnv                                                             // .(50331.08.1 End)
+// --------------------------------------------------------------
+ 
+  function  getEnvVars( aDir ) {                                                        // .(50403.02.1).(50331.04.1 RAM Write getEnvVars Beg)
+        if (checkFileSync( path.join( aDir, '.env') ).exists ) {                        // .(50403.02.2 RAM Check if .env file exists)
+            dotenv.config( { path: path.join( aDir, '.env'), override: true } );
+    return  process.env
+        } else {                                                                        // .(50403.02.3 Beg)
+            sayMsg( `AIC90[ 542]  There is no .env file in ${aDir}.` )
+    return { } }                                                                        // .(50403.02.3 End)
+            } // eof gegtEnvVars                                                        // .(50403.02.1).(50331.04.1 End)
 // --------------------------------------------------------------
 
   function  firstFile( aPath, reFind ) {                                                // .(40827.05.1 RAM Write firstFile)
@@ -863,15 +877,15 @@ createDirectoryIfNotExists(dirPath).then( result => {
        var  pFRT =                                                                                          // .(40819.03.3 RAM Use for both types of exports)
          {  setPaths, firstFile, lastFile, listFiles, getAPI: fetchFromOpenAI
          ,  getDate,  getFileDate, join: path.join,  path: FRT_path,  _TS                                   // .(50122.06.2).(40829.03.4).(40827.05.3 RAM Add)
-         ,  checkFileSync,  checkFileASync,  checkFile:  checkFileASync
-         ,  writeFileSync,  writeFileASync,  writeFile:  writeFileASync
-         ,  readFileSync,   readFileASync,   readFile:   readFileASync
-         ,  deleteDirSync,  deleteDirASync,  deleteDir:  deleteDirSync                                      // .(50227.01.1 RAM Was: mak fns).(50208.06.8)
-         ,  makDirSync,     makDirASync,     makDir:     createDirectoryIfNotExists                         // .(50208.06.8)
-         ,  deleteFileSync, deleteFileASync, deleteFile: deleteFileSync                                     // .(40801.10.3)
-         ,  appendFileSync, appendFileASync, appendFile: appendFileSync                                     // .(50210.02b.3)
-         ,  copyFileSync,   copyFileASync,   copyFile:   copyFileSync                                       // .(50210.02.3)
-         ,  setEnv, getDir, getFile, setVars, isCalled, isNotCalled                                         // .(50331.08.2).(50201.04.21 RAM Added isNotCalled).(50125.01.9).(50107.03.3)
+         ,  checkFileSync,  checkFileASync,   checkFile:  checkFileASync
+         ,  writeFileSync,  writeFileASync,   writeFile:  writeFileASync
+         ,  readFileSync,   readFileASync,    readFile:   readFileASync
+         ,  deleteDirSync,  deleteDirASync,   deleteDir:  deleteDirSync                                     // .(50227.01.1 RAM Was: mak fns).(50208.06.8)
+         ,  makDirSync,     makDirASync,      makDir:     createDirectoryIfNotExists                        // .(50208.06.8)
+         ,  deleteFileSync, deleteFileASync,  deleteFile: deleteFileSync                                    // .(40801.10.3)
+         ,  appendFileSync, appendFileASync,  appendFile: appendFileSync                                    // .(50210.02b.3)
+         ,  copyFileSync,   copyFileASync,    copyFile:   copyFileSync                                      // .(50210.02.3)
+         ,  setEnv, getDir, getFile, setVars, getEnvVars, isCalled, isNotCalled                             // .(50403.02.4).(50331.08.2).(50201.04.21 RAM Added isNotCalled).(50125.01.9).(50107.03.3)
          ,  __basedir:  __basedir, __dirname: __dirname,  AppName: aAppName                                 // .(40827.06.x ??).(40819.10.x RAM Add them to FRT)
          ,  __basedir2: __basedir2, exit_wCR                                                                // .(50129.02.3).(50126.03.23)
          ,  bDoit: bDoit, bDebug: bDebug, bQuiet: bQuiet, bForce: bForce                                    // .(50215.01.8 RAM Set bForce)

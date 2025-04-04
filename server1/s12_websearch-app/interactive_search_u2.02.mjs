@@ -47,7 +47,7 @@
 #.(50402.11   4/02/25 RAM  9:15a| Save log files to docs a12 from server1
 #.(50402.14   4/02/25 RAM  9:55a| Set aDocsApp with 'a' prefix
 #.(50403.01   4/03/25 RAM  1:20p| Add Ollama Options parameter docs 
-#.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
+#.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs  
 #.(50403.03   4/03/25 RAM  2:35p| Implement run count loop
 #.(50403.04   4/03/25 RAM  3:05p| Save Stats to .tab file
 
