@@ -85,9 +85,9 @@ function help() {
     echo ""
     fi
     aIt="it"; if [ "${aApp}" != "" ]; then aIt="'${aApp}'"; fi
-    echo "  Use ${aIt} with any of the following PM2 commands ($aVer}):"                # .(50303.02.2 )
+    echo "  Use ${aIt} with any of the following PM2 commands ($aVer}):"                # .(50303.02.2)
     echo "    status            Show all running PM2 apps"
-    echo "    list apps         List all AIDocs Apps"                                   # .(50303.01.1 )
+    echo "    list apps         List all AIDocs Apps"                                   # .(50303.01.1)
     echo "    start all         Start all Apps in ${aRepo}"
     echo "    {App} start       Start an {App} in ${aRepo}"
     echo "    {App} stop        Suspend a running {App}"
