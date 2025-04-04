@@ -50,6 +50,7 @@
 #.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs  
 #.(50403.03   4/03/25 RAM  2:35p| Implement run count loop  
 #.(50403.04   4/03/25 RAM  3:05p| Save Stats to .tab file 
+#.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg 
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -77,7 +78,7 @@
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()
        var  aTS              =  FRT._TS
-       var  shoMsg           =  MWT.shoMsg                                              // .(50404.01.2)
+       var  shoMsg           =  MWT.shoMsg                                              // .(50404.01.27)
 
       var __basedir          =  FRT.__basedir
        var  aAppPath         =  FRT.__dirname
@@ -132,7 +133,7 @@
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
        var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ), aSvr = aServer.slice(0,5)         // .(50331.04.4 Beg)
        var  bPrtSources      =  pVars.SHOW_SOURCES  ||    0          // Whether to print source content
-     global.aPrtSections     =  pVars.SHOW_SECTIONS || 'all'                                                // .(50404.01.3)
+     global.aPrtSections     =  pVars.SHOW_SECTIONS || 'all'                                                // .(50404.01.28)
        var  nWdt             =  pVars.WRAP_WIDTH    ||  145
        var  nLog             =  pVars.TO_SCREEN_OR_FILE || 1                                                // .(50331.04.4)
 
@@ -150,7 +151,7 @@
             nRunCount        =  1                                                                           // .(50403.03.2)
             aModel           =  aModel1
             nCTX_Size        =  nCTX_Size1
-//   global.aPrtSections     = 'all'                                                                        // .(50404.01.3)
+//   global.aPrtSections     = 'all'                                                                        // .(50404.01.29)
             usrMsg(` -- C1201[ 148]* bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***` )          // .(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
 
@@ -357,8 +358,8 @@ async function answerQuery( query, texts, document, webSearch ) {               
             usrMsg( "\n----------------------------------------------------------------------------------------------\n"   , shoMsg('Stats')   ) // .(50404.01.20)
             usrMsg(             MWT.fmtStats(   pStats, pParms ).join("\n")                                                , shoMsg('Stats')   ) // .(50404.01.21)
             usrMsg( "\n---------------------------------------------------------------------------------------------- "    , shoMsg('Stats')   ) // .(50404.01.22)
-       var  nSecs            = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50404.01.x)
-            usrMsg(     `    > Ran Model: ${          pParms.model} in ${nSecs} secs (${aRunStr})`                         , shoMsg('RunId')   ) // .(50404.01.16).(50403.03.7)
+       var  nSecs            = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50404.01.23)
+            usrMsg(     `    > Ran Model: ${          pParms.model} in ${nSecs} secs (${aRunStr})`                         , shoMsg('RunId')   ) // .(50404.01.24).(50403.03.7)
 
    var [ pStats_JSON, mCSV ] =  MWT.savStats(   pStats, pParms, aStatsFmt )                                 // .(50403.04.6 RAM Add aStatsFmt)
        var  bNotExists       =  FRT.checkFileSync( aStatsFile ).exists == false

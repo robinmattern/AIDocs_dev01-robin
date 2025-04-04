@@ -41,7 +41,7 @@
 #.(50402.03   4/01/25 RAM  7:20a| Fix "Tokens Per Second" CSV heaading
 #.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
 #.(50403.04   4/03/25 RAM  2:45p| Save Stats to .tab file  
-#.(50404.01   4/01/25 RAM 12:30p| Write and use shoMsg 
+#.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg 
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -128,11 +128,11 @@ import { ftruncate } from 'fs';
             } // eof wrap                                                               // .(50330.05.1 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
-  function  shoMsg( aSection ) {                                                        // .(50404.01.1 RAM Write shoMsg Beg)
+  function  shoMsg( aSection ) {                                                        // .(50404.01.25 RAM Write shoMsg Beg)
        var  aSections =  `,${global.aPrtSections.toLowerCase()},`
         if (aSections == ',all,') { return true }
     return  aSections.match( `,${aSection.toLowerCase()},` ) ? 1 : 0
-            } // eof ask4Text                                                           // .(50404.01.1 End)
+            } // eof ask4Text                                                           // .(50404.01.25 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
 async  function  ask4Text( aPrompt ) {                                                  // .(50330.03.2 RAM Write ask4Text Beg)
@@ -353,6 +353,6 @@ export default {  // Export as default object with named functions
 //getVars,                                                //#.(50403.02.5).(50331.04.2)
   showHiddenChars,
   fmtStream,
-  shoMsg                                                  // .(50404.01.x)
+  shoMsg                                                  // .(50404.01.26)
 //createUserInput                                         //#.(50330.03.5)
   };
