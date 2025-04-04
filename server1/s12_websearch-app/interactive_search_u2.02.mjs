@@ -51,6 +51,7 @@
 #.(50403.03   4/03/25 RAM  2:35p| Implement run count loop  
 #.(50403.04   4/03/25 RAM  3:05p| Save Stats to .tab file 
 #.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg 
+#.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet 
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
