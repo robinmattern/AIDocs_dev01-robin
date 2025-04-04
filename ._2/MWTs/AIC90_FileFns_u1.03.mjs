@@ -139,7 +139,7 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #  
 
   function  say( aChr, aMsg, nLog2 ) {                                                  // .(50209.01b.7) 
-//      if (aMsg == 1 || aMsg == 2 || aMsg == 3) { nLog2 = aMsg, aMsg == '' }           // .(50404.02.x RAM ??)
+//      if (aMsg == 1 || aMsg == 2 || aMsg == 3) { nLog2 = aMsg, aMsg == '' }           //#.(50404.02.2 RAM ??)
             aMsg  =  aMsg ? `  ${aChr} ${aMsg}` : aChr; 
        var  nLog_ = ((typeof(global.nLog) != 'undefined') ? global.nLog : nLog ) * 1    // .(50218.01.6 RAM Add File logging Beg)
             nLog_ =  nLog2 ? nLog2 : nLog_
@@ -177,7 +177,7 @@
             fsync.writeFileSync( global.aLogFile, '' ); 
 
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
-            console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.x RAM Flag for later)
+            console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
             }  }                                                                        // .(50301.02.2)
          }; // eof saySet                                                               // .(50218.01.7 End)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -192,7 +192,7 @@
 
   function  usrMsg( aMsg, nOpt, bCR ) {                                                 // .(50125.01.1 RAM Write usrMsg)
        var  bQuiet_   =  global.bQuiet == 1; if (typeof( bQuiet_ ) == 'undefined') { bQuiet_ = bQuiet }
-        if (bQuiet_ || nOpt == 0) { say( aMsg, '', 2 ); return }                        // .(50404.02.2 RAM Print to file is specified)
+        if (bQuiet_ || nOpt == 0) { say( aMsg, '', 2 ); return }                        // .(50404.02.4 RAM Print to file is specified)
         if (bCR)      {  say( "" ) }                                                    // .(50218.01.8 RAM Was: console.log) 
                          say( aMsg );                                                   // .(50218.01.9) 
         if (nOpt == 2) { exit_wCR( ) }                                                  // .(50129.02.2 RAM Was process.exit())

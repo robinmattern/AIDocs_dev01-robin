@@ -4,6 +4,7 @@
 ##RFILE    +====================+=======+===============+======+=================+
 ##FD   MWT01_MattFns_u1.03.mjs  |      0|  3/29/25  7:00|     0| p1.03`50329.0700
 ##FD   MWT01_MattFns_u1.03.mjs  |  18159|  4/02/25  7:20|   343| p1.03`50402.0720
+##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| p1.03`50404.1230
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the utility functions for working with Matt
@@ -40,8 +41,9 @@
 #.(50331.05c  3/31/25 RAM 11:00p| Fix Resp_Id for Stats and CSV
 #.(50402.03   4/01/25 RAM  7:20a| Fix "Tokens Per Second" CSV heaading
 #.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
-#.(50403.04   4/03/25 RAM  2:45p| Save Stats to .tab file  
-#.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg 
+#.(50403.04   4/03/25 RAM  2:45p| Save Stats to .tab file
+#.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg
+#.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -197,7 +199,7 @@ function  fmtResults(results) {
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.1)
        var  statsLines = [];
             statsLines.push(`Ollama Run Statistics:`);
-            statsLines.push(`--------------------------------------------`);
+            statsLines.push(`---------------------------------------------------------`);
             statsLines.push(`    Server: ${aServer}` )                                  // .(50330.04.6)
             statsLines.push(`    Operating System:  ${ aOS }` )                         // .(50330.04b.2)
             statsLines.push(`    CPU/GPU/RAM:       ${ aCPU_GPU }, ${aRAM}` )           // .(50330.04b.3).(50330.04.7)
@@ -233,23 +235,23 @@ function  fmtResults(results) {
 //          }
             } // eof getServerInfo                                                      // .(50330.04.8 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
-
+ 
   function  savStats( stats, parms, aExt ) {                                            // .(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.6)
        var  pStats  = {};
-            pStats.RespId           =  parms.resp_id.slice(0,11)                        // .(50331.05c.2).(50331.05.4)
-            pStats.ModelName        =  parms.model
-            pStats.ContextSize      =  parms.options.num_ctx
-            pStats.Temperature      =  parms.temp
-            pStats.Duration         = (stats.total_duration / 1e9).toFixed(2)
-            pStats.EvalTokens       =  stats.eval_count
-            pStats.Query            =  stats.query
-            pStats.EvalDuration     = (stats.eval_duration / 1e9).toFixed(2)
-            pStats.PromptEvalTokens =  stats.prompt_eval_count
-            pStats.TokensPerSecond  = (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)
-            pStats.WebSearch        =  stats.websearch                                  // .(50330.04c.4)
-            pStats.Docs             =  stats.docs
-            pStats.URL              =  stats.url
+            pStats.RespId           =     parms.resp_id.slice( 0, 11 )                  // .(50331.05c.2).(50331.05.4)
+            pStats.ModelName        =` ${(parms.model.padEnd( 25 ) )}`                  // .(50404.05.01 RAM Make model width 25)
+            pStats.ContextSize      = `${ parms.options.num_ctx                 }`.padStart(5)                        // .(50404.05.02)
+            pStats.Temperature      = `${ parms.temp}`.padStart(4)                                                    // .(50404.05.03)
+            pStats.Duration         = `${(stats.total_duration / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.04)
+            pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
+            pStats.Query            =     stats.query
+            pStats.EvalDuration     = `${(stats.eval_duration  / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.06)
+            pStats.PromptEvalTokens = `${ stats.prompt_eval_count               }`.padStart(6)                        // .(50404.05.07)
+            pStats.TokensPerSecond  = `${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)}`.padStart(6)    // .(50404.05.08)
+            pStats.WebSearch        =     stats.websearch                               // .(50330.04c.4)
+            pStats.Docs             =     stats.docs
+            pStats.URL              =     stats.url
             pStats.CPU_GPU          =  aCPU_GPU                                         // .(50330.04b.7 Beg)
             pStats.RAM              =  aRAM.replace( / *GB/, '' )
             pStats.OS               =  aOS
@@ -262,7 +264,7 @@ function  fmtResults(results) {
 //     var  aFlds                   = `Model,Context,Temperature,Duration,EvalTokens,URL,Docs,Query,EvalDuration,PromptEvalTokens,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `RespId,Model,Context,Temperature,Duration,"Eval Tokens",Query,"Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search",Docs,URL,CPU_GPU,RAM,OS,Computer,Server,"Response File"`
        var  mFlds                   = [ "RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]
-       var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'   
+       var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'
        var  aFlds                   =  mFlds.join( aDelim )
        var  aRow                    =  aQQ + mStats.join( aDelim ) + aQQ                // .(50403.04.2 End)
    return [ pStats, [ aFlds, aRow ] ]                                                   // .(50403.04.3 RAM Was aCSV)
