@@ -56,6 +56,7 @@
 #.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
 #.(50404.06   4/04/25 RAM  5:55p| Add Subfolders for Response files  
 #.(50404.05   4/04/25 RAM  9:45p| Re-ajust line widths
+#.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
 
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -161,7 +162,7 @@
             nCTX_Size        =  nCTX_Size1
             pVars.SESSION_ID = 't009'
             pVars.NEXT_POST  = '04'                                 
-     global.aPrtSections     = 'runid'                                                                      // .(50404.01.29)
+     global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.29)
             usrMsg(`\n -- S1201[ 163]* bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***` )        // .(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
 
@@ -330,11 +331,11 @@ async function getNewsUrls( query ) {
  */
 async function answerQuery( query, texts, document, webSearch ) {                                           // .(50330.04c.2).(50331.01.2)
         if (texts.length === 0) {
-            usrMsg( "\n* No text content available to summarize.");
-    return;
+    return  usrMsg( "\n* No text content available to summarize.");                                         // .(50404.07.2 RAM Return -1 if error) 
             }
-            usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.9))
-            usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.10))
+        var aRunStr          = "Run Id: " + pParms.runid.replace( ',', ", No: " )   // .(504              // .(50404.01.9)
+            usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.9)
+            usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.10)
 
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
         if (bPrtSources == 1) {
@@ -350,7 +351,6 @@ async function answerQuery( query, texts, document, webSearch ) {               
             pParms.prompt    =  pParms.prompt.replace( /{Query}/, query )
             pParms.prompt    =  pParms.prompt.replace( /{Text}/,  texts.join("\n\n" ))
 
-        var aRunStr          = "Run Id: " + pParms.runid.replace( ',', ", No: " )       // .(50403.03.6)
 //          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) // .(50404.01.16).(50403.03.7)
             usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.17).(50403.03.8)
             usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.18))
@@ -379,7 +379,7 @@ async function answerQuery( query, texts, document, webSearch ) {               
        var  bNotExists       =  FRT.checkFileSync( aStatsFile ).exists == false
         if (bNotExists) {       FRT.writeFile(  aStatsFile, `${mRecs[0]}\n` ) }
                                 FRT.appendFile( aStatsFile, `${mRecs[1]}\n` )           // .(50331.03.4 RAM Use it End)
-        } catch (error) {
+        } catch( error ) {
             console.error( "Error in answerQuery:", error);
             }
          };

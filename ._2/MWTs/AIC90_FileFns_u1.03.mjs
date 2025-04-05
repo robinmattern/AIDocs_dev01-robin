@@ -58,6 +58,7 @@
 #.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
 #.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet 
 #.(50404.06   4/04/25 RAM  6:30p| Add Date Fmt YY.MMM.MM.DD
+#.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -198,6 +199,7 @@
         if (bCR)      {  say( "" ) }                                                    // .(50218.01.8 RAM Was: console.log) 
                          say( aMsg );                                                   // .(50218.01.9) 
         if (nOpt == 2) { exit_wCR( ) }                                                  // .(50129.02.2 RAM Was process.exit())
+          else { return aMsg.match( /^\*/) ? -1 : 1 }                                   // .(50404.07.1 RAM Return 1 if usrNsg is error)
             } // eof usrMsg                                                             // .(50125.01.1 End)
   //   ---------------------  =  --------------------------------------------------------
 
