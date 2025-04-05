@@ -68,10 +68,10 @@ import { ftruncate } from 'fs';
 
 //   -- --- ---------------  =  ------------------------------------------------------  #
 /*
-  function  getVars( aAppDir ) {                                                        //#.(50403.02.1).(50331.04.1 RAM Write getVars Beg)
-            dotenv.config( { path: join( aAppDir, '.env'), override: true } );
-    return  process.env
-            }  */                                                                       //#.(50403.02.1).(50331.04.1 End)
+//function  getEnvVars( aAppDir ) {                                                     //#.(50403.02.5 RAM Move to FileFns).(50331.04.1 RAM Write getVars Beg)
+//          dotenv.config( { path: join( aAppDir, '.env'), override: true } );
+//  return  process.env
+//          }  */                                                                       //#.(50403.02.5).(50331.04.1 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
   function  wrap( text, width, indent1,  indent2 ) {                                    // .(50330.06a.1).(50330.06.1 RAM Write wrap Beg)
@@ -131,9 +131,10 @@ import { ftruncate } from 'fs';
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
   function  shoMsg( aSection ) {                                                        // .(50404.01.25 RAM Write shoMsg Beg)
-       var  aSections =  `,${global.aPrtSections.toLowerCase()},`
-        if (aSections == ',all,') { return true }
-    return  aSections.match( `,${aSection.toLowerCase()},` ) ? 1 : 0
+       var  aSections  = `,${global.aPrtSections.toLowerCase()},`
+            aSection   = `,${aSection.toLowerCase()},`
+        if (aSections == ',all,' || ',all,' == aSection) { return true }
+    return  aSections.match( aSection ) ? 1 : 0
             } // eof ask4Text                                                           // .(50404.01.25 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
@@ -352,7 +353,7 @@ export default {  // Export as default object with named functions
   fmtResults,
   fmtStats,
   savStats,                                               // .(50331.03.3)
-//getVars,                                                //#.(50403.02.5).(50331.04.2)
+//getEnvVars,                                             //#.(50403.02.6).(50331.04.2)
   showHiddenChars,
   fmtStream,
   shoMsg                                                  // .(50404.01.26)

@@ -549,7 +549,7 @@ createDirectoryIfNotExists(dirPath).then( result => {
         } else {                                                                        // .(50403.02.3 Beg)
             sayMsg( `AIC90[ 542]  There is no .env file in ${aDir}.` )
     return { } }                                                                        // .(50403.02.3 End)
-            } // eof gegtEnvVars                                                        // .(50403.02.1).(50331.04.1 End)
+            } // eof getEnvVars                                                         // .(50403.02.1).(50331.04.1 End)
 // --------------------------------------------------------------
 
   function  firstFile( aPath, reFind ) {                                                // .(40827.05.1 RAM Write firstFile)

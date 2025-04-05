@@ -22,6 +22,7 @@
 #            MIT License: http://www.opensource.org/licenses/mit-license.php
 ##FNS      .--------------------+----------------------------------------------+
 #                               |
+#            setDebugVars()  
 # async ion  main( ) {
 # async ion  getNewsUrls( query ) {
 # async ion  getCleanedText( urls ) {
@@ -58,6 +59,9 @@
 #.(50404.05   4/04/25 RAM  9:45p| Re-ajust line widths
 #.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
 #.(50404.08   4/04/25 RAM 10:30p| Disaplay nicer error messages
+#.(50405.01   4/05/25 RAM 10:40a| Change name of Stats file 
+#.(50405.02   4/05/25 RAM 11:15a| Add Session Title 
+#.(50403.03a  4/05/25 RAM 12:55p| Add FRT.exit_wCR to end of run loop
 
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -74,44 +78,18 @@
 
 // Import modules using dynamic imports
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-       var  nVer             = "u2.02"                                                  // .(50402.02.1 RAM Add Version)
+       var  aVer             = "u2.02"                                                  // .(50402.02.1 RAM Add Version)
 
             LIBs.MWT         = "../../._2/MWTs"
 //     var  FRT              =( await import( `${LIBs.AIC}/AIC90_FileFns_u1.03.mjs`) ).default
        var  FRT              =( await import( `${LIBs.MWT}/AIC90_FileFns_u1.03.mjs` ) ).default
        var  MWT              =( await import( `${LIBs.MWT}/MWT01_MattFns_u1.03.mjs` ) ).default
 
-// Setup environment variables and configuration
-// --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
-      var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()
-       var  aTS              =  FRT._TS
-       var  shoMsg           =  MWT.shoMsg                                              // .(50404.01.27)
-
-      var __basedir          =  FRT.__basedir
-       var  aAppPath         =  FRT.__dirname
-       var  aAppDir          =  aAppPath.split(/[\\\/]/).slice(-1)[0]                   // Was splice
-       var  aAppName         = 'a' + aAppDir.slice(1)                                   // .(50404.06.3 RAM Was aDocsDir).(50402.14.1 RAM Apps in docs have 'a' prefix)
-       var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2) }/{TNum}`                // .(50404.06.4 RAM Redefine aDocsDir)
-
-     global.aAppDir          =  aAppDir
-   global.__basedir2         =  FRT.path( aAppPath )
-            FRT.__basedir2   =  FRT.path( aAppPath )
-       var  bIsInVSCode      =  FRT.isNotCalled( import.meta.url )                      // .(50331.07.1)
-
-// Display configuration if verbose output is enabled
+// Configure Debug Variables
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-            bQuiet           =  0                                                       // .(50404.02.5)
-        if (bQuiet == 2) {
-            usrMsg(`\n -- S1201[ 102]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}` )
-            }
-            global.bQuiet    =  0                                                       // .(50404.02.6)
+  function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
+       var  bDebug           =  1                   // Debug flag
 
-// Script configuration
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
-
-       var  bDebug           =  0                   // Debug flag
-
-// Configure AI model
        var  aModel1          = 'llama'              // 4.7  GB on rm231
        var  aModel1          = 'llama3.1'           // 4.7  GB on rm231
        var  aModel1          = 'gemma2:2b'          // 1.6  GB on rm231
@@ -129,6 +107,44 @@
        var  nCTX_Size1       =  8000
 //     var  nCTX_Size1       =  16000
 
+        if (bDebug) {
+            nRunCount        =  1                                                                           // .(50403.03.1)
+            aModel           =  aModel1
+            nCTX_Size        =  nCTX_Size1
+            pVars.SESSION_ID = 't009'
+            pVars.NEXT_POST  = '05'                                 
+     global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.29)
+            usrMsg(`\n -- S1201[ 117]* bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***` )        // .(50402.02.2)
+            }                                                                                               // .(50331.04.3 End)
+         }; // eof setDebug Vars                                                                            // .(50405.03.1 End)
+//     ---  --------  =  --  =  ------------------------------------------------------  #  
+
+// Setup environment variables and configuration
+// --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
+      var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()
+       var  aTS              =  FRT._TS
+       var  shoMsg           =  MWT.shoMsg                                              // .(50404.01.27)
+
+      var __basedir          =  FRT.__basedir
+       var  aAppPath         =  FRT.__dirname
+       var  aAppDir          =  aAppPath.split(/[\\\/]/).slice(-1)[0]                   // Was splice
+       var  aAppName         = 'a' + aAppDir.slice(1)                                   // .(50404.06.3 RAM Was aDocsDir).(50402.14.1 RAM Apps in docs have 'a' prefix)
+//     var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2) }/{TName}`               //#.(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
+       var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2).slice(0,9) }/{SName}`    // .(50405.02.2 RAM Remove Day).(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
+
+     global.aAppDir          =  aAppDir
+   global.__basedir2         =  FRT.path( aAppPath )
+            FRT.__basedir2   =  FRT.path( aAppPath )
+       var  bIsInVSCode      =  FRT.isNotCalled( import.meta.url )                      // .(50331.07.1)
+
+// Display configuration if verbose output is enabled
+// --  ---  --------  =  --  =  ------------------------------------------------------  #
+            bQuiet           =  0                                                       // .(50404.02.5)
+        if (bQuiet == 2) {
+            usrMsg(`\n -- S1201[ 102]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}` )
+            }
+            global.bQuiet    =  0                                                       // .(50404.02.6)
+
 // Process .ENV Variables and command line arguments
        var  pVars            =  FRT.getEnvVars( FRT.__dirname )                                             // .(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
        if (!pVars.PLATFORM) {                                                                               // .(50403.02.7 Beg)
@@ -138,9 +154,10 @@
        var  aSearch          =  pVars.SEARCH      || "Lexington Va"
        var  aAIPrompt        =  pVars.QUERY       || "What are the city's restaurants?"
        var  aSysPrompt       =  pVars.SYS_PROMPT  || "Please use the information in the following text"     // .(50331.09.1)
-       var  nRunCount        =  pVars.RUN_COUNT   ||  1                                                     // .(50403.03.1)
+       var  nRunCount        =  pVars.RUN_COUNT   ||  1                                                     // .(50403.03.2)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
-       var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ), aSvr = aServer.slice(0,5)         // .(50331.04.4 Beg)
+       var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ) 
+       var  aSvr             =  pVars.THE_PB_NAME    ?  pVars.THE_PC_NAME : aServer.slice(0,5)              // .(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg)
        var  bPrtSources      =  pVars.SHOW_SOURCES  ||    0          // Whether to print source content
      global.aPrtSections     =  pVars.SHOW_SECTIONS || 'all'                                                // .(50404.01.28)
        var  nWdt             = (pVars.WRAP_WIDTH    ||  145 ) * 1
@@ -157,31 +174,29 @@
        var  nCTX_Size        = (mArgs[1] ? mArgs[1] : nCTX_Size) * 1
 
                                 usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.9) 
-       if (bDebug) {
-            nRunCount        =  3                                                                           // .(50403.03.2)
-            aModel           =  aModel1
-            nCTX_Size        =  nCTX_Size1
-            pVars.SESSION_ID = 't009'
-            pVars.NEXT_POST  = '04'                                 
-     global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.29)
-            usrMsg(`\n -- S1201[ 163]* bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***` )        // .(50402.02.2)
-            }                                                                                               // .(50331.04.3 End)
+                                setDebugVars()                                                              // .(50405.03.2 RAM Set them here)
 
 // Setup logfile
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
        for (let iRun = 0; iRun < nRunCount; iRun++) {                                                       // .(50403.03.3)
 
+       var  aTitle           = `${pVars.SESSION_TITLE}` || ''                                               // .(50405.02.2)
+       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50405.02.3)
        var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              // .(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
        var  aNextPost        = `${ 1 + pVars.NEXT_POST * 1 }`.padStart( 2, "0" )                            // .(50331.08.4 RAM Set Next_Post)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname)                          // .(50331.08.5)
-            aDocsDir         =  aDocsDir.replace( /{TNum}/, `_${pVars.SESSION_ID}` )                        // .(50404.06.6)
+//          aDocsDir         =  aDocsDir.replace( /{TNum}/, `_${pVars.SESSION_ID}` )                        //#.(50404.06.6).(50405.02.4)
+            aDocsDir         =  aDocsDir.replace( /{SName}/, `_${aSessionName}` )                           // .(50405.02.4).(50404.06.6)
 //     var  aLogFile         =      `./${aAppDir}/${aAppDir.slice(0,3)}_t001.01.4.${aTS}_Response.txt`      //#.(50331.02.5)
        var  aLogFile         = `./docs/${aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                         // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
+
+       var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
-       var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       // .(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
-       var  aStatsFile       =  FRT.join( __basedir, `./docs/${aDocsDir}/${aStatsFile}` )                   // .(50402.14.5).(50331.04b.2)
+//     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1)
+       var  aStatsFile       = `${aDocsDir.slice(0,3)}-${aSvr}_v${aVer.slice(1)}.${aStatsFmt}`              // .(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
+       var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}${aStatsFile}` )                        // .(50402.14.5).(50331.04b.2)
 
 // Configure prompt and Ollama parameters
 //     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"
@@ -204,14 +219,15 @@
 //                            , stop:           <string> <string>    // Set the stop parameters             // .(50403.01.1 End)
                                 }
              ,  runid        : `${aRunId},${iRun+1} of ${nRunCount}`                                        // .(50403.03.4)
-                }
+                } // eoo pParms 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
  
                                 usrMsg(  "----------------".padEnd( nWdt - 25, "-" ), shoMsg( "all" ) )     // .(50404.05.10)
 
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
-                                }                                                       // .(50403.03.5)
+                                } // eol Run loop                                       // .(50403.03.5)
+                                FRT.exit_wCR()                                          // .(50403.03a.1)
 // Main execution
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
@@ -238,35 +254,31 @@
        var  urls             =  await getNewsUrls( searchPrompt );
        var  alltexts         =  await getCleanedText( urls );
                                 await answerQuery( aiPrompt, alltexts, urls[0], searchPrompt )              // .(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL)
-            };
+            }; // eof main 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 /**
  * Fetches search result URLs from DuckDuckGo
  * @param {string} query - Search query
  * @returns {Promise<Array>} - Array of URLs
  */
-async function getNewsUrls( query ) {
-  const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`;
+async function  getNewsUrls( query ) {
+     const  url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`;
 
             usrMsg(`  Fetching from:   "${url}"`         , shoMsg('Parms' ) )           // .(50404.01.4)
-
   try {
-    const response = await fetch(url);
-     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const text = await response.text();
-    if (!text) {
-      usrMsg("\n Empty response from DuckDuckGo.");
-      return ["https://www.lexingtonvirginia.com/"];
-    }
-
-    const searchResultsJson = JSON.parse(text);
+     const  response = await fetch(url);
+       if (!response.ok) {
+            throw new Error( `HTTP error! Status: ${response.status}` );
+            }
+     const  text = await response.text();
+       if (!text) {
+            usrMsg("\n Empty response from DuckDuckGo.");
+    return ["https://www.lexingtonvirginia.com/"];
+            }
+     const  searchResultsJson = JSON.parse(text);
 
             usrMsg("---------------------------------------------------------------------------------------------- "       , shoMsg('Search' ) ) // .(50404.01.5)
             usrMsg("Response from DuckDuckGo:"                                                                             , shoMsg('Search' ) ) // .(50404.01.6)
-
        var  pResults =
              {  AbstractURL:             searchResultsJson.AbstractURL
              ,  Results: MWT.fmtResults( searchResultsJson.Results )
@@ -274,7 +286,6 @@ async function getNewsUrls( query ) {
                        ? MWT.fmtResults( searchResultsJson.RelatedTopics )
                        : []
                 }
-
        var  aResults =  JSON.stringify(pResults, null, 2).replace(/\\n     /g, "\n     ").replace(/\\n       /g, "\n       ")
             usrMsg(`\n  API Response:\n${ aResults.replace(/{/, "").replace(/\n}/, "") }`                                  , shoMsg('Search' ) ) // .(50404.01.7)
 
@@ -288,29 +299,28 @@ async function getNewsUrls( query ) {
         if (searchResultsJson.AbstractURL) {
             results.unshift( { FirstURL: searchResultsJson.AbstractURL, Text: "Overview" } );
             }
-
        var  urls = results.map(result => result.FirstURL).slice(0, 5);
         if (urls.length === 0) {
             usrMsg("\n* No URLs found, returning fallback.");
     return ["https://www.lexingtonvirginia.com/"];
             }
-
             usrMsg(`\n  Found ${urls.length} URLs:`     , shoMsg('Search' ) )           // .(50404.01.4)    )
     return  urls;
 
-        } catch (error) {
-//          console.error("\n* Error in getNewsUrls:", error);                          //#.(50404.08.1)
-            console.error(`\n* Error in getNewsUrls for query: '${query}'.`);           // .(50404.08.1)
+        } catch( error ) {
+//          console.error( "Error in getNewsUrls:", error);                             //#.(50404.08.1)
+            sayMsg(    `\n* Error in getNewsUrls for query: '${query}'.`);              // .(50404.08.1)
+            sayMsg(    `${error}`.replace( /\n/, "\n    " ) );                          // .(50404.08.2)
    return ["https://www.lexingtonvirginia.com/"];
             }
-         };
+         }; // eof getNewsUrls
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 /**
  * Fetches and cleans text content from URLs
  * @param {Array} urls - Array of URLs to fetch
  * @returns {Promise<Array>} - Array of cleaned text blocks
  */
-  async function getCleanedText(urls) {
+  async function  getCleanedText( urls ) {
        var  texts = [];
        for (var url of urls) {
        try {
@@ -318,26 +328,27 @@ async function getNewsUrls( query ) {
        var  response         =  await fetch( url );
        var  html             =  await response.text();
        var  text             =  await MWT.htmlToText( html );
-            texts.push(`Source:${url}\n${text}\n\n`);
-        } catch (error) {
+            texts.push( `Source:${url}\n${text}\n\n` );
+        } catch( error ) {
 //          console.error( `Error fetching ${url}:`, error );                           //#.(50404.08.2)
-            console.error( `Error fetching url: '${url}'.`);                            // .(50404.08.2)
+            sayMsg(    `\n* Error fetching url: '${url}'.`);                            // .(50404.08.3)
+            sayMsg(    `${error}`.replace( /\n/, "\n    " ) );                          // .(50404.08.4)
    return ["https://www.lexingtonvirginia.com/"];
             }
           }
     return  texts;
-         };
+         }; // eof getCleanedText
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 /**
  * Processes query with Ollama model using provided text sources
  * @param {string} query - User query
  * @param {Array} texts - Array of text sources
  */
-async function answerQuery( query, texts, document, webSearch ) {                                           // .(50330.04c.2).(50331.01.2)
+async function  answerQuery( query, texts, document, webSearch ) {                                          // .(50330.04c.2).(50331.01.2)
         if (texts.length === 0) {
     return  usrMsg( "\n* No text content available to summarize.");                                         // .(50404.07.2 RAM Return -1 if error) 
             }
-        var aRunStr          = "Run Id: " + pParms.runid.replace( ',', ", No: " )   // .(504              // .(50404.01.9)
+        var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
             usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.9)
             usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.10)
 
@@ -355,9 +366,9 @@ async function answerQuery( query, texts, document, webSearch ) {               
             pParms.prompt    =  pParms.prompt.replace( /{Query}/, query )
             pParms.prompt    =  pParms.prompt.replace( /{Text}/,  texts.join("\n\n" ))
 
-//          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) // .(50404.01.16).(50403.03.7)
-            usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.17).(50403.03.8)
-            usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.18))
+//          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) //#.(50404.01.16).(50403.03.7)
+            usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.16).(50403.03.7)
+            usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.17))
     try {
        var  stream           =  await  ollama.generate( pParms );
        var[ pStats, aResult ]=  await  MWT.fmtStream( stream );
@@ -377,17 +388,18 @@ async function answerQuery( query, texts, document, webSearch ) {               
             usrMsg(             MWT.fmtStats(   pStats, pParms ).join("\n")                                                , shoMsg('Stats')   ) // .(50404.01.21)
             usrMsg( "\n---------------------------------------------------------------------------------------------- "    , shoMsg('Stats')   ) // .(50404.01.22)
        var  nSecs            = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50404.01.23)
-            usrMsg(     `    > Ran Model: ${          pParms.model} in ${nSecs} secs (${aRunStr})`                         , shoMsg('RunId')   ) // .(50404.01.24).(50403.03.7)
+            usrMsg(   `\n    > Ran Model: ${          pParms.model} in ${nSecs} secs (${aRunStr})`                         , shoMsg('RunId')   ) // .(50404.01.24).(50403.03.8)
 
   var [ pStats_JSON, mRecs ] =  MWT.savStats(   pStats, pParms, aStatsFmt )                                 // .(50403.04.6 RAM Add aStatsFmt)
        var  bNotExists       =  FRT.checkFileSync( aStatsFile ).exists == false
         if (bNotExists) {       FRT.writeFile(  aStatsFile, `${mRecs[0]}\n` ) }
                                 FRT.appendFile( aStatsFile, `${mRecs[1]}\n` )           // .(50331.03.4 RAM Use it End)
         } catch( error ) {
-//          console.error( "Error in answerQuery:", error);                                                 //#.(50404.08.3)
-            console.error( `Error in answerQuery fetching Ollama model: ${ pParms.model} ).` )               // .(50404.08.3)
+//          console.error( "Error in answerQuery:", error);                                                 //#.(50404.08.5)
+            sayMsg(    `\n* Error in answerQuery fetching Ollama model: ${pParms.model}.` )                 // .(50404.08.5)
+            sayMsg(    `${error}`.replace( /\n/, "\n    " ) );                                              // .(50404.08.6)
             }
-         };
+         }; // eof answerQuery
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 /*========================================================================================================= #  ===============================  *\
 #>      S1201 END
