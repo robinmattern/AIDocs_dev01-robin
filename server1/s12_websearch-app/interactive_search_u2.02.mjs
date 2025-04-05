@@ -62,6 +62,7 @@
 #.(50405.01   4/05/25 RAM 10:40a| Change name of Stats file 
 #.(50405.02   4/05/25 RAM 11:15a| Add Session Title   
 #.(50403.03a  4/05/25 RAM 12:55p| Add FRT.exit_wCR to end of run loop  
+#.(50405.01a  4/05/25 RAM  2:35p| Change '-' to '_' in Stats file name
 
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -195,8 +196,8 @@
        var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
 //     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1)
-       var  aStatsFile       = `${aDocsDir.slice(0,3)}-${aSvr}_v${aVer.slice(1)}.${aStatsFmt}`              // .(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
-       var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}${aStatsFile}` )                        // .(50402.14.5).(50331.04b.2)
+       var  aStatsFile       = `${aDocsDir.slice(0,3)}_${aSvr}_v${aVer.slice(1)}.${aStatsFmt}`              // .(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
+       var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}${aStatsFile}` )                          // .(50402.14.5).(50331.04b.2)
 
 // Configure prompt and Ollama parameters
 //     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"
