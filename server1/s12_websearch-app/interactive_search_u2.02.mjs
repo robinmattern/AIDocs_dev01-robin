@@ -9,8 +9,9 @@
 ##FD int...ive_search_u1.10.mjs |  10659| 3/30/25 15:32|   230| u1.10`50330.1532
 ##FD int...ive_search_u1.11.mjs |  19206| 3/31/25 20:00|   332| u1.11`50331.2000
 ##FD int...ive_search_u1.12.mjs |  19862| 4/02/25  7:15|   342| u1.12`50402.0715
-##FD int...ive_search_u1.12.mjs |  20382| 4/02/25  9:55|   346| u2.01`50402.0955
-##FD int...ive_search_u1.12.mjs |  25816| 4/04/25 13:55|   381| u2.02`50404.1355
+##FD int...ive_search_u2.01.mjs |  20382| 4/02/25  9:55|   346| u2.01`50402.0955
+##FD int...ive_search_u2.02.mjs |  25816| 4/04/25 13:55|   381| u2.02`50404.1355
+##FD int...ive_search_u2.02.mjs |  30875| 4/05/25 14:45|   422| u2.02`50405.1445
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script gets a "document" from an internet search.  It then
@@ -48,23 +49,24 @@
 #.(50402.02   4/02/25 RAM  7:15a| Add bDebug Model warning
 #.(50402.11   4/02/25 RAM  9:15a| Save log files to docs a12 from server1
 #.(50402.14   4/02/25 RAM  9:55a| Set aDocsApp with 'a' prefix
-#.(50403.01   4/03/25 RAM  1:20p| Add Ollama Options parameter docs 
-#.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs  
-#.(50403.03   4/03/25 RAM  2:35p| Implement run count loop  
-#.(50403.04   4/03/25 RAM  3:05p| Save Stats to .tab file 
-#.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg 
-#.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet 
+#.(50403.01   4/03/25 RAM  1:20p| Add Ollama Options parameter docs
+#.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
+#.(50403.03   4/03/25 RAM  2:35p| Implement run count loop
+#.(50403.04   4/03/25 RAM  3:05p| Save Stats to .tab file
+#.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg
+#.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet
 #.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
-#.(50404.06   4/04/25 RAM  5:55p| Add Subfolders for Response files  
+#.(50404.06   4/04/25 RAM  5:55p| Add Subfolders for Response files
 #.(50404.05   4/04/25 RAM  9:45p| Re-ajust line widths
 #.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
 #.(50404.08   4/04/25 RAM 10:30p| Disaplay nicer error messages
-#.(50405.01   4/05/25 RAM 10:40a| Change name of Stats file 
-#.(50405.02   4/05/25 RAM 11:15a| Add Session Title   
-#.(50403.03a  4/05/25 RAM 12:55p| Add FRT.exit_wCR to end of run loop  
+#.(50405.01   4/05/25 RAM 10:40a| Change name of Stats file
+#.(50405.02   4/05/25 RAM 11:15a| Add Session Title
+#.(50403.03a  4/05/25 RAM 12:55p| Add FRT.exit_wCR to end of run loop
 #.(50405.01a  4/05/25 RAM  2:35p| Change '-' to '_' in Stats file name
-#.(50405.06   4/05/25 RAM  4:35p| Major change to FRT_Libs.mjs 
-
+#.(50405.06   4/05/25 RAM  4:35p| Major change to FRT_Libs.mjs
+#.(50404.05b  4/05/25 RAM  5:65p| Change 2nd line with to nWdt - 12
+#
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
 ##SRCE     +====================+===============================================+
@@ -90,7 +92,7 @@
 // Configure Debug Variables
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
   function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
-       var  bDebug           =  0                   // Debug flag
+       var  bDebug           =  0               // Debug flag
 
 //     var  aModel1          = 'llama3'                    // 4.7  GB on rm231
 //     var  aModel1          = 'llama3.1'                  // 4.7  GB on rm231
@@ -118,13 +120,14 @@
             aModel           =  aModel1
             nCTX_Size        =  nCTX_Size1
             pVars.SESSION_ID = 't009'
-            pVars.NEXT_POST  = '05'                                 
+            pVars.NEXT_POST  = '05'
      global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.29)
-//   global.bInVSCode        =  true 
+     global.aPrtSections     = ''                                                                           // .(50404.01.29)
+//   global.bInVSCode        =  true
             sayMsg(`S1201[ 118]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***`, 1 , 1 )     // .(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
          }; // eof setDebug Vars                                                                            // .(50405.03.1 End)
-//     ---  --------  =  --  =  ------------------------------------------------------  #  
+//     ---  --------  =  --  =  ------------------------------------------------------  #
 
 // Setup environment variables and configuration
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -155,15 +158,15 @@
 // Process .ENV Variables and command line arguments
        var  pVars            =  FRT.getEnvVars( FRT.__dirname )                                             // .(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
        if (!pVars.PLATFORM) {                                                                               // .(50403.02.7 Beg)
-            usrMsg( `* An .env file does not exist in ${ FRT.__dirname.replace( /.+server1/, './server1') }.`)    
-            process.exit(1) 
+            usrMsg( `* An .env file does not exist in ${ FRT.__dirname.replace( /.+server1/, './server1') }.`)
+            process.exit(1)
             }                                                                                               // .(50403.02.7 End)
        var  aSearch          =  pVars.SEARCH      || "Lexington Va"
        var  aAIPrompt        =  pVars.QUERY       || "What are the city's restaurants?"
        var  aSysPrompt       =  pVars.SYS_PROMPT  || "Please use the information in the following text"     // .(50331.09.1)
        var  nRunCount        =  pVars.RUN_COUNT   ||  1                                                     // .(50403.03.2)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
-       var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ) 
+       var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 )
        var  aSvr             =  pVars.THE_PB_NAME    ?  pVars.THE_PC_NAME : aServer.slice(0,5)              // .(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg)
        var  bPrtSources      =  pVars.SHOW_SOURCES  ||    0          // Whether to print source content
      global.aPrtSections     =  pVars.SHOW_SECTIONS || 'all'                                                // .(50404.01.28)
@@ -180,7 +183,7 @@
        var  aModel           =  mArgs[0] ? mArgs[0] : aModel
        var  nCTX_Size        = (mArgs[1] ? mArgs[1] : nCTX_Size) * 1
 
-                                usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.9) 
+                                usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.9)
                                 setDebugVars()                                                              // .(50405.03.2 RAM Set them here)
 
 // Setup logfile
@@ -199,7 +202,7 @@
        var  aLogFile         = `./docs/${aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                         // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 
-       var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                
+       var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
 //     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1)
        var  aStatsFile       = `${aDocsDir.slice(0,3)}_${aSvr}_v${aVer.slice(1)}.${aStatsFmt}`              // .(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
@@ -226,16 +229,16 @@
 //                            , stop:           <string> <string>    // Set the stop parameters             // .(50403.01.1 End)
                                 }
              ,  runid        : `${aRunId},${iRun+1} of ${nRunCount}`                                        // .(50403.03.4)
-                } // eoo pParms 
+                } // eoo pParms
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
- 
-                                usrMsg(  "----------------".padEnd( nWdt - 25, "-" ), shoMsg( "all" ) )     // .(50404.05.10)
+
+                                usrMsg(  "----------------".padEnd( nWdt - 12, "-" ), shoMsg( "all" ) )     // .(50404.05b.1 RAM Was 25).(50404.05.10)
 
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
                                 } // eol Run loop                                       // .(50403.03.5)
 
-                                usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.11) 
+                                usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.11)
                                 FRT.exit_wCR()                                          // .(50403.03a.1)
 // Main execution
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -258,13 +261,13 @@
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`    , shoMsg('Parms' ) )           // .(50404.01.3)
 
                                 usrMsg(  "----------------".padEnd(        57, "-" ), shoMsg('Parms') )    // .(50404.05.12)
- 
+
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
        var  urls             =  await getNewsUrls( searchPrompt );
        var  alltexts         =  await getCleanedText( urls );
                                 await answerQuery( aiPrompt, alltexts, urls[0], searchPrompt )              // .(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL)
-            }; // eof main 
+            }; // eof main
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 /**
  * Fetches search result URLs from DuckDuckGo
@@ -356,7 +359,7 @@ async function  getNewsUrls( query ) {
  */
 async function  answerQuery( query, texts, document, webSearch ) {                                          // .(50330.04c.2).(50331.01.2)
         if (texts.length === 0) {
-    return  usrMsg( "\n* No text content available to summarize.");                                         // .(50404.07.2 RAM Return -1 if error) 
+    return  usrMsg( "\n* No text content available to summarize.");                                         // .(50404.07.2 RAM Return -1 if error)
             }
         var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
             usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.10)
