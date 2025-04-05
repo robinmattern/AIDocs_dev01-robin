@@ -54,7 +54,7 @@
 #.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg 
 #.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet 
 #.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
-#.(50404.06   4/04/25 RAM  5:55p| Add Subfolders for Response files 
+#.(50404.06   4/04/25 RAM  5:55p| Add Subfolders for Response files  
 #.(50404.05   4/04/25 RAM  9:45p| Re-ajust line widths
 
 ##PRGM     +====================+===============================================+
@@ -89,7 +89,7 @@
        var  aAppPath         =  FRT.__dirname
        var  aAppDir          =  aAppPath.split(/[\\\/]/).slice(-1)[0]                   // Was splice
        var  aAppName         = 'a' + aAppDir.slice(1)                                   // .(50404.06.3 RAM Was aDocsDir).(50402.14.1 RAM Apps in docs have 'a' prefix)
-       var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2) }/{TNum}`             // .(50404.06.4 RAM Redefine aDocsDir)
+       var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2) }/{TNum}`                // .(50404.06.4 RAM Redefine aDocsDir)
 
      global.aAppDir          =  aAppDir
    global.__basedir2         =  FRT.path( aAppPath )

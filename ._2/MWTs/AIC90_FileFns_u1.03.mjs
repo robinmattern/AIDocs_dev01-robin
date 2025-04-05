@@ -57,6 +57,7 @@
 #.(50331.08   3/31/25 RAM  8:00p| Write and use setEnv
 #.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
 #.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet 
+#.(50404.06   4/04/25 RAM  6:30p| Add Date Fmt YY.MMM.MM.DD
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -177,7 +178,8 @@
             fsync.writeFileSync( global.aLogFile, '' ); 
 
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
-            console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
+//          console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
+            console.log( `\n  - AIC90[ 179]  Setting logfile to: '${aLogFile}` )        // .(50404.06.7 RAM Anot a full path)
             }  }                                                                        // .(50301.02.2)
          }; // eof saySet                                                               // .(50218.01.7 End)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -324,13 +326,13 @@
         var nOffset     = (nHrs * 60) * 60 * 1000
         var bDate       = (typeof(nDate) == 'number') && nDate < 15
         if (bDate) {       nHrs = nMinLength; nMinLength = nDateStart; nDateStart = nDate; nDate = null}
-        var bFmtDate    =  nDateStart == -1               // nMinLength:  -1)yyyy-mm-dd, 8)hh:mm:ss, 9)hh:mm:sss, 11)hh:mm:sssss
+        var bFmtDate    =  nDateStart <= -1               // nMinLength:  -1)yyyy-mm-dd, -2)yy.MMM.mm.dd, 8)hh:mm:ss, 9)hh:mm:sss, 11)hh:mm:sssss
             nDateStart  =  typeof(nDateStart) != 'undefined' ? nDateStart : 3
             nMinLength  =  typeof(nMinLength) != 'undefined' ? nMinLength : ( bFmtDate ? 5 : 5 )
 //          aDate       =  aDate ? new Date( isNaN(aDate) ? aDate : (+aDate)           ) : new Date( )
         var dDate       =  nDate ? new Date( isNaN(nDate) ? nDate : (+nDate) - nOffset ) : new Date( )
 //          aGTM_Date   =  dDate.toISOString().split( /[-:Z.]/).join( "" ).replace( /T/, "." )
-        var aDate       =  `${ `${dDate.getFullYear(     )}` }-`                      // `-`  or ``
+        var aDate       =  `${ `${dDate.getFullYear(     )}` }-`                     // `-`  or ``
                         +  `${ `${dDate.getMonth(   ) + 1 }`.padStart( 2, '0' )}-`   // `-`  or ``
                         +  `${ `${dDate.getDate(         )}`.padStart( 2, '0' )} `   // ` `  or `.`
                         +  `${ `${dDate.getHours(        )}`.padStart( 2, '0' )}:`   // `:`  or ``
@@ -339,7 +341,8 @@
                         +  `${ `${dDate.getMilliseconds( )}`.padStart( 3, '0' )}`    //
         if (bFmtDate) {
 //  return `${aDate.substring(0,4)}-${aDate.substring(4,6)}-${aDate.substring(6,8)} ${aDate.substring(9,11)}:${aDate.substring(11,13)}.${aDate.substring(13)}`.substring(0, 11 + nMinLength)
-    return  aDate.substring(0, 11 + nMinLength)
+        var aMth        = `${dDate}`.slice(4,7), aTD = aDate.slice( 2, 10 ).replace( /-/, '.' )             // .(50404.06.1 RAM Add Date Fmt YY.MMM.MM.DD)
+    return (nDateStart == -1) ? aDate.substring(0, 11 + nMinLength)  :  aTD.replace( /-/, `.${aMth}.` )     // .(50404.06.2)
        } else {
     return  aDate.replace( /[-:.]/g, "").replace( / /, ".").substring( nDateStart, 8 + nMinLength )
        }    }  // eof getDate()
