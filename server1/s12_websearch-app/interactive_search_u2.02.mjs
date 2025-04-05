@@ -61,7 +61,7 @@
 #.(50404.08   4/04/25 RAM 10:30p| Disaplay nicer error messages
 #.(50405.01   4/05/25 RAM 10:40a| Change name of Stats file 
 #.(50405.02   4/05/25 RAM 11:15a| Add Session Title   
-#.(50403.03a  4/05/25 RAM 12:55p| Add FRT.exit_wCR to end of run loop
+#.(50403.03a  4/05/25 RAM 12:55p| Add FRT.exit_wCR to end of run loop  
 
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
