@@ -54,6 +54,8 @@
 #.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg 
 #.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet 
 #.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
+#.(50404.06   4/04/25 RAM  5:55p| Add Subfolders for Response files 
+#.(50404.05   4/04/25 RAM  9:45p| Re-ajust line widths
 
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -86,7 +88,9 @@
       var __basedir          =  FRT.__basedir
        var  aAppPath         =  FRT.__dirname
        var  aAppDir          =  aAppPath.split(/[\\\/]/).slice(-1)[0]                   // Was splice
-       var  aDocsDir         = 'a' + aAppDir.slice(1)                                   // .(50402.14.1 RAM Apps in docs have 'a' prefix)
+       var  aAppName         = 'a' + aAppDir.slice(1)                                   // .(50404.06.3 RAM Was aDocsDir).(50402.14.1 RAM Apps in docs have 'a' prefix)
+       var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2) }/{TNum}`             // .(50404.06.4 RAM Redefine aDocsDir)
+
      global.aAppDir          =  aAppDir
    global.__basedir2         =  FRT.path( aAppPath )
             FRT.__basedir2   =  FRT.path( aAppPath )
@@ -96,14 +100,14 @@
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
             bQuiet           =  0                                                       // .(50404.02.5)
         if (bQuiet == 2) {
-            usrMsg(`\n -- S1201[  97]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}` )
+            usrMsg(`\n -- S1201[ 102]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}` )
             }
             global.bQuiet    =  0                                                       // .(50404.02.6)
 
 // Script configuration
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
-       var  bDebug           =  1                   // Debug flag
+       var  bDebug           =  0                   // Debug flag
 
 // Configure AI model
        var  aModel1          = 'llama'              // 4.7  GB on rm231
@@ -137,7 +141,7 @@
        var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ), aSvr = aServer.slice(0,5)         // .(50331.04.4 Beg)
        var  bPrtSources      =  pVars.SHOW_SOURCES  ||    0          // Whether to print source content
      global.aPrtSections     =  pVars.SHOW_SECTIONS || 'all'                                                // .(50404.01.28)
-       var  nWdt             =  pVars.WRAP_WIDTH    ||  145
+       var  nWdt             = (pVars.WRAP_WIDTH    ||  145 ) * 1
        var  nLog             =  pVars.TO_SCREEN_OR_FILE || 1                                                // .(50331.04.4)
 
        var  aPlatform        =  pVars.PLATFORM.toUpperCase()                                                // .(50331.10.1 Use PLATFORM)
@@ -150,14 +154,15 @@
        var  aModel           =  mArgs[0] ? mArgs[0] : aModel
        var  nCTX_Size        = (mArgs[1] ? mArgs[1] : nCTX_Size) * 1
 
-        if (bDebug) {
+                                usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.9) 
+       if (bDebug) {
             nRunCount        =  3                                                                           // .(50403.03.2)
             aModel           =  aModel1
             nCTX_Size        =  nCTX_Size1
             pVars.SESSION_ID = 't009'
-            pVars.NEXT_POST  = '01'                                 
+            pVars.NEXT_POST  = '04'                                 
      global.aPrtSections     = 'runid'                                                                      // .(50404.01.29)
-            usrMsg(` -- S1201[ 157]* bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***` )          // .(50402.02.2)
+            usrMsg(`\n -- S1201[ 163]* bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***` )        // .(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
 
 // Setup logfile
@@ -165,10 +170,10 @@
 
        for (let iRun = 0; iRun < nRunCount; iRun++) {                                                       // .(50403.03.3)
 
-       var  aRunId           = `${aDocsDir.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              // .(50402.14.2).(50331.08.3 RAM Get RespId)
+       var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              // .(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
        var  aNextPost        = `${ 1 + pVars.NEXT_POST * 1 }`.padStart( 2, "0" )                            // .(50331.08.4 RAM Set Next_Post)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname)                          // .(50331.08.5)
-
+            aDocsDir         =  aDocsDir.replace( /{TNum}/, `_${pVars.SESSION_ID}` )                        // .(50404.06.6)
 //     var  aLogFile         =      `./${aAppDir}/${aAppDir.slice(0,3)}_t001.01.4.${aTS}_Response.txt`      //#.(50331.02.5)
        var  aLogFile         = `./docs/${aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                         // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
@@ -200,7 +205,7 @@
                 }
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
  
-                                usrMsg( "".padEnd( nWdt, "-" ) )                        // .(50404.05.9)
+                                usrMsg(  "----------------".padEnd( nWdt - 25, "-" ) )                      // .(50404.05.10)
 
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
@@ -224,7 +229,7 @@
             usrMsg(""                                    , shoMsg('Parms' ) )           // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`, shoMsg('Parms' ) )           // .(50404.01.2)
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`    , shoMsg('Parms' ) )           // .(50404.01.3)
-            usrMsg("----------------".padEnd( 57, "-" )  , shoMsg('Parms' ) )           // .(50404.05.10)
+            usrMsg("----------------".padEnd( 57, "-" )  , shoMsg('Parms' ) )                               // .(50404.05.11)
  
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -328,7 +333,7 @@ async function answerQuery( query, texts, document, webSearch ) {               
             usrMsg( "\n* No text content available to summarize.");
     return;
             }
-            usrMsg( `\nCompined Prompt for Model:`                                                                         , shoMsg('Parms')   ) // .(50404.01.9))
+            usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.9))
             usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.10))
 
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
@@ -347,7 +352,7 @@ async function answerQuery( query, texts, document, webSearch ) {               
 
         var aRunStr          = "Run Id: " + pParms.runid.replace( ',', ", No: " )       // .(50403.03.6)
 //          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) // .(50404.01.16).(50403.03.7)
-            usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Stats')   ) // .(50404.01.17).(50403.03.8)
+            usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.17).(50403.03.8)
             usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.18))
     try {
        var  stream           =  await ollama.generate( pParms );
