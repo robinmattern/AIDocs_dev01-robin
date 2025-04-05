@@ -57,6 +57,7 @@
 #.(50404.06   4/04/25 RAM  5:55p| Add Subfolders for Response files  
 #.(50404.05   4/04/25 RAM  9:45p| Re-ajust line widths
 #.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
+#.(50404.08   4/04/25 RAM 10:30p| Disaplay nicer error messages
 
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -206,7 +207,7 @@
                 }
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
  
-                                usrMsg(  "----------------".padEnd( nWdt - 25, "-" ) )                      // .(50404.05.10)
+                                usrMsg(  "----------------".padEnd( nWdt - 25, "-" ), shoMsg( "all" ) )     // .(50404.05.10)
 
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
@@ -298,7 +299,8 @@ async function getNewsUrls( query ) {
     return  urls;
 
         } catch (error) {
-            console.error("\n* Error in getNewsUrls:", error);
+//          console.error("\n* Error in getNewsUrls:", error);                          //#.(50404.08.1)
+            console.error(`\n* Error in getNewsUrls for query: '${query}'.`);           // .(50404.08.1)
    return ["https://www.lexingtonvirginia.com/"];
             }
          };
@@ -318,7 +320,9 @@ async function getNewsUrls( query ) {
        var  text             =  await MWT.htmlToText( html );
             texts.push(`Source:${url}\n${text}\n\n`);
         } catch (error) {
-            console.error( `Error fetching ${url}:`, error );
+//          console.error( `Error fetching ${url}:`, error );                           //#.(50404.08.2)
+            console.error( `Error fetching url: '${url}'.`);                            // .(50404.08.2)
+   return ["https://www.lexingtonvirginia.com/"];
             }
           }
     return  texts;
@@ -355,8 +359,8 @@ async function answerQuery( query, texts, document, webSearch ) {               
             usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.17).(50403.03.8)
             usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.18))
     try {
-       var  stream           =  await ollama.generate( pParms );
-       var[ pStats, aResult ]=  await MWT.fmtStream( stream );
+       var  stream           =  await  ollama.generate( pParms );
+       var[ pStats, aResult ]=  await  MWT.fmtStream( stream );
 
         if (global.nLog != 1) {
             aResult          =  MWT.wrap( aResult, nWdt, 4 )                            // .(50330.06a.7).(50330.06.3)
@@ -380,7 +384,8 @@ async function answerQuery( query, texts, document, webSearch ) {               
         if (bNotExists) {       FRT.writeFile(  aStatsFile, `${mRecs[0]}\n` ) }
                                 FRT.appendFile( aStatsFile, `${mRecs[1]}\n` )           // .(50331.03.4 RAM Use it End)
         } catch( error ) {
-            console.error( "Error in answerQuery:", error);
+//          console.error( "Error in answerQuery:", error);                                                 //#.(50404.08.3)
+            console.error( `Error in answerQuery fetching Ollama model: ${ pParms.model} ).` )               // .(50404.08.3)
             }
          };
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
