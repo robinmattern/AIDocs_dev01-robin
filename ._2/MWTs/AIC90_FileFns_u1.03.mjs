@@ -3,6 +3,7 @@
 ##RD        AIC90_FileFns       | AICodeR Functions
 ##RFILE    +====================+=======+===============+======+=================+
 ##FD  AIC90_FileFns_u##.mjs     |   ####|  1/19/25 HH:MM|   ###| p1.01`.501DD.HHMM
+##FD  AIC90_FileFns_u##.mjs     |  65838|  4/05/25 16:45|   ###| p1.01`.50405.1645
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the App Folders Script for AICodeR# Apps.
@@ -52,13 +53,14 @@
 #.(50122.06   1/22/25 RAM 10:23a| Write getFileDate
 #.(50210.02   2/10/25 RAM 10:23a| Write copyFile functions
 #.(50210.02b  3/02/25 RAM 11:45a| Write appendFile functions
-#.(50209.01c  3/17/25 RAM  6:36p| Format code 
-#.(50331.02   3/31/25 RAM 10:00a| Save log to docs  
+#.(50209.01c  3/17/25 RAM  6:36p| Format code
+#.(50331.02   3/31/25 RAM 10:00a| Save log to docs
 #.(50331.08   3/31/25 RAM  8:00p| Write and use setEnv
 #.(50403.02   4/03/25 RAM  1:40p| Move getEnvVars to AIC90_FileFns.mjs
-#.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet 
+#.(50404.02   4/04/25 RAM  1:55p| Fiddle with bQuiet
 #.(50404.06   4/04/25 RAM  6:30p| Add Date Fmt YY.MMM.MM.DD
 #.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
+#.(50201.09c  4/04/25 RAM  4:45p| Modify exit_wCR()
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -100,83 +102,83 @@
         if (bQuiet == 0) {                                                                                  // .(50301.01.2)
             console.log( `\n -- AIC90[  98]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: N/A, bIsCalled: N/A` )                                          // .(50202.03.12)
             }
-//          console.log(   `  - AI202[  88]  process.argv[ '${ process.argv.slice(2).join("', '") }' ]` ); 
-/* 
+//          console.log(   `  - AI202[  88]  process.argv[ '${ process.argv.slice(2).join("', '") }' ]` );
+/*
             global.bDebug = 1
             sayMsg( "-------", -1    )
             sayMsg( ""               )  // nada
             sayMsg( "Hello",    0    )  // nada
             sayMsg( "-------",  1, 1 )
-            sayMsg( "",        -1, 1 )  // two lines 
-            sayMsg( "",        -4    )  // nada 
+            sayMsg( "",        -1, 1 )  // two lines
+            sayMsg( "",        -4    )  // nada
             sayMsg( "-------",  1    )            // 1  2  3  4
             sayMsg( "AI202[ 103]  Err", -3    )   // x  x  x  x
-            sayMsg( "AI202[ 102]  Cmt", -2    )   // x  x     x     
+            sayMsg( "AI202[ 102]  Cmt", -2    )   // x  x     x
             sayMsg( "AI202[ 101]  Deb", -1    )   // x        x
-            sayMsg( "AI202[ 104]  Bug", -4    )   //          x 
-            sayMsg( "AI202[ 105]  deb",  1, 1 )   // x  x  x  x 
-            sayMsg( " ",                -3, 0 )   // x  x  x  x 
-            process.exit() 
-*/ 
+            sayMsg( "AI202[ 104]  Bug", -4    )   //          x
+            sayMsg( "AI202[ 105]  deb",  1, 1 )   // x  x  x  x
+            sayMsg( " ",                -3, 0 )   // x  x  x  x
+            process.exit()
+*/
   function  sayMsg( aMsg, nSay, bCR ) {                                                 // .(50107.02.3 RAM Add sayMsg Beg)
 //      if (bCR) { console.log("") }                                                                        //#.(50121.03.5).(50121.03b.5)
-        if (global.bQuiet == 2 ) { return }                                             // .(50404.02.1 RAM Make sure it gets turned back to 1 or 0)                    
-        if (aMsg == "" || aMsg.slice(0,1) == "\n" ){ say( aMsg ); return }              // .(50218.02.5 RAM Just say it) 
-            nSay    =  nSay > 0 ? nSay : -[0,3,2,1,4][-nSay]                                                // .(50209.01c.1 RAM -e,-c,-b,-g) 
-       var  nDebug_ = ((typeof(global.bDebug) != 'undefined') ? global.bDebug : bDebug ) * 1                // .(50209.01.6 RAM Add * 1 here).(50125.01.7 RAM bDebug is local to this script) 
-            nDebug_ =  [ 0, 3, 2, 1, 4 ][ nDebug_ ]                                                         // .(50209.01c.2) 
+        if (global.bQuiet == 2 ) { return }                                             // .(50404.02.1 RAM Make sure it gets turned back to 1 or 0)
+        if (aMsg == "" || aMsg.slice(0,1) == "\n" ){ say( aMsg ); return }              // .(50218.02.5 RAM Just say it)
+            nSay    =  nSay > 0 ? nSay : -[0,3,2,1,4][-nSay]                                                // .(50209.01c.1 RAM -e,-c,-b,-g)
+       var  nDebug_ = ((typeof(global.bDebug) != 'undefined') ? global.bDebug : bDebug ) * 1                // .(50209.01.6 RAM Add * 1 here).(50125.01.7 RAM bDebug is local to this script)
+            nDebug_ =  [ 0, 3, 2, 1, 4 ][ nDebug_ ]                                                         // .(50209.01c.2)
        //      if (nSay   == "-1" && bDebug == "1") { if (bCR) { console.log("") }; console.log( `  - ${aMsg}` ) }                    //#.(50125.01.8).(50121.03b.5))
-//      if (nSay   == "-1" && (nDebug_ == 1     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  - ${aMsg}` )}       // .(50209.01.7 RAM Was: * 1).(50125.01.8).(50121.03b.5)) 
-//      if (nSay   == "-2" && (nDebug_ == 2     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  ' ${aMsg}` )}       // .(50209.01.8 RAM Add Comment) 
-//      if (nSay   == "-3" && (nDebug_ == 3     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  * ${aMsg}` )}       // .(50209.01.9 RAM Add Error Msg) 
-//      if (nSay   == "-4" && (nDebug_ == 4     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  + ${aMsg}` )}       // .(50209.01.10 RAM Add Debugger Msg) 
-        if (nSay   == "-1" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "*", aMsg )} // .(50209.01c.3 RAM Was '-').(50209.01b.1).(50209.01.7 RAM Was: * 1).(50125.01.8).(50121.03b.5)) 
-        if (nSay   == "-2" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "'", aMsg )} //                           .(50209.01b.2).(50209.01.8 RAM Add Comment) 
-        if (nSay   == "-3" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "-", aMsg )} // .(50209.01c.4 RAM Was '-').(50209.01b.3).(50209.01.9 RAM Add Error Msg) 
-        if (nSay   == "-4" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "+", aMsg )} //                           .(50209.01b.4).(50209.01.10 RAM Add Debugger Msg) 
-        if (nSay   ==  "1" ) {                                      if (bCR) { say("") }; say( "-", aMsg )} //                           .(50209.01b.5) 
-        if (nSay   ==  "2" ) {                                      if (bCR) { say("") }; say( "-", aMsg ); exit_wCR()} // p.exit() } // .(50209.01b.6).(50201.09.11 RAM Use exit_wCR) 
+//      if (nSay   == "-1" && (nDebug_ == 1     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  - ${aMsg}` )}       // .(50209.01.7 RAM Was: * 1).(50125.01.8).(50121.03b.5))
+//      if (nSay   == "-2" && (nDebug_ == 2     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  ' ${aMsg}` )}       // .(50209.01.8 RAM Add Comment)
+//      if (nSay   == "-3" && (nDebug_ == 3     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  * ${aMsg}` )}       // .(50209.01.9 RAM Add Error Msg)
+//      if (nSay   == "-4" && (nDebug_ == 4     || nDebug_ == 5)) { if (bCR) { console.log("") }; console.log( `  + ${aMsg}` )}       // .(50209.01.10 RAM Add Debugger Msg)
+        if (nSay   == "-1" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "*", aMsg )} // .(50209.01c.3 RAM Was '-').(50209.01b.1).(50209.01.7 RAM Was: * 1).(50125.01.8).(50121.03b.5))
+        if (nSay   == "-2" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "'", aMsg )} //                           .(50209.01b.2).(50209.01.8 RAM Add Comment)
+        if (nSay   == "-3" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "-", aMsg )} // .(50209.01c.4 RAM Was '-').(50209.01b.3).(50209.01.9 RAM Add Error Msg)
+        if (nSay   == "-4" && (nSay >= -nDebug_ || nDebug_ == 5)) { if (bCR) { say("") }; say( "+", aMsg )} //                           .(50209.01b.4).(50209.01.10 RAM Add Debugger Msg)
+        if (nSay   ==  "1" ) {                                      if (bCR) { say("") }; say( "-", aMsg )} //                           .(50209.01b.5)
+        if (nSay   ==  "2" ) {                                      if (bCR) { say("") }; say( "-", aMsg ); exit_wCR()} // p.exit() } // .(50209.01b.6).(50201.09.11 RAM Use exit_wCR)
         if (nSay   ==  "3" ) {                                      if (bCR) { say("") }; say( "-", aMsg ); }                         // .(50313.03.x Same as 1 for return vs exit)
     }; // eof sayMsg                                                            // .(50107.02.3 End)
-//     ---  --------  =  --  =  ------------------------------------------------------  #  
+//     ---  --------  =  --  =  ------------------------------------------------------  #
 
-  function  say( aChr, aMsg, nLog2 ) {                                                  // .(50209.01b.7) 
+  function  say( aChr, aMsg, nLog2 ) {                                                  // .(50209.01b.7)
 //      if (aMsg == 1 || aMsg == 2 || aMsg == 3) { nLog2 = aMsg, aMsg == '' }           //#.(50404.02.2 RAM ??)
-            aMsg  =  aMsg ? `  ${aChr} ${aMsg}` : aChr; 
+            aMsg  =  aMsg ? `  ${aChr} ${aMsg}` : aChr;
        var  nLog_ = ((typeof(global.nLog) != 'undefined') ? global.nLog : nLog ) * 1    // .(50218.01.6 RAM Add File logging Beg)
             nLog_ =  nLog2 ? nLog2 : nLog_
-        if (nLog_ == 1 || nLog_ == 3) { console.log( aMsg ) }                                                            
-        if (nLog_ == 2 || nLog_ == 3) { sayFile_log( aMsg ) }                                                            
-            } // eof say  
-//     ---  --------  =  --  =  ------------------------------------------------------  #  
+        if (nLog_ == 1 || nLog_ == 3) { console.log( aMsg ) }
+        if (nLog_ == 2 || nLog_ == 3) { sayFile_log( aMsg ) }
+            } // eof say
+//     ---  --------  =  --  =  ------------------------------------------------------  #
 
-  function  sayFile_log( aMsg ) { 
-            fsync.appendFileSync( global.aLogFile, aMsg + '\n'); 
+  function  sayFile_log( aMsg ) {
+            fsync.appendFileSync( global.aLogFile, aMsg + '\n');
 //          console.log( '  - AIC90[ 138]  Writing to log:', aMsg )
             } // eof sayFile_log                                                        // .(50218.01.6 End)
-//     ---  --------  =  --  =  ------------------------------------------------------  #  
+//     ---  --------  =  --  =  ------------------------------------------------------  #
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
   function  setSay( nLog_, aFile ) {                                                    // .(50218.01.7 RAM Write saySet Beg)
-            global.nLog  = nLog_ ? nLog_ : 1 
-        if (nLog_ == 2 || nLog_ == 3) { 
-//          global.aLogFile = path.join( __basedir2, `../._/LOGs/_v${_TS.slice(0,5)}/${aFile}_v${_TS}.log` ) 
+            global.nLog  = nLog_ ? nLog_ : 1
+        if (nLog_ == 2 || nLog_ == 3) {
+//          global.aLogFile = path.join( __basedir2, `../._/LOGs/_v${_TS.slice(0,5)}/${aFile}_v${_TS}.log` )
        var  aLogFile        =  aFile.replace( /{aTD}/, _TS.slice(0,5) ).replace( /{aTS}/, _TS )
-//     var  aDir            = `._/LOGs/_v${_TS.slice(0,5)}/${ aFile.split( /[\\\/]/ ).slice(0,-1).join( "/") }` 
+//     var  aDir            = `._/LOGs/_v${_TS.slice(0,5)}/${ aFile.split( /[\\\/]/ ).slice(0,-1).join( "/") }`
         if (aFile.match( /docs\// )) {                                                  // .(50331.02.1 RAM Put log into /docs Beg)
        var  aDir            = `${ aLogFile.split( /[\\\/]/ ).slice(0,-1).join( "/") }`
-       var  aLogDir         =  path.join( `${__basedir}`, aDir )          
+       var  aLogDir         =  path.join( `${__basedir}`, aDir )
         } else {                                                                        // .(50331.02.1 Beg)
        var  aDir            = `._/LOGs/${ aLogFile.split( /[\\\/]/ ).slice(0,-1).join( "/") }`
-       var  aLogDir         =  path.join( `${__basedir2}/..`, aDir )          
+       var  aLogDir         =  path.join( `${__basedir2}/..`, aDir )
 //          global.aLogFile = path.join( `${__basedir2}/..`, aDir, aLogFile.split( /[\\\/]/ ).slice(-1)[0]) //#.(50329.04.1 RAM path.join behaves differently in VSCode, that Node)
-//          global.aLogFile = FRT_path(  `${__basedir2}/..`, aDir, aLogFile.split( /[\\\/]/ ).slice(-1)[0]) //#.(50329.04.1 RAM Use FRT_path).(50331.02.2) 
-//          fsync.mkdirSync(  path.join( `${__basedir2}/..`, aDir ), { recursive: true } )                  //#.(50329.04.2).(50331.02.2) 
+//          global.aLogFile = FRT_path(  `${__basedir2}/..`, aDir, aLogFile.split( /[\\\/]/ ).slice(-1)[0]) //#.(50329.04.1 RAM Use FRT_path).(50331.02.2)
+//          fsync.mkdirSync(  path.join( `${__basedir2}/..`, aDir ), { recursive: true } )                  //#.(50329.04.2).(50331.02.2)
             }
-//          global.aLogDir  = aLogDir                                                   //#.(50331.02.4 RAM Save aLogDir) 
-            global.aLogFile = FRT_path( aLogDir, aLogFile.split(/[\\\/]/).slice(-1)[0]) // .(50331.02.2).(50329.04.1 RAM Use FRT_path) 
-            fsync.mkdirSync(  aLogDir, { recursive: true } )                            // .(50331.02.3).(50329.04b.2) 
-            fsync.writeFileSync( global.aLogFile, '' ); 
+//          global.aLogDir  = aLogDir                                                   //#.(50331.02.4 RAM Save aLogDir)
+            global.aLogFile = FRT_path( aLogDir, aLogFile.split(/[\\\/]/).slice(-1)[0]) // .(50331.02.2).(50329.04.1 RAM Use FRT_path)
+            fsync.mkdirSync(  aLogDir, { recursive: true } )                            // .(50331.02.3).(50329.04b.2)
+            fsync.writeFileSync( global.aLogFile, '' );
 
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
 //          console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
@@ -186,8 +188,8 @@
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
   function  exit_wCR( nErr ) {                                                          // .(50129.02.1 RAM Add exit_wCR Beg)
-        if (os.platform().slice(0,3) != 'win') { console.log( "" ) }                    // .(50201.09.1 RAM Don't use usrMsg.  Log separately)
-        if (global.bInVSCode == 1) { console.log( "") }                                 // .(50208.08.3)
+        if (os.platform().slice(0,3) != 'win') { console.log( "" ) } else {             // .(50201.09c.1).(50201.09.1 RAM Don't use usrMsg.  Log separately)
+        if (global.bInVSCode == 1) { console.log( "" ) } }                              // .(50201.09c.2).(50208.08.3)
 //      if (bDebug) { console.log("") }                                                 // .(50201.09.2 RAM Maybe in debugger.  )
         if (global.bTest == 1) { return nErr } else { process.exit( nErr ) }            // .(50208.03.6 RAM does global.bTest exist)
             }                                                                           // .(50129.02.1 End)
@@ -196,8 +198,8 @@
   function  usrMsg( aMsg, nOpt, bCR ) {                                                 // .(50125.01.1 RAM Write usrMsg)
        var  bQuiet_   =  global.bQuiet == 1; if (typeof( bQuiet_ ) == 'undefined') { bQuiet_ = bQuiet }
         if (bQuiet_ || nOpt == 0) { say( aMsg, '', 2 ); return }                        // .(50404.02.4 RAM Print to file is specified)
-        if (bCR)      {  say( "" ) }                                                    // .(50218.01.8 RAM Was: console.log) 
-                         say( aMsg );                                                   // .(50218.01.9) 
+        if (bCR)      {  say( "" ) }                                                    // .(50218.01.8 RAM Was: console.log)
+                         say( aMsg );                                                   // .(50218.01.9)
         if (nOpt == 2) { exit_wCR( ) }                                                  // .(50129.02.2 RAM Was process.exit())
           else { return aMsg.match( /^\*/) ? -1 : 1 }                                   // .(50404.07.1 RAM Return 1 if usrNsg is error)
             } // eof usrMsg                                                             // .(50125.01.1 End)
@@ -532,16 +534,16 @@ createDirectoryIfNotExists(dirPath).then( result => {
 
   function  setEnv( aVar, aVal, aDir ) {                                                // .(50331.08.1 RAM Add setEnv Beg)
             sayMsg( `AIC98[ 523]  Setting ${aVar} to: '${aVal}'`, -1 )
-       var  aEnvFile    =   FRT_path( aDir ? aDir : __basedir2, '.env' ) 
+       var  aEnvFile    =   FRT_path( aDir ? aDir : __basedir2, '.env' )
        var  aEnvVar     =   aVar.toUpperCase()
        var  mMyEnvs     =   readFileSync(  aEnvFile, 'ASCII' ).split( /\n/ )
        var  iEnv        =   mMyEnvs.findIndex( aVar => aVar.match( new RegExp( `^ *${aEnvVar}` ) ) )
-            mMyEnvs[ iEnv ] = `  ${aEnvVar}="${aVal}"`            
+            mMyEnvs[ iEnv ] = `  ${aEnvVar}="${aVal}"`
             process.env[    aEnvVar ] = aVal
-                            writeFileSync( aEnvFile , mMyEnvs.join( "\n" ) )                     
+                            writeFileSync( aEnvFile , mMyEnvs.join( "\n" ) )
             } // eof setEnv                                                             // .(50331.08.1 End)
 // --------------------------------------------------------------
- 
+
   function  getEnvVars( aDir ) {                                                        // .(50403.02.1).(50331.04.1 RAM Write getEnvVars Beg)
         if (checkFileSync( path.join( aDir, '.env') ).exists ) {                        // .(50403.02.2 RAM Check if .env file exists)
             dotenv.config( { path: path.join( aDir, '.env'), override: true } );
@@ -720,35 +722,35 @@ createDirectoryIfNotExists(dirPath).then( result => {
 // ---------------------------------------------------------------------------------
 
      async  function  deleteDirASync( aDirPath ) {                                                 // .(50227.01.1 RAM Write deleteDirASync Beg)
-            aDirPath         =  cleanPath( aDirPath );                                        
+            aDirPath         =  cleanPath( aDirPath );
       try {
        var  bOK              = (await checkFileASync( aDirPath )).exists && (await checkFileASync( aDirPath )).isDir
         if (bOK == true) {      await fs.rm( aDirPath, { recursive: true } );
             }
         } catch(pError) {
             console.error(   `* Error deleting folder: ${pError}` );
-            bOK = false                                                                        
-            } 
+            bOK = false
+            }
         }   // eof deleteDirAsync                                                                   // .(50227.01.1 End)
     // --------------------------------------------------------------
 
   function  deleteDirSync( aDirPath ) {                                                            // .(40801.10.2 RAM Write deleteDirSync Beg)
-            aDirPath         =  cleanPath( aDirPath );                                             
+            aDirPath         =  cleanPath( aDirPath );
       try {
        var  bOK              =  checkFileSync( aDirPath ).exists && checkFileSync( aDirPath ).isDir
         if (bOK == true) {      fsync.rmSync( aDirPath, { recursive: true } );
             }
     } catch(pError) {
             console.error(   `* Error deleting folder: ${pError}` );
-            bOK = false                                                                        
+            bOK = false
             }
-    return  bOK                                                                                
+    return  bOK
             }   // eof deleteDirSync                                                                // .(50227.01.2 End)
 // ---------------------------------------------------------------------------------
 
      async  function  copyFileASync( aFileFrom, aFileTo, aBackup ) {                                // .(50210.02.1 RAM Write copyDirASync Beg)
-            aFileFrom        =  cleanPath( aFileFrom );                                           
-            aFileTo          =  cleanPath( aFileTo );                                           
+            aFileFrom        =  cleanPath( aFileFrom );
+            aFileTo          =  cleanPath( aFileTo );
        try {
        var  bOK              =  checkFileSync( aFileFrom ).exists && checkFileSync( aFileFrom ).isNotDir
         if (bOK == true) {      fsync.copyFileSync( aFileFrom, aFileTo );
@@ -762,14 +764,14 @@ createDirectoryIfNotExists(dirPath).then( result => {
 // --------------------------------------------------------------
 
   function  copyFileSync( aFileFrom, aFileTo, aBackup ) {                                           // .(50210.02.2 RAM Write copyFileSync Beg)
-            aFileFrom        =  cleanPath( aFileFrom );                                           
-            aFileTo          =  cleanPath( aFileTo );                                          
-       try { 
+            aFileFrom        =  cleanPath( aFileFrom );
+            aFileTo          =  cleanPath( aFileTo );
+       try {
         if (aBackup.match( /backup/i )) {
-       var  aDate            =  getFileDate( aFileTo )                
-        if (aDate) {            copyFile( aFileTo, aFileTo.replace( /^(.*)(\.[^.]+)$/, `$1_v${aDate}$2` ) ); 
+       var  aDate            =  getFileDate( aFileTo )
+        if (aDate) {            copyFile( aFileTo, aFileTo.replace( /^(.*)(\.[^.]+)$/, `$1_v${aDate}$2` ) );
             sayMsg( `AIC90[ 633]  Backing up:   ${aFileTo}`, -1 ) }
-            }                                                        
+            }
        var  bOK              =  checkFileSync( aFileFrom ).exists && checkFileSync( aFileFrom ).isNotDir
         if (bOK == true) {      copyFile( aFileFrom, aFileTo ); }
        } catch( pError ) {
@@ -781,31 +783,31 @@ createDirectoryIfNotExists(dirPath).then( result => {
                                 fsync.copyFileSync( aFileFrom, aFileTo );
        var  pStats           =  fsync.statSync(     aFileFrom ) ;                                   // Get the source file stats
                                 fsync.utimesSync(   aFileTo, pStats.atime, pStats.mtime);           // Set the timestamps of the destination file to match the source
-             }             
+             }
         }   // eof copyFileSync                                                                     // .(50210.02.2 End)
 // ---------------------------------------------------------------------------------
 
      async  function  appendFileASync( aFilePath, aLine ) {                                         // .(50210.02b.1 RAM Write appendFileASync Beg 50302.1112)
-            aFilePath =  cleanPath( aFilePath );                                           
+            aFilePath =  cleanPath( aFilePath );
       try {
         var  bOK      =  checkFileSync( aFilePath ).exists && checkFileSync( aFilePath ).isNotDir
          if (bOK == true) {     fs.appendFile( aFilePath, aLine );
                                 }
     } catch( pError ) {
              usrMsg( `* Error appending file: ${pError}` );
-             }   
-         }   // eof appendFileASync                                                                 // .(50210.02b.1 End) 
+             }
+         }   // eof appendFileASync                                                                 // .(50210.02b.1 End)
 // --------------------------------------------------------------
 
      async  function  appendFileSync( aFilePath, aLine ) {                                          // .(50210.02b.2 RAM Write appendFileSync)
-            aFilePath =  cleanPath( aFilePath );                                           
+            aFilePath =  cleanPath( aFilePath );
       try {
         var  bOK      =  checkFileSync( aFilePath ).exists && checkFileSync( aFilePath ).isNotDir
          if (bOK == true) {     fsync.appendFileSync( aFilePath, aLine );
                                 }
     } catch( pError ) {
              usrMsg( `* Error appending file: ${pError}` );
-             }   
+             }
          }   // eof appendFileSync                                                                  // .(50210.02b,2 End)
 // --------------------------------------------------------------
 
@@ -859,7 +861,7 @@ createDirectoryIfNotExists(dirPath).then( result => {
 
   try {
 //     var  aAppName    =   setPaths( )                                                                     //#.(40828.02.7 RAM Will it set the global vars? No)
-       var  bDebug_AIC90 = 0; _ENV_Debug = 0 // or bDebug or -1                                                                               // .(50213.03.1 RAM bDebug for AIC909) 
+       var  bDebug_AIC90 = 0; _ENV_Debug = 0 // or bDebug or -1                                                                               // .(50213.03.1 RAM bDebug for AIC909)
 //          dotenv.config({ path: FRT.path( __basedir, '.env' ), override: true, debug: _debug } );         //#.(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder).(40829.03.15)
             sayMsg(        `AIC90[ 757]  __basedir2: '${ __basedir2 }'`,                                        bDebug_AIC90 )  // .(50213.03.2)
             dotenv.config({ path: FRT_path(__basedir2, '.env' ), override: true, debug: _ENV_Debug } );     // .(50126.03.24).(40829.03.15 RAM Was FRT.path).(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder)
