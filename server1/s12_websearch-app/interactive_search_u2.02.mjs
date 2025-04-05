@@ -63,6 +63,7 @@
 #.(50405.02   4/05/25 RAM 11:15a| Add Session Title   
 #.(50403.03a  4/05/25 RAM 12:55p| Add FRT.exit_wCR to end of run loop  
 #.(50405.01a  4/05/25 RAM  2:35p| Change '-' to '_' in Stats file name
+#.(50405.06   4/05/25 RAM  4:35p| Major change to FRT_Libs.mjs 
 
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -81,29 +82,33 @@
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
        var  aVer             = "u2.02"                                                  // .(50402.02.1 RAM Add Version)
 
-            LIBs.MWT         = "../../._2/MWTs"
-//     var  FRT              =( await import( `${LIBs.AIC}/AIC90_FileFns_u1.03.mjs`) ).default
-       var  FRT              =( await import( `${LIBs.MWT}/AIC90_FileFns_u1.03.mjs` ) ).default
-       var  MWT              =( await import( `${LIBs.MWT}/MWT01_MattFns_u1.03.mjs` ) ).default
+            LIBs.MWT         = () => "../../._2/MWTs"                                                       // .(50405.06.6)
+//     var  FRT              =( await import( `${LIBs.AIC()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.7)
+       var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
+       var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u1.03.mjs`) ).default            // .(50405.06.9)
 
 // Configure Debug Variables
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
   function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
-       var  bDebug           =  1                   // Debug flag
+       var  bDebug           =  0                   // Debug flag
 
-       var  aModel1          = 'llama'              // 4.7  GB on rm231
-       var  aModel1          = 'llama3.1'           // 4.7  GB on rm231
-       var  aModel1          = 'gemma2:2b'          // 1.6  GB on rm231
-       var  aModel1          = 'granite3-dense:2b'  // 1.6  GB on rm231
-       var  aModel1          = 'qwen2:0.5b'         //  .35 GB on rm231  //#.(50327.05.1 RAM Smallest. Runs if dbugging or no command args given )
-//     var  aModel1          = 'qwen2-robin:latest' //  .35 GB on rm231
+//     var  aModel1          = 'llama3'                    // 4.7  GB on rm231
+//     var  aModel1          = 'llama3.1'                  // 4.7  GB on rm231
+//     var  aModel1          = 'llama3.2'                  // 2.0  GB on rm231
+//     var  aModel1          = 'gemma2:2b'                 // 1.6  GB on rm231
+//     var  aModel1          = 'granite3-dense:2b'         // 1.6  GB on rm231
+//     var  aModel1          = 'qwen2:0.5b'                //  .35 GB on rm231          //#.(50327.05.1 RAM Smallest. Runs if dbugging or no command args given )
+//     var  aModel1          = 'qwen2-robin:latest'        //  .35 GB on rm231
 
-//     var  aModel1          = 'llama3.1:8b-instruct-q8_0' // 8.5  GB on rm228
-//     var  aModel1          = 'llama3.1:latest'           // 4.9  GB on rm228
-//     var  aModel1          = 'llama3.1:8b-instruct-q2_K' // 3.2  GB on rm228 // wierd results
-//     var  aModel1          = 'starcoder2:3b'             // 1.7  GB on rm228 // no results
-//     var  aModel1          = 'qwen2:7b'                  // 4.4  GB on rm228
-//     var  aModel1          = 'qwen2:1.5b'                //  .93 GB on rm228
+       var  aModel1          = 'llama3.1:8b-instruct-q8_0' // 8.5  GB on rm228
+       var  aModel1          = 'llama3.1:latest'           // 4.9  GB on rm228
+       var  aModel1          = 'llama3'                    // 4.7  GB on rm231
+       var  aModel1          = 'llama3.1:8b-instruct-q2_K' // 3.2  GB on rm228 // wierd results
+       var  aModel1          = 'llama3.2'                  // 2.0  GB on rm231
+       var  aModel1          = 'gemma2:2b'                 // 1.6  GB on rm231
+       var  aModel1          = 'qwen2:7b'                  // 4.4  GB on rm228
+       var  aModel1          = 'qwen2:0.5b'                //  .35 GB on rm228
+       var  aModel1          = 'starcoder2:3b'             // 1.7  GB on rm228 // no results
 
        var  nCTX_Size1       =  8000
 //     var  nCTX_Size1       =  16000
@@ -115,7 +120,8 @@
             pVars.SESSION_ID = 't009'
             pVars.NEXT_POST  = '05'                                 
      global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.29)
-            usrMsg(`\n -- S1201[ 117]* bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***` )        // .(50402.02.2)
+//   global.bInVSCode        =  true 
+            sayMsg(`S1201[ 118]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***`, 1 , 1 )     // .(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
          }; // eof setDebug Vars                                                                            // .(50405.03.1 End)
 //     ---  --------  =  --  =  ------------------------------------------------------  #  
@@ -136,13 +142,13 @@
      global.aAppDir          =  aAppDir
    global.__basedir2         =  FRT.path( aAppPath )
             FRT.__basedir2   =  FRT.path( aAppPath )
-       var  bIsInVSCode      =  FRT.isNotCalled( import.meta.url )                      // .(50331.07.1)
+     global.bInVSCode        =  FRT.isNotCalled( import.meta.url )                      // .(50201.09c.3).(50331.07.1)
 
 // Display configuration if verbose output is enabled
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
             bQuiet           =  0                                                       // .(50404.02.5)
         if (bQuiet == 2) {
-            usrMsg(`\n -- S1201[ 102]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}` )
+            saysg(`S1201[ 145]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, 1, 1 )
             }
             global.bQuiet    =  0                                                       // .(50404.02.6)
 
@@ -228,6 +234,8 @@
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
                                 } // eol Run loop                                       // .(50403.03.5)
+
+                                usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.11) 
                                 FRT.exit_wCR()                                          // .(50403.03a.1)
 // Main execution
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -235,7 +243,7 @@
      async  function  main( pParms ) {
        let  searchPrompt, aiPrompt; // Prompt user for search and AI queries
 
-        if (bDebug == true || bIsInVSCode ) {                                           //.(50331.07.2)
+        if (bDebug == true || bInVSCode ) {                                             // .(50201.09c.4).(50331.07.2)
             searchPrompt     =  aSearch       // "Lexington Va";                                                                             // .(50331.04.6)
             aiPrompt         =  aAIPrompt     // "The city's restaurants";                                                                   // .(50331.04.7)
         } else {
@@ -248,7 +256,8 @@
             usrMsg(""                                    , shoMsg('Parms' ) )           // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`, shoMsg('Parms' ) )           // .(50404.01.2)
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`    , shoMsg('Parms' ) )           // .(50404.01.3)
-            usrMsg("----------------".padEnd( 57, "-" )  , shoMsg('Parms' ) )                               // .(50404.05.11)
+
+                                usrMsg(  "----------------".padEnd(        57, "-" ), shoMsg('Parms') )    // .(50404.05.12)
  
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -278,8 +287,8 @@ async function  getNewsUrls( query ) {
             }
      const  searchResultsJson = JSON.parse(text);
 
-            usrMsg("---------------------------------------------------------------------------------------------- "       , shoMsg('Search' ) ) // .(50404.01.5)
-            usrMsg("Response from DuckDuckGo:"                                                                             , shoMsg('Search' ) ) // .(50404.01.6)
+            usrMsg("---------------------------------------------------------------------------------------------- "       , shoMsg('Search')  ) // .(50404.01.5)
+            usrMsg("Response from DuckDuckGo:"                                                                             , shoMsg('Search')  ) // .(50404.01.6)
        var  pResults =
              {  AbstractURL:             searchResultsJson.AbstractURL
              ,  Results: MWT.fmtResults( searchResultsJson.Results )
@@ -305,12 +314,12 @@ async function  getNewsUrls( query ) {
             usrMsg("\n* No URLs found, returning fallback.");
     return ["https://www.lexingtonvirginia.com/"];
             }
-            usrMsg(`\n  Found ${urls.length} URLs:`     , shoMsg('Search' ) )           // .(50404.01.4)    )
+            usrMsg(`\n  Found ${urls.length} URLs:`     , shoMsg('Search' ) )           // .(50404.01.8)    )
     return  urls;
 
         } catch( error ) {
-//          console.error( "Error in getNewsUrls:", error);                             //#.(50404.08.1)
-            sayMsg(    `\n* Error in getNewsUrls for query: '${query}'.`);              // .(50404.08.1)
+//          console.error(      "Error in getNewsUrls:", error);                        //#.(50404.08.1)
+            sayMsg(`A1201[ 313]* Error in getNewsUrls for query: '${query}'.`, 1, 1);   // .(50404.08.1)
             sayMsg(    `${error}`.replace( /\n/, "\n    " ) );                          // .(50404.08.2)
    return ["https://www.lexingtonvirginia.com/"];
             }
@@ -325,7 +334,7 @@ async function  getNewsUrls( query ) {
        var  texts = [];
        for (var url of urls) {
        try {
-            usrMsg( `    Fetching ${url}`               , shoMsg('Search' ) )           // .(50404.01.8);   ););
+            usrMsg( `    Fetching ${url}`               , shoMsg('Search' ) )           // .(50404.01.9);   ););
        var  response         =  await fetch( url );
        var  html             =  await response.text();
        var  text             =  await MWT.htmlToText( html );
@@ -350,8 +359,8 @@ async function  answerQuery( query, texts, document, webSearch ) {              
     return  usrMsg( "\n* No text content available to summarize.");                                         // .(50404.07.2 RAM Return -1 if error) 
             }
         var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
-            usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.9)
-            usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.10)
+            usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.10)
+            usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.11)
 
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
         if (bPrtSources == 1) {
@@ -376,7 +385,7 @@ async function  answerQuery( query, texts, document, webSearch ) {              
 
         if (global.nLog != 1) {
             aResult          =  MWT.wrap( aResult, nWdt, 4 )                            // .(50330.06a.7).(50330.06.3)
-            usrMsg( aResult                             , shoMsg('Results' ) )          // .(50404.01.19).(50330.06a.7).(50330.06.3)
+            usrMsg( aResult                             , shoMsg('Results' ) )          // .(50404.01.18).(50330.06a.7).(50330.06.3)
             }
             pStats.query     =  query                                                   // .(50331.03.4 Beg)
             pStats.url       =  document
@@ -385,20 +394,21 @@ async function  answerQuery( query, texts, document, webSearch ) {              
             pParms.logfile   = `${FRT.__basedir}/${aLogFile}`                           // .(50331.05.6 RAM Add logfile)
             pParms.temp      =  nTemperature
 
-            usrMsg( "\n----------------------------------------------------------------------------------------------\n"   , shoMsg('Stats')   ) // .(50404.01.20)
-            usrMsg(             MWT.fmtStats(   pStats, pParms ).join("\n")                                                , shoMsg('Stats')   ) // .(50404.01.21)
-            usrMsg( "\n---------------------------------------------------------------------------------------------- "    , shoMsg('Stats')   ) // .(50404.01.22)
-       var  nSecs            = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50404.01.23)
-            usrMsg(   `\n    > Ran Model: ${          pParms.model} in ${nSecs} secs (${aRunStr})`                         , shoMsg('RunId')   ) // .(50404.01.24).(50403.03.8)
+            usrMsg( "\n----------------------------------------------------------------------------------------------\n"   , shoMsg('Stats')   ) // .(50404.01.19)
+            usrMsg(             MWT.fmtStats(   pStats, pParms ).join("\n")                                                , shoMsg('Stats')   ) // .(50404.01.20)
+            usrMsg( "\n---------------------------------------------------------------------------------------------- "    , shoMsg('Stats')   ) // .(50404.01.21)
+       var  nSecs            = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50404.01.22)
+            usrMsg(   `\n    > Ran Model: ${          pParms.model} in ${nSecs} secs (${aRunStr})`                         , shoMsg('RunId')   ) // .(50404.01.23).(50403.03.8)
 
   var [ pStats_JSON, mRecs ] =  MWT.savStats(   pStats, pParms, aStatsFmt )                                 // .(50403.04.6 RAM Add aStatsFmt)
        var  bNotExists       =  FRT.checkFileSync( aStatsFile ).exists == false
         if (bNotExists) {       FRT.writeFile(  aStatsFile, `${mRecs[0]}\n` ) }
                                 FRT.appendFile( aStatsFile, `${mRecs[1]}\n` )           // .(50331.03.4 RAM Use it End)
         } catch( error ) {
-//          console.error( "Error in answerQuery:", error);                                                 //#.(50404.08.5)
-            sayMsg(    `\n* Error in answerQuery fetching Ollama model: ${pParms.model}.` )                 // .(50404.08.5)
-            sayMsg(    `${error}`.replace( /\n/, "\n    " ) );                                              // .(50404.08.6)
+//          console.error(        "Error in answerQuery:", error);                                          //#.(50404.08.5)
+            sayMsg(`A1201[ 400]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
+//          sayMsg(`A1201[ 401]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
+            sayMsg(`A1201[ 402]    Ollama ${error.name}: ${error.message}`, 1 );                            // .(50404.08.6)
             }
          }; // eof answerQuery
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #

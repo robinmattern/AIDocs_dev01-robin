@@ -15,28 +15,32 @@
        var  aBin_PATH    =  process.env.PATH.split( aDelim ).find( p => /\.?_0[\\\/]bin/.test( p ) )  
         if (aBin_PATH  ===  undefined ) { console.error( "No ._0/bin in PATH" ); process.exit( 1 ) }
 
+       var  bQuiet       =  0                                                           // .(50405.06.1)
        var  pLibs        =  { }
-            pLibs.bin    =  aBin_PATH
-            pLibs.FRT    =  getPath( 'frt',    'FRTs' ) 
-            pLibs.JPT    =  getPath( 'jpt',    'JPTs' ) 
-            pLibs.MWT    =  getPath(           'MWTs' ) 
-            pLibs.AIC    =  getPath( 'aic',    'FRTs/AICodeR' ) 
-            pLibs.AIDocs =  getPath( 'aidocs', 'run-aidocs' ).replace( /[\\\/]run-aidocs$/, '' ) 
-            pLibs.AnyLLM =  getPath( 'anyllm', 'AnyLLM' ) 
+            pLibs.bin    = (      ) => aBin_PATH                                        // .(50405.06.2) 
+            pLibs.FRT    = (bQuiet) => getPath( 'frt',    'FRTs', bQuiet )              // .(50405.06.3 Beg) 
+            pLibs.JPT    = (bQuiet) => getPath( 'jpt',    'JPTs', bQuiet ) 
+            pLibs.MWT    = (bQuiet) => getPath(           'MWTs', bQuiet ) 
+            pLibs.AIC    = (bQuiet) => getPath( 'aic',    'FRTs/AICodeR', bQuiet ) 
+            pLibs.AIDocs = (bQuiet) => getPath( 'aidocs', 'run-aidocs', bQuiet ).replace( /[\\\/]run-aidocs$/, '' ) 
+            pLibs.AnyLLM = (bQuiet) => getPath( 'anyllm', 'AnyLLM', bQuiet )            // .(50405.06.3 End)
 
 //  ------  -----------  =  ---------------------------------------------------------
 
   function  getPath( aLib, aLIB, bQuiet ) {    
-//         console.log(  `  joined path: '${ join( aBin_PATH, aLib ) }'` ) 
-      if (!aLIB) {  return  join( __dirname, aLib ) }
+//          console.log(  `  joined path: '${ join( aBin_PATH, aLib ) }'` ) 
+            bQuiet       =  (typeof(bQuiet) != 'undefined') ? bQuiet : 0                // .(50405.06.4)
+       if (!aLIB) {  return  join( __dirname, aLib ) }
    
        try {
        var  aBin_Script  =  readFileSync( join( aBin_PATH, aLib ), 'ASCII' ) 
         } catch(e) { return null }
        var  aLib_PATH    =  aBin_Script.split( '\n').find( p => p.includes( aLIB)) || '' 
             aLib_PATH    =  aLib_PATH.trim().match( new RegExp( `.+[\\\/]${aLIB}`, 'i' ) )  
-        if (aLib_PATH   ==  null ) { if (bQuiet != 1) { console.error( `* No ${aLIB} script path found.` ) }; return null }
-    return  aLib_PATH[0]
+        if (aLib_PATH   ==  null ) { if (bQuiet != 1) { 
+            console.error( `* No ${aLIB} script path found.` ) }; 
+    return  null }
+    return  fixPath( aLib_PATH[0] )                                                     // .(50405.06.5 RAM Add fixPath)               
             }  // eof getPath 
 //  ------  -----------  =  ---------------------------------------------------------
 
@@ -58,7 +62,7 @@
             };  // eof findReposDir 
 //  ------  -----------  =  ---------------------------------------------------------
 
-            Object.entries(  pLibs ).forEach( mLib => { pLibs[ mLib[0] ] = fixPath( mLib[1] ) } ) 
+//   Object.entries(pLibs).forEach( mLib => { pLibs[ mLib[0] ] = fixPath( mLib[1] ) } ) //#.(50405.06.5) 
 
     export  default  pLibs 
 
