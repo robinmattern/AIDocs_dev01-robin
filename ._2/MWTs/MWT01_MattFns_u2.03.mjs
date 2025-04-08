@@ -6,6 +6,7 @@
 ##FD   MWT01_MattFns_u1.03.mjs  |  18159|  4/02/25  7:20|   343| p1.03`50402.0720
 ##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| p1.03`50404.1230
 ##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| p1.03`50405.1645
+##FD   MWT01_MattFns_u2.03.mjs  |  20537|  4/07/25 19:xx|   362| p1.03`50407.19xx
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the utility functions for working with Matt
@@ -45,6 +46,8 @@
 #.(50403.04   4/03/25 RAM  2:45p| Save Stats to .tab file
 #.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg
 #.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
+#.(50407.02   4/07/25 RAM  6:50p| Bump version to 2.03
+#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code 
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -62,6 +65,7 @@ import { ftruncate } from 'fs';
 // import { JSDOM         }      from 'jsdom';
 
 //   -- --- ---------------  =  ------------------------------------------------------  #  ---------------- #
+       var  aVer             = "u2.03"                                                  // .(50407.02.1 Was u0.03)
 
       var __dirname          =    dirname( fileURLToPath( import.meta.url ) );          // .(50330.04.2)
        var  aEnvDir          =  __dirname.replace( /\._2.*/, '._2' )                    // .(50330.04.3)
@@ -247,13 +251,15 @@ function  fmtResults(results) {
             pStats.Temperature      = `${ parms.temp}`.padStart(4)                                                    // .(50404.05.03)
             pStats.Duration         = `${(stats.total_duration / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.04)
             pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
-            pStats.Query            =     stats.query
+            pStats.QPC              =     parms.qpc                                                                   // .(50407.03.4 RAM Add QPC)                                                                   
+            pStats.QueryPrompts     =     stats.query.length > 27                                                     // .(50407.03.5 RAM Was Query)
+                                    ? `${ stats.query.slice(0,24)}...` : stats.query.padEnd(27)                       // .(50407.03.5 RAM Add ...)   
             pStats.EvalDuration     = `${(stats.eval_duration  / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.06)
             pStats.PromptEvalTokens = `${ stats.prompt_eval_count               }`.padStart(6)                        // .(50404.05.07)
             pStats.TokensPerSecond  = `${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)}`.padStart(6)    // .(50404.05.08)
             pStats.WebSearch        =     stats.websearch                               // .(50330.04c.4)
+            pStats.WebSearchURL     =     stats.url                                     // .(50407.03.6)   
             pStats.Docs             =     stats.docs
-            pStats.URL              =     stats.url
             pStats.CPU_GPU          =  aCPU_GPU                                         // .(50330.04b.7 Beg)
             pStats.RAM              =  aRAM.replace( / *GB/, '' )
             pStats.OS               =  aOS
@@ -265,7 +271,8 @@ function  fmtResults(results) {
 //     var  aFlds                   = `Model,URL,Docs,Query,Context,Duration,PromptEvalCount,EvalCount,EvalDuration,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `Model,Context,Temperature,Duration,EvalTokens,URL,Docs,Query,EvalDuration,PromptEvalTokens,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `RespId,Model,Context,Temperature,Duration,"Eval Tokens",Query,"Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search",Docs,URL,CPU_GPU,RAM,OS,Computer,Server,"Response File"`
-       var  mFlds                   = [ "RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]
+//     var  mFlds                   = [ "RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  //#.(50407.03.7)
+       var  mFlds                   = [ "RespId     ","Model Name               ","Context","Temp","Duration","Eval Tokens","PCD","Model Query Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  // .(50407.03.7 RAM Add QPC column)
        var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'
        var  aFlds                   =  mFlds.join( aDelim )
        var  aRow                    =  aQQ + mStats.join( aDelim ) + aQQ                // .(50403.04.2 End)
