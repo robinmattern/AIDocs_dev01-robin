@@ -12,6 +12,7 @@
 ##FD int...ive_search_u2.01.mjs |  20382| 4/02/25  9:55|   346| u2.01`50402.0955
 ##FD int...ive_search_u2.02.mjs |  25816| 4/04/25 13:55|   381| u2.02`50404.1355
 ##FD int...ive_search_u2.02.mjs |  30875| 4/05/25 14:45|   422| u2.02`50405.1445
+##FD int...ive_search_u2.03.mjs |  30875| 4/07/25 19:xx|   422| u2.02`50407.19xx
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script gets a "document" from an internet search.  It then
@@ -66,6 +67,9 @@
 #.(50405.01a  4/05/25 RAM  2:35p| Change '-' to '_' in Stats file name
 #.(50405.06   4/05/25 RAM  4:35p| Major change to FRT_Libs.mjs
 #.(50404.05b  4/05/25 RAM  5:65p| Change 2nd line with to nWdt - 12
+#.(50405.01b  4/07/25 RAM  6:05p| Modify Stats dir and file name
+#.(50407.02   4/07/25 RAM  6:50p| Bump version to 2.03
+#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code 
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -82,12 +86,12 @@
 
 // Import modules using dynamic imports
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-       var  aVer             = "u2.02"                                                  // .(50402.02.1 RAM Add Version)
+       var  aVer             = "u2.03"                                                  // .(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
 
             LIBs.MWT         = () => "../../._2/MWTs"                                                       // .(50405.06.6)
 //     var  FRT              =( await import( `${LIBs.AIC()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.7)
        var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
-       var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u1.03.mjs`) ).default            // .(50405.06.9)
+       var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.03.mjs`) ).default            // .(50407.03.1).(50405.06.9)
 
 // Configure Debug Variables
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
@@ -161,13 +165,15 @@
             usrMsg( `* An .env file does not exist in ${ FRT.__dirname.replace( /.+server1/, './server1') }.`)
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
-       var  aSearch          =  pVars.SEARCH      || "Lexington Va"
-       var  aAIPrompt        =  pVars.QUERY       || "What are the city's restaurants?"
-       var  aSysPrompt       =  pVars.SYS_PROMPT  || "Please use the information in the following text"     // .(50331.09.1)
-       var  nRunCount        =  pVars.RUN_COUNT   ||  1                                                     // .(50403.03.2)
+       var  aWebSearch       =  pVars.WEB_SEARCH    || "Lexington Va"
+       var  aQPC             =  pVars.QUERY_PROMPT_CD  || ''                                                // .(50407.03.2 RAM Add QPC)                                          
+       var  aUsrPrompt       =  pVars.QUERY_PROMPT  || "What are the city's restaurants?"
+       var  aSysPrompt       =  pVars.SYS_PROMPT    || "Please use the information in the following text"   // .(50331.09.1)
+       var  nRunCount        =  pVars.RUN_COUNT     ||  1                                                   // .(50403.03.2)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
        var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 )
-       var  aSvr             =  pVars.THE_PB_NAME    ?  pVars.THE_PC_NAME : aServer.slice(0,5)              // .(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg)
+//     var  aSvr             =  pVars.THE_PC_NAME    ?  pVars.THE_PC_NAME : aServer.slice(0,5)              //#.(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg).(50405.01b.1)
+       var  aSvr             = (pVars.THE_PC_NAME    ?  pVars.THE_PC_NAME : aServer).slice(0,6)             // .(50405.01b.1 RAM Was 5 chars).(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg)
        var  bPrtSources      =  pVars.SHOW_SOURCES  ||    0          // Whether to print source content
      global.aPrtSections     =  pVars.SHOW_SECTIONS || 'all'                                                // .(50404.01.28)
        var  nWdt             = (pVars.WRAP_WIDTH    ||  145 ) * 1
@@ -202,10 +208,11 @@
        var  aLogFile         = `./docs/${aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                         // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 
-       var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`
+//     var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                  //#.(50405.01b.2 RAM Was: docs/${aAppName}/YY.MM.Mth/)
+       var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats/`                     // .(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
 //     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1)
-       var  aStatsFile       = `${aDocsDir.slice(0,3)}_${aSvr}_v${aVer.slice(1)}.${aStatsFmt}`              // .(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
+       var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_v${aVer.slice(1)}.${aStatsFmt}`        // .(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
        var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}${aStatsFile}` )                          // .(50402.14.5).(50331.04b.2)
 
 // Configure prompt and Ollama parameters
@@ -214,7 +221,7 @@
 
        var  pParms           =
              {  model        :  aModel
-             ,  prompt       : `{Query}.${aSysPrompt} {Text}`
+             ,  prompt       : `{Query}.${aSysPrompt} {Docs}`                                               
              ,  stream       :  true
              ,  options      :{ num_ctx:        nCTX_Size            // Set the context size <int>          // .(50403.01.1 Beg)
 //                            , temperature:    nTemperature         // Set creativity level <float>        // .(50331.11.1 RAM Temperature has problems)
@@ -229,6 +236,7 @@
 //                            , stop:           <string> <string>    // Set the stop parameters             // .(50403.01.1 End)
                                 }
              ,  runid        : `${aRunId},${iRun+1} of ${nRunCount}`                                        // .(50403.03.4)
+             ,  qpc          :  aQPC                                                                        // .(50407.03.3)
                 } // eoo pParms
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -247,14 +255,14 @@
        let  searchPrompt, aiPrompt; // Prompt user for search and AI queries
 
         if (bDebug == true || bInVSCode ) {                                             // .(50201.09c.4).(50331.07.2)
-            searchPrompt     =  aSearch       // "Lexington Va";                                                                             // .(50331.04.6)
-            aiPrompt         =  aAIPrompt     // "The city's restaurants";                                                                   // .(50331.04.7)
+            searchPrompt     =  aWebSearch    // "Lexington Va";                                                                             // .(50331.04.6)
+            aiPrompt         =  aUsrPrompt    // "The city's restaurants";                                                                   // .(50331.04.7)
         } else {
             usrMsg( "" )
-//          searchPrompt     =( await MWT.ask4Text( "Enter your search prompt (e.g., '${aSearch)Lexington VA'): " ) ) || "Lexington Va";     //#.(50330.03.6).(50331.04.8)
-            searchPrompt     =( await MWT.ask4Text( `Enter your search prompt (e.g., '${aSearch}'): `       ) ) ||  aSearch;                 // .(50331.04.8).(50330.03.6)
+//          searchPrompt     =( await MWT.ask4Text( "Enter your search prompt (e.g., '${aWebSearch)Lexington VA'): " ) ) || "Lexington Va";  //#.(50330.03.6).(50331.04.8)
+            searchPrompt     =( await MWT.ask4Text( `Enter your search prompt (e.g., '${aWebSearch}'): `    ) ) ||  aWebSearch;              // .(50331.04.8).(50330.03.6)
 //          aiPrompt         =( await MWT.ask4Text( "Enter your AI prompt (e.g., 'Tell me about tourism'): ") ) || "Tell me about tourism";  //#.(50330.03.7).(50331.04.9)
-            aiPrompt         =( await MWT.ask4Text( `Enter your AI prompt (e.g., '${aAIPrompt}'): `         ) ) ||  aAIPrompt;               // .(50331.04.9).(50330.03.7)
+            aiPrompt         =( await MWT.ask4Text( `Enter your AI prompt (e.g., '${aUsrPrompt}'): `        ) ) ||  aUsrPrompt;              // .(50331.04.9).(50330.03.7)
             }
             usrMsg(""                                    , shoMsg('Parms' ) )           // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`, shoMsg('Parms' ) )           // .(50404.01.2)
@@ -372,12 +380,12 @@ async function  answerQuery( query, texts, document, webSearch ) {              
         } else {
             usrMsg(   `  Docs:      "${texts.length} Sources,${ `${aSources.length}`.padStart(6) } bytes from ${document}"`, shoMsg('Parms')   ) // .(50404.01.12).(50331b.01.5).(50331.01.5 RAM Add documents)
             }
-            usrMsg(   `  SysPrompt: "${ pParms.prompt.replace( /{Text}/, "" ).replace( /{Query}\./, "" ) }"`               , shoMsg('Parms')   ) // .(50404.01.13)
+            usrMsg(   `  SysPrompt: "${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "" ) }"`               , shoMsg('Parms')   ) // .(50404.01.13)
             usrMsg(   `  Query:     "${query}"`                                                                            , shoMsg('Parms')   ) // .(50404.01.14)
             usrMsg(   `  Prompt:    "{Query}. {SysPrompt}, {Docs}"`                                                        , shoMsg('Parms')   ) // .(50404.01.15)
 
             pParms.prompt    =  pParms.prompt.replace( /{Query}/, query )
-            pParms.prompt    =  pParms.prompt.replace( /{Text}/,  texts.join("\n\n" ))
+            pParms.prompt    =  pParms.prompt.replace( /{Docs}/,  texts.join("\n\n" ))
 
 //          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) //#.(50404.01.16).(50403.03.7)
             usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.16).(50403.03.7)
