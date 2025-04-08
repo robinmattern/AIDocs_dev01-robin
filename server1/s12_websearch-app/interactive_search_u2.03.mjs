@@ -73,7 +73,7 @@
 #.(50408.05   4/08/25 RAM  6:05p| Loop through Query Prompts file
 #.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON    
 #.(50408.08   4/08/25 RAM  6:25p| Change Query to UsrPrompt
-#.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo
+#.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo 
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD  
 #
 ##PRGM     +====================+===============================================+
