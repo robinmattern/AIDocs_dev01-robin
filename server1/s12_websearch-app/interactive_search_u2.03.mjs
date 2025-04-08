@@ -12,7 +12,7 @@
 ##FD int...ive_search_u2.01.mjs |  20382| 4/02/25  9:55|   346| u2.01`50402.0955
 ##FD int...ive_search_u2.02.mjs |  25816| 4/04/25 13:55|   381| u2.02`50404.1355
 ##FD int...ive_search_u2.02.mjs |  30875| 4/05/25 14:45|   422| u2.02`50405.1445
-##FD int...ive_search_u2.03.mjs |  30875| 4/07/25 19:xx|   422| u2.02`50407.19xx
+##FD int...ive_search_u2.03.mjs |  37586| 4/08/25 18:45|   480| u2.02`50408.1845
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script gets a "document" from an internet search.  It then
@@ -24,7 +24,7 @@
 #            MIT License: http://www.opensource.org/licenses/mit-license.php
 ##FNS      .--------------------+----------------------------------------------+
 #                               |
-#            setDebugVars()  
+#            setDebugVars()
 # async ion  main( ) {
 # async ion  getNewsUrls( query ) {
 # async ion  getCleanedText( urls ) {
@@ -68,13 +68,13 @@
 #.(50405.06   4/05/25 RAM  4:35p| Major change to FRT_Libs.mjs
 #.(50404.05b  4/05/25 RAM  5:65p| Change 2nd line with to nWdt - 12
 #.(50405.01b  4/07/25 RAM  6:05p| Modify Stats dir and file name
-#.(50407.02   4/07/25 RAM  6:50p| Bump version to 2.03  
-#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code  
+#.(50407.02   4/07/25 RAM  6:50p| Bump version to 2.03
+#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code
 #.(50408.05   4/08/25 RAM  6:05p| Loop through Query Prompts file
-#.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON    
+#.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON
 #.(50408.08   4/08/25 RAM  6:25p| Change Query to UsrPrompt
-#.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo 
-#.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD  
+#.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo
+#.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -195,29 +195,29 @@
                                 usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.9)
                                 setDebugVars()                                                              // .(50405.03.2 RAM Set them here)
 
-// Setup Model Query Prompts and loop through RUN_COUNT 
+// Setup Model Query Prompts and loop through RUN_COUNT
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
-       var  nRunCount        =  pVars.RUN_COUNT        || 1    
+       var  nRunCount        =  pVars.RUN_COUNT        || 1
        var  bUsePromptFile   =  pVars.USE_PROMPTS_FILE || 0                                                 // .(50408.05.1 RAM Use Prompts file Beg)
         if (bUsePromptFile != 1) {
-       var  mPrompts         =  
-             { QPC           :  pVars.QUERY_PROMPT_CD  || ''                                                // .(50407.03.2 RAM Add QPC)                                          
+       var  mPrompts         =
+             { QPC           :  pVars.QUERY_PROMPT_CD  || ''                                                // .(50407.03.2 RAM Add QPC)
              , Prompt        :  pVars.QUERY_PROMPT     || "What are the city's restaurants?"
                }
         } else {
-       var  mPrompts         =  FRT.readFileSync( `${aAppPath}/${pVars.SEARCH_PROMPTS}` ).split( "\n" ) 
-            mPrompts         =  mPrompts.map(  aPrompt => { return { 
-               QPC           :  aPrompt.slice( 0, 3 ) 
+       var  mPrompts         =  FRT.readFileSync( `${aAppPath}/${pVars.SEARCH_PROMPTS}` ).split( "\n" )
+            mPrompts         =  mPrompts.map(  aPrompt => { return {
+               QPC           :  aPrompt.slice( 0, 3 )
              , Prompt        :  aPrompt.slice( 4 ).replace(/^[. '"]+/, "" ).trim().replace(/[ '"]+$/, "" )
-               } } )  
+               } } )
             }                                                                                               // .(50408.05.1 End)
        var  aSysPrompt       =  pVars.SYS_PROMPT || "Please use the information in the following text"      // .(50331.09.1)
 
        for (let iRun = 0; iRun < nRunCount; iRun++) {                                                       // .(50403.03.3)
-       var  aQPC             =  mPrompts[ iRun ].QPC                                                        // .(50408.05.2) 
-       var  aUsrPrompt       =  mPrompts[ iRun ].Prompt                                                     // .(50408.05.3 
-              
+       var  aQPC             =  mPrompts[ iRun ].QPC                                                        // .(50408.05.2)
+       var  aUsrPrompt       =  mPrompts[ iRun ].Prompt                                                     // .(50408.05.3
+
        var  aTitle           = `${pVars.SESSION_TITLE}` || ''                                               // .(50405.02.2)
        var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50405.02.3)
        var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              // .(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
@@ -243,7 +243,7 @@
 
        var  pParms           =
              {  model        :  aModel
-             ,  prompt       : `{Query}.${aSysPrompt} {Docs}`                                               
+             ,  prompt       : `{Query}.${aSysPrompt} {Docs}`
              ,  stream       :  true
              ,  options      :{ num_ctx:        nCTX_Size            // Set the context size <int>          // .(50403.01.1 Beg)
 //                            , temperature:    nTemperature         // Set creativity level <float>        // .(50331.11.1 RAM Temperature has problems)
@@ -311,7 +311,7 @@
 async function  getNewsUrls( query ) {
 //   const  url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`;                 //#.(50408.09.1))
      const  url =  pVars.WEB_SEARCH_URL.replace( /{WebSearch}/, encodeURIComponent(query) )                 // .(50408.09.1 RAM Use WEB_SEARCH_URL)
-     const  fallbackURL = pVars.WEB_FALLBACK_URL                                                            // .(50408.09.2) 
+     const  fallbackURL = pVars.WEB_FALLBACK_URL                                                            // .(50408.09.2)
 
             usrMsg(`  Fetching from:   "${url.replace(/%20/g, "+")}"`, shoMsg('Parms')) // .(50404.01.4)
   try {
@@ -322,8 +322,8 @@ async function  getNewsUrls( query ) {
      const  text     =  await response.text();
        if (!text) {
             usrMsg("\n Empty response from Web Search URL.");                                               // .(50408.09.3 RAM Was DuckDuckGo)
-//  return ["https://www.lexingtonvirginia.com/"];                                                          //#.(50408.09.4) 
-    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.4) 
+//  return ["https://www.lexingtonvirginia.com/"];                                                          //#.(50408.09.4)
+    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.4)
             }
      const  searchResultsJson = JSON.parse(text);
 
@@ -339,7 +339,7 @@ async function  getNewsUrls( query ) {
        var  aResults =  JSON.stringify(pResults, null, 2).replace(/\\n     /g, "\n     ").replace(/\\n       /g, "\n       ")
             usrMsg(`\n  Web Search Response:\n${ aResults.replace( /{/, "" ).replace(/\n}/, "") }`                         , shoMsg('Search' ) ) // .(50404.01.7)
 
-       var  results =                                                                                       // .(50408.07.2 RAM This has many more "results" than pResults above)                                         
+       var  results =                                                                                       // .(50408.07.2 RAM This has many more "results" than pResults above)
              [ ...( searchResultsJson.Results || [] )
              , ...( searchResultsJson.RelatedTopics || []).flatMap( item =>
                   "Topics" in item ? item.Topics : [item]
@@ -352,18 +352,18 @@ async function  getNewsUrls( query ) {
        var  urls = results.map( result => result.FirstURL ).slice(0, 5);                                    // .(50408.07.2 RAM He only returns the first 5 URLs)
         if (urls.length === 0) {
             usrMsg("\n* No URLs found, returning fallback.");
-//  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.6) 
-    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.6) 
+//  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.6)
+    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.6)
             }
-            usrMsg(`\n  Found ${urls.length} URLs:`      , shoMsg('Search' ) )          // .(50404.01.8)    
-    return  { WebResponse: pResults, URLs: urls } ;                                                         // .(50408.06.10) 
+            usrMsg(`\n  Found ${urls.length} URLs:`      , shoMsg('Search' ) )          // .(50404.01.8)
+    return  { WebResponse: pResults, URLs: urls } ;                                                         // .(50408.06.10)
 
         } catch( error ) {
 //          console.error(      "Error in getNewsUrls:", error);                        //#.(50404.08.1)
             sayMsg(`A1201[ 313]* Error in getNewsUrls for query: '${query}'.`, 1, 1);   // .(50404.08.1)
             sayMsg(    `${error}`.replace( /\n/, "\n    " ) );                          // .(50404.08.2)
-//  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.7) 
-    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.7) 
+//  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.7)
+    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.7)
              }
          }; // eof getNewsUrls
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
@@ -399,8 +399,8 @@ async function  getNewsUrls( query ) {
  */
 // async function  answerQuery( query, texts, document, webSearch ) {                                       //#.(50330.04c.2).(50331.01.2).(50408.06.11)
    async function  answerQuery( query, pJSON_Results, document, webSearch ) {                               // .(50408.06.11).(50330.04c.2).(50331.01.2)
-       var  texts     =  pJSON_Results.Docs                                                                 // .(50408.06.12)  
-       var  document  =  pJSON_Results.URLs[0]                                                              // .(50408.06.13)  
+       var  texts     =  pJSON_Results.Docs                                                                 // .(50408.06.12)
+       var  document  =  pJSON_Results.URLs[0]                                                              // .(50408.06.13)
         if (texts.length === 0) {
     return  usrMsg( "\n* No text content available to summarize.");                                         // .(50404.07.2 RAM Return -1 if error)
             }
@@ -423,9 +423,9 @@ async function  getNewsUrls( query ) {
             pParms.prompt    =  pParms.prompt.replace( /{Query}/, query )
             pParms.prompt    =  pParms.prompt.replace( /{Docs}/,  texts.join("\n\n" ))
 
-            pJSON_Results.PromptTemplate = "{Query}. {SysPrompt}, {Docs}" 
-            pJSON_Results.Prompt         =  pParms.prompt 
-            pJSON_Results.Platform       =  pVars.PLATFORM 
+            pJSON_Results.PromptTemplate = "{Query}. {SysPrompt}, {Docs}"
+            pJSON_Results.Prompt         =  pParms.prompt
+            pJSON_Results.Platform       =  pVars.PLATFORM
             pJSON_Results.SysPrompt      =  pVars.SYS_PROMPT
 
 //          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) //#.(50404.01.16).(50403.03.7)
@@ -448,7 +448,7 @@ async function  getNewsUrls( query ) {
             pParms.jsonfile  =  pParms.logfile.replace( /.txt/, '.json' )                                   // .(50408.06.15 RAM Use ...response.json)
             pParms.mdfile    =  pParms.logfile.replace( /.txt/, '.md'   )                                   // .(50408.10.3 RAM Use ...response.md)
             pParms.temp      =  nTemperature
-            
+
             usrMsg( "\n----------------------------------------------------------------------------------------------\n"   , shoMsg('Stats')   ) // .(50404.01.19)
             usrMsg(             MWT.fmtStats(   pStats, pParms ).join("\n")                                                , shoMsg('Stats')   ) // .(50404.01.20)
             usrMsg( "\n---------------------------------------------------------------------------------------------- "    , shoMsg('Stats')   ) // .(50404.01.21)
@@ -459,10 +459,10 @@ async function  getNewsUrls( query ) {
        var  bNotExists       =  FRT.checkFileSync( aStatsFile ).exists == false
         if (bNotExists) {       FRT.writeFile(     aStatsFile, `${mRecs[0]}\n` ) }
                                 FRT.appendFile(    aStatsFile, `${mRecs[1]}\n` )           // .(50331.03.4 RAM Use it End)
-       var  aJSON_Results    =  MWT.savStats4JSON( pStats_JSON,     pJSON_Results ) // , pParms )           // .(50408.06.17)                               
-                                FRT.writeFile(     pParms.jsonfile, aJSON_Results )                         // .(50408.06.18)                                     
-//     var  aMD_Results      =  MWT.savStats4MD(   pStats_JSON,     pJSON_Results ) // , pParms )           // .(50408.10.4)                               
-//                              FRT.writeFile(     pParms.mdfile,   aMD_Results   )                         // .(50408.10.5)                                     
+       var  aJSON_Results    =  MWT.savStats4JSON( pStats_JSON,     pJSON_Results ) // , pParms )           // .(50408.06.17)
+                                FRT.writeFile(     pParms.jsonfile, aJSON_Results )                         // .(50408.06.18)
+//     var  aMD_Results      =  MWT.savStats4MD(   pStats_JSON,     pJSON_Results ) // , pParms )           // .(50408.10.4)
+//                              FRT.writeFile(     pParms.mdfile,   aMD_Results   )                         // .(50408.10.5)
         } catch( error ) {
 //          console.error(        "Error in answerQuery:", error);                                          //#.(50404.08.5)
             sayMsg(`A1201[ 400]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
