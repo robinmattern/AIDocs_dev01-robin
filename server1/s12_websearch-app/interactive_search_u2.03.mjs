@@ -69,7 +69,7 @@
 #.(50404.05b  4/05/25 RAM  5:65p| Change 2nd line with to nWdt - 12
 #.(50405.01b  4/07/25 RAM  6:05p| Modify Stats dir and file name
 #.(50407.02   4/07/25 RAM  6:50p| Bump version to 2.03  
-#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code 
+#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code   
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |

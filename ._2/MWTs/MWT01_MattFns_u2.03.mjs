@@ -47,7 +47,7 @@
 #.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg
 #.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
 #.(50407.02   4/07/25 RAM  6:50p| Bump version to 2.03
-#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code 
+#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code   
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
