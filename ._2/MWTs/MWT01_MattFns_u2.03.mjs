@@ -252,11 +252,11 @@ function  fmtResults(results) {
 //          pJSON.Docs       =  pResults.Docs
 //          pJSON.Stats      =  pStats
 
-       var  pJSON =
-             { RunId:                 pStats.RunId
-             , WebSearch:
-                { URL:                pStats.WebSearchURL      // pResults.URLs[0]        //
-                , Prompt:             pStats.WebSearch        //    "roman empire"
+        var pWebSearch       =  { }                                                     // .(50409.03.x)
+        if (pResults.URLs.length) {                                                     // .(50409.03.x)
+        var pWebSearch =                                                                // .(50409.03.x)
+                { URL:                pStats.WebSearchURL      // pResults.URLs[0]       
+                , Prompt:             pStats.WebSearch         //    "roman empire"
                 , Response:
                    { AbstractURL:     pResults.WebResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
                    , Results:         pResults.WebResponse.Results
@@ -264,6 +264,23 @@ function  fmtResults(results) {
                    , URLs:            pResults.URLs
                      }
                   }
+            }                                                                           // .(50409.03.x)
+        var pDocSearch       =  { }                                                     // .(50409.03.x)
+        if (pResults.Files.length) {                                                    // .(50409.03.x)
+        var pDocSearch = 
+                { DocsPath:           pResults.DocsPath         
+                , Response:
+                   { AbstractURL:     pResults.DocResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
+                   , Results:         pResults.DocResponse.Results
+                   , RelatedTopics:   pResults.DocResponse.RelatedTopics
+                   , URLs:            pResults.Docs
+                     }
+                  }
+            }                                                                           // .(50409.03.x)
+       var  pJSON =
+             { RunId:                 pStats.RunId
+             , WebSearch:             pWebSearch                                        // .(50409.03.x)
+             , DocSearch:             pDocSearch                                        // .(50409.03.x)
              , ModelQuery:
                 { Model:              pStats.ModelName
                 , Platform:           pResults.Platform
@@ -283,12 +300,15 @@ function  fmtResults(results) {
                 , JSONResponse:       pStats.ResponseFile.replace( /.+docs/i, './docs' ).replace( /.txt$/, '.json' )
                   }
                }
+//          delete pJSON.ModelQuery.RunStats.ResponseFile
             delete pStats.ResponseFile
             delete pStats.WebSearchURL
             delete pStats.WebSearch
             delete pStats.QueryPrompts
             delete pStats.Docs
             delete pStats.QPC
+
+//          pJSON.ModelQuery.RunStats.ModelName = pJSON.ModelQuery.RunStats.ModelName.trim()
             pStats.ModelName        = pStats.ModelName.trim()
             pStats.ContextSize      = pStats.ContextSize      * 1 //
             pStats.Temperature      = pStats.Temperature      * 1 // "0.07"
