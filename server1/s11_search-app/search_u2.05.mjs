@@ -82,6 +82,8 @@
 #.(50410.04   4/10/25 RAM  3:25p| Add QPC to prompt output  
 #.(50410.04a  4/13/25 RAM  6:00a| Change UOC and Query to UsrPrompt
 #.(50413.02   4/13/25 RAM  7:00a| Add new columns to spreadsheet 
+#.(50413.03   4/13/25 RAM  4:00p| Add SysPrompt Test loop
+
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -262,14 +264,14 @@ import { doesNotReject } from "assert";
        var  aSysPrompt       =  mSysPrompts[ nTest ].SysPrompt  
             aSessionId       = `${aSessionId.slice(0,3)}${ `${ nTest + 1 }`.padStart( 1, "0" ) }` 
        var  aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 RAM Replace PC_Name)
-            aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.x)
-            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.x)
-//     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.x)
-       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.x).(50405.02.3)
-//     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.x)
-       var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.x).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
+            aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.3)
+            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.4)
+//     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.5)
+       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.5).(50405.02.3)
+//     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.6)
+       var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.6).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
             usrMsg( `  - A1201[ 271]  ${aSessionName}  ${aSysPmtCd}  ${nTemperature}  ${aSysPrompt.slice(0,66) }...`, 1 ) 
-            }
+//          }                                                                                               //#.(50413.03.7 Do the full double loop)
   
        for (let iRun  = 0; iRun < nRunCount; iRun++) {                                                      // .(50403.03.3)
        var  aQPC             =  mUsrPrompts[ iRun ].QPC                                                     // .(50408.05.2)
@@ -277,18 +279,18 @@ import { doesNotReject } from "assert";
 
 //     var  aTitle           = `${pVars.SESSION_TITLE}` || ''  
             aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 RAM Replace PC_Name)
-            aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.x)
-            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.x)
-//     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.x)
-       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.x).(50405.02.3)
-//     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.x)
-       var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.x).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
+            aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.8)
+            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.9)
+//     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.10)
+       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.10).(50405.02.3)
+//     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.11)
+       var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.12).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
        var  aNextPost        = `${ 1 + pVars.NEXT_POST * 1 }`.padStart( 2, "0" )                            // .(50331.08.4 RAM Set Next_Post)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname)                          // .(50331.08.5)
 // Setup logfile
 //          aDocsDir         =  aDocsDir.replace( /{TNum}/, `_${pVars.SESSION_ID}` )                        //#.(50404.06.6).(50405.02.4)
             aDocsDir         =  aDocsDir.replace( /{SName}/, `_${aSessionName}` )                           // .(50405.02.4).(50404.06.6)
-            aDocsDir         =  aDocsDir.replace( /:/, `;` )                                                // .(50413.03.x RAM Model nameshave ":"
+            aDocsDir         =  aDocsDir.replace( /:/, `;` )                                                // .(50413.03.13 RAM Model nameshave ":"
 //     var  aLogFile         =      `./${aAppDir}/${aAppDir.slice(0,3)}_t001.01.4.${aTS}_Response.txt`      //#.(50331.02.5)
        var  aLogFile         = `./docs/${aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                         // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
@@ -302,7 +304,7 @@ import { doesNotReject } from "assert";
        var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}/${aStatsFile}` )                         // .(50402.14.5).(50331.04b.2)
 
 // Configure prompt and Ollama parameters
-//     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"  // .(50413.03.x)
+//     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"  // .(50413.03.14)
        var  ollamaUrl        =  pVars[`${aPlatform}_API_URL`] // 'http://localhost:11434/api/generate'      // .(50331.09.2 Adjust if Ollama runs elsewhere)
 
        var  pParms           =
@@ -333,7 +335,11 @@ import { doesNotReject } from "assert";
 
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
-                                } // eol Run loop                                       // .(50403.03.5)
+
+                                } // eol Run loop                                                           // .(50403.03.5)
+//     -                 --  =  ------------------------------------------------------  #  
+                         } // eol Test loop                                                                 // .(50413.03.7 End of test loop)
+//     -            ---- --  =  ------------------------------------------------------  #  -----
 
                                 usrMsg("\n----------------".padEnd( nWdt +  1, "-" ) )                      // .(50404.05.11)
                                 FRT.exit_wCR()                                          // .(50403.03a.1)

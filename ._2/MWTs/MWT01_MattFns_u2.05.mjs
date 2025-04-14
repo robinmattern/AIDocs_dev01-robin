@@ -287,7 +287,7 @@ function  fmtResults(results) {
                 , Platform:           pResults.Platform
                 , CompinedPrompt:
                    { UsrPromptCode:   pStats.QPC                                        // .(50410.04a.5)
-                   , UsrPrompt:       pStats.UsrPrompt                                  // .(50413.03.x RAM Was QueryPrompts)
+                   , UsrPrompt:       pStats.UsrPrompt                                  // .(50413.02.1 RAM Was QueryPrompts)
                    , SysPromptCode:   pResults.SysPmtCd                                 // .(50413.02.2)
                    , SysPrompt:       pResults.SysPrompt
                    , Documents:       pStats.Docs
@@ -306,7 +306,7 @@ function  fmtResults(results) {
             delete pStats.ResponseFile
             delete pStats.WebSearchURL
             delete pStats.WebSearch
-            delete pStats.UsrPrompt                                                     // .(50413.03.x)
+            delete pStats.UsrPrompt                                                     // .(50413.02.1)
             delete pStats.Docs
             delete pStats.QPC
 
