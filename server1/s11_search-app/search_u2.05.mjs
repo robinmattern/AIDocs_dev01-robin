@@ -75,6 +75,13 @@
 #.(50408.08   4/08/25 RAM  6:25p| Change Query to UsrPrompt
 #.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
+#.(50409.02   4/09/25 RAM  5:00a| Replace PC_Name and mPrompts array 
+#.(50409.03   4/09/25 RAM 12:30p| Enable DocSearch and WebSearch 
+#.(50410.01   4/10/25 RAM  2:15p| Save .tab spreadsheet as .csv after mkdir 
+#.(50410.03   4/10/25 RAM  3:05p| Duplication mPrompts if necessary 
+#.(50410.04   4/10/25 RAM  3:25p| Add QPC to prompt output  
+#.(50410.04a  4/13/25 RAM  6:00a| Change UOC and Query to UsrPrompt
+#.(50413.02   4/13/25 RAM  7:00a| Add new columns to spreadsheet 
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -88,20 +95,20 @@
 // import { createInterface }   from 'node:readline/promises';
    import   LIBs                from '../../._2/FRT_Libs.mjs'
    import { Stats } from "fs";
+import { doesNotReject } from "assert";
 
 // Import modules using dynamic imports
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-       var  aVer             = "u2.03"                                                  // .(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
+       var  aVer             = "u2.05"                                                  // .(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
 
             LIBs.MWT         = () => "../../._2/MWTs"                                                       // .(50405.06.6)
 //     var  FRT              =( await import( `${LIBs.AIC()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.7)
        var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
-       var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.03.mjs`) ).default            // .(50407.03.1).(50405.06.9)
+       var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.1 RAM New Version).(50407.03.1).(50405.06.9)
 
 // Configure Debug Variables
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-  function  setDebugVars() { 
-                                                                                      // .(50405.03.1 RAM Write setDebugVars Beg)
+  function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
        var  bDebug           =  0               // Debug flag
 
 //     var  aModel1          = 'llama3'                    // 4.7  GB on rm231
@@ -172,11 +179,11 @@
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
        var  aWebSearch       =  pVars.WEB_SEARCH    || "Lexington Va"
-       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.3 RAM Do Web Search)      
-       var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.1 RAM Do Docs Search)      
-       var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.2)      
+       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.10 RAM Do Web Search)      
+       var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.11 RAM Do Docs Search)      
+       var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)      
 
-       var  nRunCount        =  pVars.RUN_COUNT     ||  1                                                   // .(50403.03.2)
+//     var  nRunCount        =  pVars.RUN_COUNT     ||  1                                                   //#.(50403.03.2).(50403.03.x)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
        var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ) || ''
 //     var  aSvr             =  pVars.THE_PC_NAME    ?  pVars.THE_PC_NAME : aServer.slice(0,5)              //#.(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg).(50405.01b.1)
@@ -190,7 +197,7 @@
 //          aModel           =  pVars.MODEL       ||  aModel                                                //#.(50331.10.2)
             aModel           =  pVars[`${aPlatform}_MODEL_NAME` ] || aModel1                                // .(50331.10.2)
             nCTX_Size        = (pVars[`${aPlatform}_CTX_SIZE`   ] || nCTX_Size1 ) * 1                       // .(50331.10.3)
-       var  nTemperature     = (pVars[`${aPlatform}_TEMPERATURE`] || .07       ) * 1                        // .(50331.10.4)
+       var  nTemperature     = (pVars[`${aPlatform}_TEMPERATURE`] || .07        ) * 1                       // .(50331.10.4)
 
        var  mArgs            =  process.argv.slice(2)
        var  aModel           =  mArgs[0] ? mArgs[0] : aModel
@@ -202,48 +209,100 @@
 // Setup Model Query Prompts and loop through RUN_COUNT
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
-       var  nRunCount        =  pVars.RUN_COUNT        || 1
-       var  bUsePromptFile   =  pVars.USE_PROMPTS_FILE || 0                                                 // .(50408.05.1 RAM Use Prompts file Beg)
-        if (bUsePromptFile != 1) {
-       var  mPrompts         = [                                                                            // .(50409.02.1 RAM Put into array)
-             { QPC           :  pVars.QUERY_PROMPT_CD  || ''                                                // .(50407.03.2 RAM Add QPC)
-             , Prompt        :  pVars.QUERY_PROMPT     || "What are the city's restaurants?"
+       var  nRunCount        =  pVars.USR_RUN_COUNT        || 1                                             // .(50403.03.x)
+       var  bUsrPromptFile   =  pVars.USE_USR_PROMPTS_FILE || 0                                             // .(50408.05.1 RAM Use Prompts file Beg)
+        if (bUsrPromptFile != 1) {
+       var  mUsrPrompts      =  [                                                                           // .(50409.02.1 RAM Put into array)
+             { QPC           :  pVars.USR_PROMPT_CD  || ''                                                  // .(50410.04a.1 RAM Was QUERY_PROMPT).(50407.03.2 RAM Add QPC)
+             , UsrPrompt     :  pVars.USR_PROMPT     || "What do you know?"                                 // .(50410.04a.2) 
                } ]                                                                                          // .(50409.02.2)
-        } else {
-       var  mPrompts         =  FRT.readFileSync( `${aAppPath}/${pVars.SEARCH_PROMPTS}` ).split( "\n" )
-            mPrompts         =  mPrompts.map(  aPrompt => { return {
-               QPC           :  aPrompt.slice( 0, 3 )
-             , Prompt        :  aPrompt.slice( 4 ).replace(/^[. '"]+/, "" ).trim().replace(/[ '"]+$/, "" )
+//          mUsrPrompts      =  mPrompts.flatMap( pPrompt => Array( nRunCount ) .fill( pPrompt ) );                   //#.(50410.03.1
+//          mUsrPrompts      =  mPrompts.flatMap( pPrompt => Array( nRunCount ).fill().map(() => ( {...pPrompt} ) ) ) //#.(50410.03.1)
+                                for (var i = 0; i < nRunCount - 1; i++ ) { mUsrPrompts.push( mUsrPrompts[0] ) }   // .(50410.03.1 RAM Duplicate mUsrPrompt[0] if not using user-prompts file)
+          } else {
+       var  mUsrPrompts      =  FRT.readFileSync( `${aAppPath}/${pVars.USR_PROMPTS_FILE}` ).split( "\n" )
+            mUsrPrompts      =  mUsrPrompts.map(  aUsrPrompt => { return {
+               QPC           :  aUsrPrompt.slice( 0, 3 )
+             , Prompt        :  aUsrPrompt.slice( 4 ).replace(/^[. '"]+/, "" ).trim().replace(/[ '"]+$/, "" )
                } } )
             }                                                                                               // .(50408.05.1 End)
-       var  aSysPrompt       =  pVars.SYS_PROMPT || "Please use the information in the following text"      // .(50331.09.1)
+       // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
-       for (let iRun = 0; iRun < nRunCount; iRun++) {                                                       // .(50403.03.3)
-       var  aQPC             =  mPrompts[ iRun ].QPC                                                        // .(50408.05.2)
-       var  aUsrPrompt       =  mPrompts[ iRun ].Prompt                                                     // .(50408.05.3
+       var  nSysCount        =  pVars.SYS_RUN_COUNT        || 1                                             // .(50403.03.x)
+//     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"  // .(50413.03.x)
+       var  bSysPromptFile   =  pVars.USE_SYS_PROMPTS_FILE || 0                                             // .(50408.05.1 RAM Use Prompts file Beg)
+        if (bSysPromptFile != 1) {
+       var  mSysPrompts      =  [                                                                           
+             { SysPmtCd      :  pVars.SYS_PROMPT_CD || "GKN0-SIMP"                                          
+             , Temperature   : (pVars[`${aPlatform}_TEMPERATURE`] || .07        ) * 1   
+             , SysPrompt     :  pVars.SYS_PROMPT    || "Please use the information in the following text"   
+               } ]                                                                                           
+               for (var i = 0; i < 8; i++ ) { mSysPrompts.push( mSysPrompts[0] ) }              
+          } else {
 
+//s11, t004.01, GKN4-DETA,  0.3, "You are a knowledgeable AI assistant with access to a vast database of information.  Your goal is to provide accurate, comprehensive, and unbiased answers to user queries.  If a question requires specialized knowledge outside your current capabilities, politely explain the limitations and suggest alternative resources." 
+       var  mSysPrompts      =  FRT.readFileSync( `${aAppPath}/${pVars.SYS_PROMPTS_FILE}` ).split( "\n" )
+            mSysPrompts      =  mSysPrompts.map(  aSysPrompt => { return {
+               SysPmtCd      :  aSysPrompt.slice( 14, 23 )
+             , Temperature   : (aSysPrompt.slice( 26, 29 ) || .07 ) * 1   
+             , SysPrompt     :  aSysPrompt.slice( 31 ).replace(/^[. '"]+/, "" ).trim().replace(/[ '"]+$/, "" )
+               } } )
+            }                                                                                               // .(50408.05.1 End)
+       // --  ---  --------  =  --  =  ------------------------------------------------------  #
+
+       var  aSessionId       =  pVars.SESSION_ID || 't001'                                                 // .(50405.02.3)
        var  aTitle           = `${pVars.SESSION_TITLE}` || ''  
-            aTitle           =  aTitle.replace( /{PC_Name}/, aSvr ? aSvr : "MyPC" )                         // .(50409.02.3 RAM Replace PC_Name)
-       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50405.02.3)
-       var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              // .(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
+
+       var  bJustOneSysPmt   =  aSessionId.slice(-1) != "0" 
+            nSysCount        = (aSessionId.slice(-1) == "0" ) ? nSysCount : 1                                // .(50410.03.2 RAM Was nSysCount)  
+       for (let iTest = 0; iTest < nSysCount; iTest++) {                                                     // .(50403.03.3)
+       var  nTest            =  bJustOneSysPmt ? aSessionId.slice(-1) - 1 : iTest
+       var  aSysPmtCd        =  mSysPrompts[ nTest ].SysPmtCd
+            nTemperature     =  mSysPrompts[ nTest ].Temperature
+       var  aSysPrompt       =  mSysPrompts[ nTest ].SysPrompt  
+            aSessionId       = `${aSessionId.slice(0,3)}${ `${ nTest + 1 }`.padStart( 1, "0" ) }` 
+       var  aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 RAM Replace PC_Name)
+            aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.x)
+            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.x)
+//     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.x)
+       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.x).(50405.02.3)
+//     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.x)
+       var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.x).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
+            usrMsg( `  - A1201[ 271]  ${aSessionName}  ${aSysPmtCd}  ${nTemperature}  ${aSysPrompt.slice(0,66) }...`, 1 ) 
+            }
+  
+       for (let iRun  = 0; iRun < nRunCount; iRun++) {                                                      // .(50403.03.3)
+       var  aQPC             =  mUsrPrompts[ iRun ].QPC                                                     // .(50408.05.2)
+       var  aUsrPrompt       =  mUsrPrompts[ iRun ].UsrPrompt                                               // .(50408.05.3
+
+//     var  aTitle           = `${pVars.SESSION_TITLE}` || ''  
+            aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 RAM Replace PC_Name)
+            aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.x)
+            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.x)
+//     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.x)
+       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.x).(50405.02.3)
+//     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.x)
+       var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.x).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
        var  aNextPost        = `${ 1 + pVars.NEXT_POST * 1 }`.padStart( 2, "0" )                            // .(50331.08.4 RAM Set Next_Post)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname)                          // .(50331.08.5)
 // Setup logfile
 //          aDocsDir         =  aDocsDir.replace( /{TNum}/, `_${pVars.SESSION_ID}` )                        //#.(50404.06.6).(50405.02.4)
             aDocsDir         =  aDocsDir.replace( /{SName}/, `_${aSessionName}` )                           // .(50405.02.4).(50404.06.6)
+            aDocsDir         =  aDocsDir.replace( /:/, `;` )                                                // .(50413.03.x RAM Model nameshave ":"
 //     var  aLogFile         =      `./${aAppDir}/${aAppDir.slice(0,3)}_t001.01.4.${aTS}_Response.txt`      //#.(50331.02.5)
        var  aLogFile         = `./docs/${aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                         // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 
 //     var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                  //#.(50405.01b.2 RAM Was: docs/${aAppName}/YY.MM.Mth/)
-       var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats/`                     // .(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
+       var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats`                      // .(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
 //     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1)
-       var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_u${aVer.slice(1)}.${aStatsFmt}`        // .(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
-       var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}${aStatsFile}` )                          // .(50402.14.5).(50331.04b.2)
+       var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_u${aVer.slice(1)}.csv`                 // .(50410.01.1 RAM Was ${aStatsFmt}).(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
+                                FRT.makDirSync( FRT.join( __basedir, aStatsDir ), true );                   // .(50410.01.2)
+       var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}/${aStatsFile}` )                         // .(50402.14.5).(50331.04b.2)
 
 // Configure prompt and Ollama parameters
-//     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"
+//     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"  // .(50413.03.x)
        var  ollamaUrl        =  pVars[`${aPlatform}_API_URL`] // 'http://localhost:11434/api/generate'      // .(50331.09.2 Adjust if Ollama runs elsewhere)
 
        var  pParms           =
@@ -263,7 +322,10 @@
 //                            , stop:           <string> <string>    // Set the stop parameters             // .(50403.01.1 End)
                                 }
              ,  runid        : `${aRunId},${iRun+1} of ${nRunCount}`                                        // .(50403.03.4)
+             ,  datetime     :  FRT.getDate( -1 )                                                           // .(50413.02.x)
              ,  qpc          :  aQPC                                                                        // .(50407.03.3)
+             ,  spc          :  aSysPmtCd                                                                   // .(50413.02.x)
+             ,  sysprompt    :  aSysPrompt                                                                  // .(50413.02.x)
                 } // eoo pParms
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -283,45 +345,45 @@
 
         if (bDebug == true  ||  bInVSCode ) {                                             // .(50201.09c.4).(50331.07.2)
             searchPrompt     =  aWebSearch    // "Lexington Va";                                                                                // .(50331.04.6)
-        var searchDocFile    =  aDocFilePath                                                                                                    // .(50409.03.x) 
+        var searchDocFile    =  aDocFilePath                                                                                                    // .(50409.03.13) 
             aiPrompt         =  aUsrPrompt    // "The city's restaurants";                                                                      // .(50331.04.7)
         } else {
             usrMsg( "" )
-        if (bUseWebURLs) {                                                                                                                      // .(50409.03.x)
+        if (bUseWebURLs) {                                                                                                                      // .(50409.03.14)
 //          searchPrompt     =( await MWT.ask4Text( "Enter your search prompt (e.g., '${aWebSearch)Lexington VA'): " ) ) || "Lexington Va";     //#.(50330.03.6).(50331.04.8)
             searchPrompt     =( await MWT.ask4Text( `Enter a Web Search prompt (e.g., '${aWebSearch}'): `      ) ) ||  aWebSearch;              // .(50331.04.8).(50330.03.6)
-            }                                                                                                                                   // .(50409.03.x)
-        if (bUseDocFiles) {                                                                                                                     // .(50409.03.x)
-            searchDocFile    =( await MWT.ask4Text( `Enter a Doc File path (e.g., '${aDocFilePath}'): `        ) ) ||  aDocFilePath;            // .(50409.03.x)
-            }                                                                                                                                   // .(50409.03.x)
+            }                                                                                                                                   // .(50409.03.15)
+        if (bUseDocFiles) {                                                                                                                     // .(50409.03.16)
+            searchDocFile    =( await MWT.ask4Text( `Enter a Doc File path (e.g., '${aDocFilePath}'): `        ) ) ||  aDocFilePath;            // .(50409.03.17)
+            }                                                                                                                                   // .(50409.03.18)
 //          aiPrompt         =( await MWT.ask4Text( "Enter your AI prompt (e.g., 'Tell me about tourism'): "   ) ) || "Tell me about tourism";  //#.(50330.03.7).(50331.04.9)
-            aiPrompt         =( await MWT.ask4Text( `Enter an AI Model Query Prompt (e.g., '${aUsrPrompt}'): ` ) ) ||  aUsrPrompt;              // .(50409.03.x).(50331.04.9).(50330.03.7)
+            aiPrompt         =( await MWT.ask4Text( `Enter an AI Model Query Prompt (e.g., '${aUsrPrompt}'): ` ) ) ||  aUsrPrompt;              // .(50409.03.19).(50331.04.9).(50330.03.7)
             }
-        if (bUseWebURLs) {                                                                                                                      // .(50409.03.x)
+        if (bUseWebURLs) {                                                                                                                      // .(50409.03.20)
             usrMsg(""                                    , shoMsg('Parms' ) )           // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`, shoMsg('Parms' ) )           // .(50404.01.2)
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`    , shoMsg('Parms' ) )           // .(50404.01.3)
-            }                                                                                                                                   // .(50409.03.x)
+            }                                                                                                                                   // .(50409.03.21)
                                 usrMsg(  "----------------".padEnd(        57, "-" ), shoMsg('Parms') )     // .(50404.05.12)
 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
-       var  alltexts         = [ ]                                                                                                              // .(50409.03.x)     
-       var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], Docs: [] }                                              // .(50409.03.x)     
-        if (bUseWebURLs) {                                                                                                                      // .(50409.03.x)
+       var  alltexts         = [ ]                                                                                                              // .(50409.03.22)     
+       var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], Docs: [] }                                              // .(50409.03.23)     
+        if (bUseWebURLs) {                                                                                                                      // .(50409.03.24)
 //     var  urls             =  await  getNewsUrls( searchPrompt );                                         //#.(50408.06.6)
        var  pResults         =  await  getNewsUrls( searchPrompt );                                         // .(50408.06.6)
-            pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.x)
-            pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.x)
+            pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
+            pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.26)
        var  urls             =  pJSON_Results.URLs                                                          // .(50408.06.7)
-       var  alltexts         =  await  getCleanedText_fromURLs( urls );                                     // .(50409.03.x)
-            }                                                                                                                                   // .(50409.03.x RAM Add bUseDocFiles Beg)
-        if (bUseDocFiles) {                                                                                                                     // .(50409.03.x)
+       var  alltexts         =  await  getCleanedText_fromURLs( urls );                                     // .(50409.03.27)
+            }                                                                                               // .(50409.03.28 RAM Add bUseDocFiles Beg)
+        if (bUseDocFiles) {                                                                                 // .(50409.03.29)
        var  pResults         =  await  getDocs( searchPrompt );                                         
-            pJSON_Results.DocResponse =  pResults.DocResponse                                               // .(50409.03.x)
-            pJSON_Results.Docs        =  pResults.Docs                                                      // .(50409.03.x)
+            pJSON_Results.DocResponse =  pResults.DocResponse                                               // .(50409.03.30)
+            pJSON_Results.Docs        =  pResults.Docs                                                      // .(50409.03.31)
        var  alltexts         =  await  getCleanedText_fromDocs( pJSON_Results.Docs );
-            }                                                                                                                                   // .(50409.03.x End)
+            }                                                                                               // .(50409.03.32 End)
        pJSON_Results.Docs    =  alltexts                                                                    // .(50408.06.8)
 //                              await  answerQuery( aiPrompt, alltexts, urls[0], searchPrompt )             //#.(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL).(50408.06.9)
                                 await  answerQuery( aiPrompt, pJSON_Results, searchPrompt )                 // .(50408.06.9).(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL)
@@ -396,7 +458,7 @@ async function  getNewsUrls( query ) {
  * @param {Array} urls - Array of URLs to fetch
  * @returns {Promise<Array>} - Array of cleaned text blocks
  */
-  async function  getCleanedText_fromURLs( urls ) {                                     // .(50409.03.x RAM Renamed from getCleanedText)
+  async function  getCleanedText_fromURLs( urls ) {                                                         // .(50409.03.39 RAM Renamed from getCleanedText)
        var  texts = [];
        for (var url of urls) {
        try {
@@ -444,15 +506,15 @@ async function  getCleanedText_fromDocs( mDocs ) {
        var  texts     =  pJSON_Results.Docs                                                                 // .(50408.06.12)
        var  document  =  pJSON_Results.URLs[0] || ''                                                        // .(50408.06.13)
         if (texts.length == 0) {
-//  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        // .(50404.07.2 RAM Return -1 if error).(50409.03.x)
-            usrMsg(   "* No text content for the AI model to query or summarize." );                        // .(50409.03.x RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
+//  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        //#.(50404.07.2 RAM Return -1 if error).(50409.03.40)
+            usrMsg(   "* No text content for the AI model to query or summarize." );                        // .(50409.03.40 RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
             }
         var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
             usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.10)
             usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.11)
 
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
-        if (bPrtSources == 1 && aSources > '') {                                                               // .(50409.03.x RAM Don't display if empty)       
+        if (bPrtSources == 1 && aSources > '') {                                                            // .(50409.03.41 RAM Don't display if empty)       
             usrMsg( `\n  Docs: \n${ MWT.wrap( aSources, nWdt , 2, 4 ) }`)               // .(50330.06a.6 RAM Add indent).(50331.01.3 RAM Was Texts).(50330.06.2 RAM Use Wrap)
             usrMsg(   `  Docs:       End of Sources`)                                   // .(50331.01.4)
         } else {
@@ -460,8 +522,10 @@ async function  getCleanedText_fromDocs( mDocs ) {
             }
             usrMsg(   `  SysPrompt: "${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "" ) }"`               , shoMsg('Parms')   ) // .(50404.01.13)
 //          usrMsg(   `  Query:     "${query}"`                                                                            , shoMsg('Parms')   ) //#.(50404.01.14).(50408.08.1)
-            usrMsg(   `  UsrPrompt: "{Query}: ${query}"` )  // aka aiPrompt, Model Query Prompt                            , shoMsg('Parms')   ) // .(50408.08.1 Was Query).(50404.01.14)
-            usrMsg(   `  Prompt:    "{Query}. {SysPrompt}, {Docs}"`                                                        , shoMsg('Parms')   ) // .(50404.01.15)
+//          usrMsg(   `  UsrPrompt: "{Query}: ${query}"` )  // aka aiPrompt, Model Query Prompt                            , shoMsg('Parms')   ) // .(50408.08.1 Was Query).(50404.01.14)
+            usrMsg(   `  UsrPrompt: "${pParms.qpc}: ${query}"`                                                             , shoMsg('Parms')   ) // .(50410.04a.3).(50408.08.1 Was Query).(50404.01.14)
+//          usrMsg(   `  Prompt:    "{Query}. {SysPrompt}, {Docs}"`                                                        , shoMsg('Parms')   ) //#.(50404.01.15)(50410.04a.4)
+            usrMsg(   `  Prompt:    "{UsrPrompt}. {SysPrompt}, {Docs}"`                                                    , shoMsg('Parms')   ) // .(50410.04a.4).(50404.01.15)
 
             pParms.prompt    =  pParms.prompt.replace( /{Query}/, query )
             pParms.prompt    =  pParms.prompt.replace( /{Docs}/,  texts.join("\n\n" ))
@@ -469,12 +533,12 @@ async function  getCleanedText_fromDocs( mDocs ) {
             pJSON_Results.PromptTemplate = "{Query}. {SysPrompt}, {Docs}"
             pJSON_Results.Prompt         =  pParms.prompt
             pJSON_Results.Platform       =  pVars.PLATFORM
-            pJSON_Results.SysPrompt      =  pVars.SYS_PROMPT
+            pJSON_Results.SysPrompt      =  pParms.sysprompt // pVars.SYS_PROMPT                            // .)50413.03.x          
 
 //          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) //#.(50404.01.16).(50403.03.7)
             usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.16).(50403.03.7)
             usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.17))
-    try {
+    try {  
        var  stream           =  await  ollama.generate( pParms );                                           // .(50408.16.1 RAM Run the Model)
        var[ pStats, aResult ]=  await  MWT.fmtStream( stream );                                             // .(50408.16.2 RAM Capture the Results and Stats)
             pJSON_Results.Response       =  aResult                                                         // .(50408.06.14)
@@ -511,7 +575,7 @@ async function  getCleanedText_fromDocs( mDocs ) {
             sayMsg(`A1201[ 400]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
 //          sayMsg(`A1201[ 401]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
             sayMsg(`A1201[ 402]    Ollama ${error.name}: ${error.message}`, 1 );                            // .(50404.08.6)
-            FRT.exit_wCR()                                                                                  // .(50409.03.x)
+            FRT.exit_wCR()                                                                                  // .(50409.03.42)
             }
          }; // eof answerQuery
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
