@@ -4,6 +4,7 @@
 ##RFILE    +====================+=======+===============+======+=================+
 ##FD  AIC90_FileFns_u##.mjs     |   ####|  1/19/25 HH:MM|   ###| p1.01`.501DD.HHMM
 ##FD  AIC90_FileFns_u##.mjs     |  65838|  4/05/25 16:45|   912| p1.01`.50405.1645
+##FD  AIC90_FileFns_u##.mjs     |  66192|  4/10/25  2:45|   916| p1.01`.50410.0245
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the App Folders Script for AICodeR# Apps.
@@ -61,6 +62,9 @@
 #.(50404.06   4/04/25 RAM  6:30p| Add Date Fmt YY.MMM.MM.DD
 #.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
 #.(50201.09c  4/04/25 RAM  4:45p| Modify exit_wCR()
+#.(50410.02   4/10/25 RAM  2:45p| Add bDoit_ to makDirSync
+#.(50414.01   4/14/25 RAM  9:45a| Do bNoLog in here  
+#.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg  
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -153,6 +157,7 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 
   function  sayFile_log( aMsg ) {
+        if (global.aLogFile == null) { return }                                         // .(50414.01.18 RAM Don't write to file if not set)  
             fsync.appendFileSync( global.aLogFile, aMsg + '\n');
 //          console.log( '  - AIC90[ 138]  Writing to log:', aMsg )
             } // eof sayFile_log                                                        // .(50218.01.6 End)
@@ -180,9 +185,11 @@
             fsync.mkdirSync(  aLogDir, { recursive: true } )                            // .(50331.02.3).(50329.04b.2)
             fsync.writeFileSync( global.aLogFile, '' );
 
+        if (global.bNoLog == 0) { return }                                              // .(50414.01.19 RAM Don't print if aLog == "log") 
+        if (global.bQuiet == 1) { return }                                              // .(50414.02.1 xRAM Don't print if bQuiet == 1) 
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
 //          console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
-            console.log( `\n  - AIC90[ 179]  Setting logfile to: '${aLogFile}` )        // .(50404.06.7 RAM Anot a full path)
+            console.log( `  - AIC90[ 192]  Setting logfile to: '${aLogFile}` )          // .(50404.06.7 RAM Anot a full path)
             }  }                                                                        // .(50301.02.2)
          }; // eof saySet                                                               // .(50218.01.7 End)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -428,7 +435,7 @@
         }   // eof makDir
 // --------------------------------------------------------------
 
-  function  makDirSync(    aDirName  ) { aDirName = `${aDirName || ''}`
+  function  makDirSync(    aDirName, bDoit_ ) { aDirName = `${aDirName || ''}`                              // .(50410.02.1)
        var  aDirPath        =  aDirName.match( /^\./ ) ? path.join( __dirname, aDirName ) : aDirName;       // .(40527.01.2 CoPilot Only paths starting with '.' are relative)
 //          aDirPath        =  path.resolve( aDirPath.replace( /^\/[A-Z]/, '' ) )                           // .(40618.01.1 RA< if path starts with a drive letter, remove the first '/' )
             aDirPath        =  cleanPath( aDirPath )                                                        // .(40618.01.1 RA< if path starts with a drive letter, remove the first '/' )
@@ -440,7 +447,8 @@
        var  pStats          =  checkFileSync( aDirPath )
        var  bOK             =  pStats.exists // && pStats.isDir == false
         if (bOK == false) {
-        if (this.bDoit == 1) { // for MakDirSync                                                            // .(50201.05b.1 RAM This is FRT).(50201.05.10).(50126.11.25)
+            bDoit_          =  bDoit_ ? bDoit_ : global.bDoit                                               // .(50410.02.2)
+        if (bDoit_ == 1) { // for MakDirSync                                                                // .(50410.02.3 RAM Was: this.bDoit).(50201.05b.1 RAM This is FRT).(50201.05.10).(50126.11.25)
             fsync.mkdirSync(      aDirPath, { recursive: true } );
 //                             fsync.mkdirSync(  aDirPath, { recursive: true } );
        var  aMsg          = `  Created directory, "${aDirName}", successfully!`;                            // .(50224.01.1 RAM Return msgs)

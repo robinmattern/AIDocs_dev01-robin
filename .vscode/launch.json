@@ -48,13 +48,7 @@
       "skipFiles": [ "<node_internals>/**" ],
       "runtimeExecutable": "/Users/macstudio/.nvs/node/23.10.0/arm64/bin/node",
       "preLaunchTask": "tsc: build - tsconfig.json"
-    },
-// ----------------------------------------------------------------------------
-    {
-      "type": "bashdb",
-      "name": "Debug Bash Script",
-      "request": "launch",
-      "program": "${file}"
     }
+// ----------------------------------------------------------------------------
 ]
 }

@@ -51,6 +51,8 @@
 #.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
 #.(50413.02   4/13/25 RAM  7:30a| Add new columns to spreadsheet
+#.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
+#.(50419.04   4/19/25 RAM  5:15p| Add tokens_per_sec to pStats
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -139,6 +141,7 @@ import { ftruncate } from 'fs';
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
   function  shoMsg( aSection ) {                                                        // .(50404.01.25 RAM Write shoMsg Beg)
+        if (global.bNoLog == 0) { return false }                                        // .(50414.01.17 RAM aLog == 'log'
        var  aSections  = `,${global.aPrtSections.toLowerCase()},`
             aSection   = `,${aSection.toLowerCase()},`
         if (aSections == ',all,' || ',all,' == aSection) { return true }
@@ -206,23 +209,30 @@ function  fmtResults(results) {
   function  fmtStats( stats, parms ) {
 //    var [ aServer, aCPU_GPU_RAM ] = getServerInfo();                                  //#.(50330.04.5 RAM Use it).(50330.04b.1)
             parms.resp_id  = parms.logfile.split( /[\\\/]/ ).pop().slice(0,24)          // .(50331.05c.1).(50331.05.1)
+            stats.tokens_per_sec = (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)              // .(50419.04.1)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.1)
        var  statLines = [];
             statLines.push(`Ollama Run Statistics:`);
             statLines.push(`---------------------------------------------------------`);
             statLines.push(`    Server: ${aServer}` )                                   // .(50330.04.6)
-            statLines.push(`    Operating System:  ${ aOS }` )                          // .(50330.04b.2)
-            statLines.push(`    CPU/GPU/RAM:       ${ aCPU_GPU }, ${aRAM}` )            // .(50330.04b.3).(50330.04.7)
-            statLines.push(`    Computer:          ${ aPC_Model }` )                    // .(50330.04b.4)
-            statLines.push(`    Session.Post ID:   ${ parms.resp_id }` );               // .(50331.05.2)
-            statLines.push(`    Model Name:        ${ parms.model }` );
-            statLines.push(`    Temperature:       ${ parms.temp }` );                  // .(50331.05.3)
-            statLines.push(`    Context Window:    ${ parms.options.num_ctx   } bytes`);
-            statLines.push(`    Total Duration:    ${(stats.total_duration / 1e9).toFixed(2) } seconds`);
-            statLines.push(`    Eval Count:        ${ stats.eval_count        } tokens`);
-            statLines.push(`    Eval Duration:     ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
-            statLines.push(`    Prompt Eval Count: ${ stats.prompt_eval_count } tokens`);
-            statLines.push(`    Tokens per Second: ${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2) } seconds`);
+            statLines.push(`    Operating System:       ${ aOS }` )                     // .(50330.04b.2)
+            statLines.push(`    CPU/GPU/RAM:            ${ aCPU_GPU }, ${aRAM}` )       // .(50330.04b.3).(50330.04.7)
+            statLines.push(`    Computer:               ${ aPC_Model }` )               // .(50330.04b.4)
+            statLines.push(`    Session.Post ID:        ${ parms.resp_id }` );          // .(50331.05.2)
+            statLines.push(`    Model Name:             ${ parms.model }` );
+            statLines.push(`    Temperature:            ${ parms.temp }` );             // .(50331.05.3)
+            statLines.push(`    Context Window:         ${ parms.options.num_ctx   } bytes`);
+            statLines.push(`    Total Duration:         ${(stats.total_duration / 1e9).toFixed(2) } seconds`);
+            statLines.push(`    Eval Count:             ${ stats.eval_count        } tokens`);
+            statLines.push(`    Eval Duration:          ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
+            statLines.push(`    Prompt Eval Count:      ${ stats.prompt_eval_count } tokens`);
+            statLines.push(`    Tokens per Second:      ${ stats.tokens_per_sec } tps`);                    // .(50419.04.2)
+            statLines.push(`    Factual Accuracy:       ${ stats.Score1 || 0 }` )       // "Your answer must be grounded in historical evidence. Avoid speculation unless explicitly presented as such.
+            statLines.push(`    Multiple Perspectives:  ${ stats.Score2 || 0 }` )       // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
+            statLines.push(`    Structured Response:    ${ stats.Score3 || 0 }` )       // "Organize your response into clear paragraphs, with headings for clarity.
+            statLines.push(`    Actionable Suggestions: ${ stats.Score4 || 0 }` )       // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
+            statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` ) 
+            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` ) 
     return  statLines;
             }
 //   -- --- ---------------  =  ------------------------------------------------------  #
@@ -348,8 +358,9 @@ function  fmtResults(results) {
             pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
             pStats.UPC              =     parms.qpc                                                                   // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
 //          pStats.QueryPrompt      =     stats.query.length > 27                                                     //#.(50407.03.5 RAM Was Query).(50410.04a.7)
-            pStats.UsrPrompt        =     stats.query.length > 27                                                     // .(50410.04a.7 Was QueryPrompt).(50407.03.5 RAM Was Query)
-                                    ? `${ stats.query.slice(0,24)}...` : stats.query.padEnd(27)                       // .(50407.03.5 RAM Add ...)
+//          pStats.UsrPrompt        =     stats.query.length > 27                                                     //#.(50410.04a.7 Was QueryPrompt).(50407.03.5 RAM Was Query).(50410.04b.1)
+            pStats.UsrPrompt        =     parms.usrprompt.length > 27                                                 // .(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
+                                    ? `${ parms.usrprompt.slice(0,24)}...` : stats.query.padEnd(27)                   // .(50410.04b.2)(50407.03.5 RAM Add ...)
             pStats.EvalDuration     = `${(stats.eval_duration  / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.06)
             pStats.PromptEvalTokens = `${ stats.prompt_eval_count               }`.padStart(6)                        // .(50404.05.07)
             pStats.TokensPerSecond  = `${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)}`.padStart(6)    // .(50404.05.08)
