@@ -16,7 +16,7 @@
 ##CHGS     .--------------------+----------------------------------------------+
 #.(40408.01   4/08/24 MW   7:00a| Created by Matt Williama
 #.(50323.01   3/31/25 CAI  8:30a| Converted to Javascript by Claude.AI
-#.(50323.02   3/31/25 CAI  9:30a| Worked on by Bruce Troutman
+#.(50323.02   3/31/25 BTG  9:30a| Worked on by Bruce Troutman
 #
 ##PRGM     +====================+===============================================+
 ##ID S1101. Main0              |
@@ -25,11 +25,11 @@
 //========================================================================================================= #  ===============================  #
 
 // process.noDeprecation = true;
-   import   ollama from "ollama";
-   import { ChromaClient } from "chromadb";
-   import { getConfig, readText } from "./utilities.js";
+   import   ollama                 from "ollama";
+   import { ChromaClient         } from "chromadb";
+   import { getConfig, readText  } from "./utilities.js";
    import { chunkTextBySentences } from "matts-llm-tools";
-   import { readFile } from "fs/promises";
+   import { readFile             } from "fs/promises";
 
 const chroma = new ChromaClient({ path: "http://localhost:8000" }); // Explicitly use http://
 
