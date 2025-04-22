@@ -53,7 +53,15 @@
 #       echo -e "\n  - AIC15[  25]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit 
 
 # -------------------------------------------------------------------
-    
+
+   if [ "${1:0:3}" == "lis" ]; then 
+        echo -e "\n  Run any of the following tests:\n"
+        cat "${aApp}_model-tests.txt" | awk '{ sub( /a[0-9][0-9]_/, "    "); sub( /\.01/, "   "); gsub( /,/, " "); print "  " $0 }' 
+        if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
+        exit
+     fi
+# -------------------------------------------------------------------
+
    if [ "${aCmd}" == "gen" ]; then 
      if [ "${aArgs}" == "" ] || [ "${aArgs:3:1}" != "0" ]; then 
         echo -e "\n* Please provide a test group id (t0#0) to create an .env test group file."
@@ -71,12 +79,12 @@
 # -------------------------------------------------------------------
  
    if [ "$1" == "" ] || [ "$1" == "help" ]; then                                                                           #.(50420.04.1)
-        echo -e "\n  Run any of the following tests:"
+        echo -e "\n  Run any of the following tests for app: ${aApp}:"                                                     #.(50422.01.1 RAM Add for app: ${aApp}) 
         echo -e   "    bash run-tests.sh  t0##  # A single test for one sysprompt. (generated from s11_model-tests.txt)"   #.(50420.04.2 RAM Add Help re run-tests.sh)
         echo -e   "    bash run-tests.sh  t0#0  # A group test for one model. (copied from .env_s11_t0#0_model_1-test.txt)" #.(50420.04.3)
         echo -e "\n  For example, these tests are available to run:"                                                       #.(50420.04.4)
         ls -l .env_${aApp}_* | awk '!/_v[0-9]/ { print "    bash run-tests.sh  " substr($9,10,4) "  # " $9 }' 
-        echo -e   "    bash run-tests.sh  t041  # .env generated from .env_s11_t040_qwen2;0.5b_4,6-tests.txt"              #.(50420.04.5)
+        echo -e   "    bash run-tests.sh  t041  # .env generated from .env_${aApp}_t040_qwen2;0.5b_4,6-tests.txt"          #.(50422.01.2 RAM Was s11).(50420.04.5)
         echo -e "\n  To run other tests for models, llama3.2:3b, phi3 and granite3.1-dense:2b, do:"                        #.(50420.04.6)
         echo -e   "    bash run-tests.sh gen all"                                                                          #.(50420.04.7)
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
