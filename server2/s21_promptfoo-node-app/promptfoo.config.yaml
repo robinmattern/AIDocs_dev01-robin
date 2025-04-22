@@ -1,0 +1,27 @@
+prompts:
+  - Explain the concept of {{topic}} in simple terms.
+  - Write a short story about {{character}} in {{setting}}.
+providers:
+  - id: ollama:llama3.2
+  - id: ollama:llama3.2:3b
+  - id: ollama:chat:llama3.2:3b
+  - id: ollama:llama3.2:3b
+    config:
+      num_predict: 1024
+      temperature: 0.7
+      seed: 42
+tests:
+  - description: Technical explanation
+    vars:
+      topic: quantum computing
+      character: a scientist
+      setting: a laboratory
+  - description: Creative writing
+    vars:
+      topic: artificial intelligence
+      character: a robot
+      setting: the future
+commandLineOptions:
+  maxConcurrency: 2
+  table: true
+  verbose: true
