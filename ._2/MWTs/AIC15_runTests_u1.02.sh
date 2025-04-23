@@ -20,8 +20,8 @@
 #.(50419.05   4/19/25 RAM  4:00p| Allow run-tests.sh run aTest, maybe 
 #.(50420.03   4/20/25 RAM  9:30a| Move final underline to here from run.tests.sh
 #.(50420.04   4/20/25 RAM 10:15a| Add Help re run-tests.sh Ids   
-#.(50422.02   4/22/25 RAM  9:41a| Add TestId to "inputs" display
 #.(50422.03   4/22/25 RAM 10:11a| Add ${aApp} to help
+#.(50422.04   4/22/25 RAM  9:41a| Add TestId to "inputs" display
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -43,7 +43,7 @@
 
 #       ls -l ../../._2/MWTs/; exit 
         genEnv="../../._2/MWTs/AIC19_genEnv_u1.01.sh"
-#       ls -l  "${genEnv}"; exit 
+        searchScript="${SEARCH_SCRIPT}"                                                 # .(50423.03.1 RAM Use ${Search_Script} instead of search_u2.05.sh)
 
         aCmd="run"; if [ "$1" == "gen" ]; then aCmd="gen"; shift; fi 
         aArgs="$1,$2,$3,$4,$5,$6,$7,$8,$9"; aArgs=${aArgs//,,/}; s=""
@@ -209,7 +209,7 @@ function cpyEnv() {
 #     echo ""
 #     echo "========== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== -----"
 #     echo "=================================================================================================================================================="
-      node search_u2.05.mjs  "$@"
+      node ${searchScript}  "$@"                                                     # .(50423.03.2 RAM Use ${Search_Script} instead of search_u2.05.sh)
       fi 
 
    done 
