@@ -7,6 +7,7 @@
 ##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| p1.03`50404.1230
 ##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| p1.03`50405.1645
 ##FD   MWT01_MattFns_u2.03.mjs  |  26141|  4/08/25 18:45|   446| p1.03`50408.1845
+##FD   MWT01_MattFns_u2.03.mjs  |  31720|  4/19/25 17:15|   494| p1.03`50419.1715
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the utility functions for working with Matt
@@ -53,6 +54,7 @@
 #.(50413.02   4/13/25 RAM  7:30a| Add new columns to spreadsheet
 #.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
 #.(50419.04   4/19/25 RAM  5:15p| Add tokens_per_sec to pStats
+#.(50425.03   4/25/25 RAM 11:15a| Add extractTextFromPDF
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -64,13 +66,17 @@
    import   dotenv               from 'dotenv'                                          // .(50330.04.1 RAM Need this)
    import { dirname, join }      from 'path';
    import { fileURLToPath }      from 'url';
-import { ftruncate } from 'fs';
-
+// import { ftruncate     }      from 'fs';                                             //#.(50425.03.1)
+   import   path                 from "path";
+   import   fs                   from 'fs';                                             // .(50425.03.2)
+// import   pdfParse             from 'pdf-parse';                                      // .(50425.03.3 RAM New PDF parser)
+// import { PDFExtract }         from 'pdf.js-extract';                                 // .(50425.03.3 
+   
 // import { Readability   }      from '@mozilla/readability';
 // import { JSDOM         }      from 'jsdom';
 
 //   -- --- ---------------  =  ------------------------------------------------------  #  ---------------- #
-       var  aVer             = "u2.03"                                                  // .(50407.02.1 Was u0.03)
+       var  aVer             = "u2.05"                                                  // .(50425.03.x).(50407.02.1 Was u0.03)
 
       var __dirname          =    dirname( fileURLToPath( import.meta.url ) );          // .(50330.04.2)
        var  aEnvDir          =  __dirname.replace( /\._2.*/, '._2' )                    // .(50330.04.3)
@@ -83,6 +89,21 @@ import { ftruncate } from 'fs';
 //  return  process.env
 //          }  */                                                                       //#.(50403.02.5).(50331.04.1 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
+
+  function  fixPath( aPath, aFile ) {                                                   // .(50425.03.1 RAM New Version)
+       if (!aFile) { aPath = aPath.replace( /^['"]/, "" ).replace( /['"]$/, "" );       // Remove double-quotes
+            aFile  = aPath.split( /[\\\/]/ ).slice(-1)[0]
+            aPath  = aPath.split( /[\\\/]/ ).slice(0,-1).join( '/' )
+            } 
+       if (aPath.match( /^\.[\\\/]/) ) { aDrv = ""; aDir = aPath            
+        } else {
+       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/); aDrv = aDrv[1] ? aDrv[1] : ""; 
+       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:/, ""); 
+            }
+       var  aFilePath = path.resolve( aDrv, aDir, aFile );
+    return  aFilePath;
+            }                                                                           // .(50425.03.1 RAM New Version)
+// ---------------------------------------------------------------
 
   function  wrap( text, width, indent1,  indent2 ) {                                    // .(50330.06a.1).(50330.06.1 RAM Write wrap Beg)
             indent2       =    indent2 ? indent2 : 0;   indent1 = indent1 ? indent1 : 0 // .(50330.06a.2)
@@ -178,6 +199,95 @@ async  function  htmlToText(html) {
 }
 //   -- --- ---------------  =  ------------------------------------------------------  #
 /**
+ * Converts aPDF content to plain text using  pdf-parse 
+ * @param {string} pdf - PDF content to convert
+ * @returns {string} - Extracted text content
+ * data.pages[0].content[0]
+ *   dir      = 'ltr'
+ *   fontName = 'g_d0_f1'
+ *   str      = 'iPad'
+ *   width    =  56.06982180375733
+ *   height   =  26.999998875
+ *   x        =  35.9999985
+ *   y        = 164.99999312500006
+ * 
+ */
+async function extractTextFromPDF( pdfPath ) {
+    const { PDFExtract } =  await  import( 'pdf.js-extract' );                          // .(50425.03.1 RAM New PDF parser)
+    const   pdfExtract   =  new PDFExtract();
+    const   options      = { }; // Default options
+try {
+       var  aFilePath    =  fixPath( pdfPath );                                         // .(50425.03.1 RAM New Version)
+       var  data         =  await  pdfExtract.extract( aFilePath );
+       var  mPages       =  data.pages.map( page => page.content.map( item => item.str ).join(' ') )
+    return  mPages.join('\n');
+   } catch( error) {
+            console.error(`Error extracting PDF: ${error.message}`);
+     throw  error;
+            }
+     };                                                                                 //#.(50425.03.2) 
+//   -- --- ---------------  =  ------------------------------------------------------  #
+
+async function extractTextFromPDF1( pdfPath ) {                                         //#.(50425.03.2 RAM Write extractTextFromPDF Beg)
+//const { pdfParse } =  await import( 'pdf-parse' );                                    // .(50425.03.1 RAM New PDF parser)
+
+   const  dataBuffer =  fs.readFileSync( pdfPath );
+   const  data       =  await pdfParse( dataBuffer );
+  return  data.text;
+  }                                                                                     //#.(50425.03.2) 
+//   -- --- ---------------  =  ------------------------------------------------------  #
+/**
+* Converts aPDF content to plain text using  pdf-parse 
+* @param {string} pdf - PDF content to convert
+* @returns {string} - Extracted text content
+* Usage
+#   const pdfPath   = 'path/to/your/document.pdf';
+#   const outputDir = 'extracted_images';
+#   extractImagesFromPDF(pdfPath, outputDir)
+#     .then(count => console.log(`Successfully extracted ${count} images`))
+#     .catch(err => console.error('Extraction failed:', err));
+*/
+async function extractImagesFromPDF( pdfPath, outputDir ) {
+    const { PDFExtract } =  await import( 'pdf.js-extract' );                           // .(50425.03.1 RAM New PDF parser)
+    const   pdfExtract = new PDFExtract();
+    const   options = {}; // Default options
+    
+  try {
+    // Create output directory if it doesn't exist
+    if (!fs.existsSync( outputDir )) {
+         fs.mkdirSync(  outputDir, { recursive: true });
+    }
+    
+    // Extract data from PDF
+    const data = await pdfExtract.extract(pdfPath, options);
+    let imageCount = 0;
+    
+    // Process each page
+    data.pages.forEach((page, pageIndex) => {
+      // Check for content items that are images
+      if (page.content) {
+        page.content.forEach((item) => {
+          if (item.image) {
+            imageCount++;
+            const imageFileName = `${outputDir}/image_p${pageIndex + 1}_${imageCount}.png`;
+            
+            // Save the image
+            fs.writeFileSync(imageFileName, item.image);
+            console.log(`Extracted image saved to: ${imageFileName}`);
+          }
+        });
+      }
+    });
+    
+    console.log(`Total images extracted: ${imageCount}`);
+    return imageCount;
+  } catch (error) {
+    console.error(`Error extracting images from PDF: ${error.message}`);
+    throw error;
+  }
+}
+//   -- --- ---------------  =  ------------------------------------------------------  #
+/**
  * Formats text by cleaning up excessive whitespace and newlines
  * @param {string} text - Text to format
  * @returns {string} - Formatted text
@@ -231,8 +341,8 @@ function  fmtResults(results) {
             statLines.push(`    Multiple Perspectives:  ${ stats.Score2 || 0 }` )       // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
             statLines.push(`    Structured Response:    ${ stats.Score3 || 0 }` )       // "Organize your response into clear paragraphs, with headings for clarity.
             statLines.push(`    Actionable Suggestions: ${ stats.Score4 || 0 }` )       // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
-            statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` ) 
-            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` ) 
+            statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` )
+            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` )
     return  statLines;
             }
 //   -- --- ---------------  =  ------------------------------------------------------  #
@@ -266,7 +376,7 @@ function  fmtResults(results) {
         var pWebSearch       =  { }                                                     // .(50409.03.x)
         if (pResults.URLs.length) {                                                     // .(50409.03.x)
         var pWebSearch =                                                                // .(50409.03.x)
-                { URL:                pStats.WebSearchURL      // pResults.URLs[0]       
+                { URL:                pStats.WebSearchURL      // pResults.URLs[0]
                 , Prompt:             pStats.WebSearch         //    "roman empire"
                 , Response:
                    { AbstractURL:     pResults.WebResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
@@ -278,8 +388,8 @@ function  fmtResults(results) {
             }                                                                           // .(50409.03.x)
         var pDocSearch       =  { }                                                     // .(50409.03.x)
         if (pResults.Files.length) {                                                    // .(50409.03.x)
-        var pDocSearch = 
-                { DocsPath:           pResults.DocsPath         
+        var pDocSearch =
+                { DocsPath:           pResults.DocsPath
                 , Response:
                    { AbstractURL:     pResults.DocResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
                    , Results:         pResults.DocResponse.Results
@@ -345,7 +455,7 @@ function  fmtResults(results) {
             pJSON.Stats      =  pStats
             }                                                                           // .(50408.10.1 End)
   //   -- --- ---------------  =  ------------------------------------------------------  #
- 
+
   function  savStats_4Text( stats, parms, aExt ) {                                      // .(50408.06.2 RAM Was: savStats).(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.6)
        var  pStats  = {};
@@ -354,7 +464,7 @@ function  fmtResults(results) {
             pStats.ContextSize      = `${ parms.options.num_ctx                 }`.padStart(5)                        // .(50404.05.02)
             pStats.Temperature      = `${ parms.temp}`.padStart(4)                                                    // .(50404.05.03)
             pStats.Duration         = `${(stats.total_duration / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.04)
-            pStats.DateTime         =     parms.datetime.padStart(18)                                                 // .(50413.02.3)  
+            pStats.DateTime         =     parms.datetime.padStart(18)                                                 // .(50413.02.3)
             pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
             pStats.UPC              =     parms.qpc                                                                   // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
 //          pStats.QueryPrompt      =     stats.query.length > 27                                                     //#.(50407.03.5 RAM Was Query).(50410.04a.7)
@@ -466,20 +576,29 @@ function  createUserInput() {                             //#.(50330.03.3 RAM Re
 } */
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
-export default {  // Export as default object with named functions
-  wrap,                                                   // .(50330.05.2)
-  ask4Text,                                               // .(50330.03.4)
-  fmtText,
-  htmlToText,
-  fmtResults,
-  fmtStats,
-//savStats      : savStats_4Text,                         //#.(50408.06.4).(50331.03.3)
-  savStats4Text : savStats_4Text,                         // .(50408.06.4)
-  savStats4JSON : savStats_4JSON,                         // .(50408.06.5)
-//savStats4MD   : savStats_4MD,                           // .(50408.10.2)
-//getEnvVars,                                             //#.(50403.02.6).(50331.04.2)
-  showHiddenChars,
-  fmtStream,
-  shoMsg                                                  // .(50404.01.26)
-//createUserInput                                         //#.(50330.03.5)
-  };
+    export  default {  // Export as default object with named functions
+            wrap,                                         // .(50330.05.2)
+            ask4Text,                                     // .(50330.03.4)
+            fmtText,
+            htmlToText,
+            extractTextFromPDF,                           // .(50425.03.3) 
+            fmtResults,
+            fmtStats,
+//          savStats      : savStats_4Text,               //#.(50408.06.4).(50331.03.3)
+            savStats4Text : savStats_4Text,               // .(50408.06.4)
+            savStats4JSON : savStats_4JSON,               // .(50408.06.5)
+//          savStats4MD   : savStats_4MD,                 // .(50408.10.2)
+//          getEnvVars,                                   //#.(50403.02.6).(50331.04.2)
+            showHiddenChars,
+            fmtStream,
+            shoMsg                                        // .(50404.01.26)
+//          createUserInput                               //#.(50330.03.5)
+            };
+// --  ---  --------  =  --  =  ------------------------------------------------------  #
+/*========================================================================================================= #  ===============================  *\
+#>      AIC90 END
+\*===== =================================================================================================== */
+/*\
+##SRCE     +====================+===============================================+
+##RFILE    +====================+=======+===================+======+=============+
+\*/
