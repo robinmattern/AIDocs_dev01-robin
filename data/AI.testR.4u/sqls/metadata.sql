@@ -1,0 +1,1 @@
+SELECT id, key, string_value, int_Value, float_value, bool_value FROM embedding_metadata WHERE id in (1930) AND key = 'chroma:document';
