@@ -100,6 +100,7 @@
 #.(50423.02   4/22/25 RAM  6:55a| Break out runWebSearch and runDocSearch
 #.(50404.01   4/29/25 RAM  8:20p| Edit position of shoMsg
 #.(50427.06   4/27/25 MW   7:30a| Move s41_bun-app to s13_search-rag-app
+#.(50428.03   4/28/25 RAM  3:15p| Err msg for .env not found
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -224,8 +225,8 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #
        var  pVars            =  FRT.getEnvVars( FRT.__dirname )                                             // .(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
        if (!pVars.PLATFORM) {                                                                               // .(50403.02.7 Beg)
-       var  aEnvDir          =  FRT.__dirname.replace( /.+server1/, './server1').replace( /\\/, "/" )       // .(50428.04.1 RAM Fix path) 
-            usrMsg( `* An .env file or it's variables do not exist in ${aEnvDir}.`)                         // .(50428.04.2RAM New msg) 
+       var  aEnvDir          =  FRT.__dirname.replace( /.+server1/, './server1').replace( /\\/, "/" )       // .(50428.03.1 RAM Fix path) 
+            usrMsg( `* An .env file or it's variables do not exist in ${aEnvDir}.`)                         // .(50428.03.2 RAM New msg) 
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
        var  aWebSearch       =  pVars.WEB_SEARCH    || "Lexington Va"
