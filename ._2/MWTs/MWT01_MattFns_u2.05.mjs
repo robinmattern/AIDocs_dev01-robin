@@ -161,8 +161,8 @@
  *          console.log('No matching file found');
  *          }
  */
-     async  function  get1stFile( aStr, aFolder, aExt = null ) {                        // .(50428.02.1 CAI Write get1stFile Beg)
-            aFolder = fixPath( aFolder );                                               // .(50428.02.x RAM Fix path)  
+     async  function  get1stFile( aStr, aFolder, aExt = null ) {                        // .(50428.02.2 CAI Write get1stFile Beg)
+            aFolder = fixPath( aFolder );                                               // .(50428.02.3 RAM Fix path)  
   try {
     if (!fs.existsSync(aFolder)) {  // Ensure the folder exists
       throw new Error(`Folder does not exist: ${aFolder}`);
@@ -173,13 +173,13 @@
       const fileName = item.name;
         if (fileName.startsWith(aStr)) { // Check if file starts with the specified string
           if (aExt) { // If extension is specified, check if the file has that extension
-            const fileExt = path.extname(fileName) // .slice(1); // .(50428.02.x RAM Don't remove the dot).(50428.02.x CAI Remove the dot) 
+            const fileExt = path.extname(fileName) // .slice(1);                        // .(50428.02.4 RAM Don't remove the dot).(50428.02.x CAI Remove the dot) 
               if (fileExt.toLowerCase() !== aExt.toLowerCase()) {
                   continue; // Skip if extension doesn't match
                   }
               }
-          return path.join( aFolder, fileName);    // .(50428.02 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
-//        return fileName;                         //#.(50428.02 RAM No need to pass aFolder back, although it has been fixed) )
+//         return fileName;                                                             //#.(50428.02.5 RAM No need to pass aFolder back, although it has been fixed) )
+           return path.join( aFolder, fileName);                                        // .(50428.02.5 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
           }
        }  }
     for (const item of items) { // If no matching file found, recursively check subdirectories
@@ -195,7 +195,7 @@
     console.error(`Error in get1stFile: ${error.message}`);
     return null;
      }
-  } // eof get1stFile                                                                   // .(50428.02.1 End)  
+  } // eof get1stFile                                                                   // .(50428.02.2 End)  
 // ---------------------------------------------------------------
 
   function  wrap( text, width, indent1,  indent2 ) {                                    // .(50330.06a.1).(50330.06.1 RAM Write wrap Beg)
@@ -677,7 +677,7 @@ function  createUserInput() {                             //#.(50330.03.3 RAM Re
             fmtText,
             fixPath,                                      // .(50425.03.4
             getConfig,                                    // .(50428.01.8)  
-            get1stFile,                                   // .(50428.02.2)  
+            get1stFile,                                   // .(50428.02.6)  
             fmtStream,
             htmlToText,
             fmtResults,

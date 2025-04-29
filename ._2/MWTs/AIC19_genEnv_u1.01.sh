@@ -162,7 +162,7 @@ function  mergeVars() {
 #  Read the template file
    template_file="$1"
    output_file="$2"
-#  echo "--aTemplate_file: ${template_file}"
+   sayMsg "AIC19[ 165]  The .env file will be saved from: ${template_file}"
 if [ ! -f "${template_file}" ]; then
    echo -e "\n* Template file not found: ${template_file}"
    exit 1
@@ -207,13 +207,14 @@ if [ ! -f "${template_file}" ]; then
    usrMsg "   12. First Run Id:    t${aTest:0:2}1.01"
    usrMsg "   13. Sections:        ${part2}"
    usrMsg ""
-
+   
+   sayMsg "AIC19[ 211]  The .env file will be saved to: ${output_file}"
    echo "$aBodyText" > "$output_file"  # Write the result to the output file
 #  echo "  The .env file saved to: $output_file"
    } # eof mergeVars
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
-#  sayMsg "AIC19[ 189]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit
+   sayMsg "AIC19[ 217]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit
 #  bInputs=0; if [ "${aLogs/inputs}" != "${aLogs}" ]; then bInputs=1; fi
 #  aTestParms="a11_t011.01, llama3.2:3b,          131072, GKN1-SIMP, 0.3,  1, 0, 0, 1, 0, \"Parms,Docs,Search,Stats,Results\""
 
