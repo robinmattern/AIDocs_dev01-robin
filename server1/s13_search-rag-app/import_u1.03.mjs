@@ -20,6 +20,7 @@
 #.(50101.01   1/01/25 MW   7:00a| Created by Matt Williams
 #.(50329.02   3/29/25 XAI  7:00a| Rewritten as .mjs by Grok xAI
 #.(50427.05   4/27/25 MW   7:00a| Use aCollection in importCollection
+#.(50427.06   4/27/25 MW   7:30a| Move s41_bun-app to s13_search-rag-app
 #.(50428.01   4/28/25 RAM  8:10a| Add Matt's utilities.js fns 
 
 ##PRGM     +====================+===============================================+

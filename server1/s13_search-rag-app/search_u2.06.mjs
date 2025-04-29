@@ -100,6 +100,7 @@
 #.(50423.02   4/22/25 RAM  6:55a| Break out runWebSearch and runDocSearch
 #.(50428.05   4/28/25 RAM  5:15a| write runDocSearch
 #.(50404.01   4/29/25 RAM  8:20p| Edit position of shoMsg
+#.(50427.06   4/27/25 MW   7:30a| Move s41_bun-app to s13_search-rag-app
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |

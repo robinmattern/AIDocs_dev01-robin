@@ -127,8 +127,8 @@ async function  getDocs( query ) {
                 }
          const  searchResultsJson = JSON.parse(text);
     
-                usrMsg("---------------------------------------------------------------------------------------------- "       , shoMsg('Search')  ) // .(50404.01.5)
-                usrMsg("Response from Web Search URL:"                                                                         , shoMsg('Search')  ) // .(50408.09.5 RAM Was DuckDuckGo).(50404.01.6)
+                usrMsg("---------------------------------------------------------------------------------------------- "   , shoMsg('Search')  ) // .(50404.01.5)
+                usrMsg("Response from Web Search URL:"                                                                     , shoMsg('Search')  ) // .(50408.09.5 RAM Was DuckDuckGo).(50404.01.6)
            var  pResults =
                  {  AbstractURL:             searchResultsJson.AbstractURL
                  ,  Results: MWT.fmtResults( searchResultsJson.Results )
@@ -137,7 +137,7 @@ async function  getDocs( query ) {
                            : []
                     }
            var  aResults =  JSON.stringify(pResults, null, 2).replace(/\\n     /g, "\n     ").replace(/\\n       /g, "\n       ")
-                usrMsg(`\n  Web Search Response:\n${ aResults.replace( /{/, "" ).replace(/\n}/, "") }`                         , shoMsg('Search' ) ) // .(50404.01.7)
+                usrMsg(`\n  Web Search Response:\n${ aResults.replace( /{/, "" ).replace(/\n}/, "") }`                     , shoMsg('Search' ) ) // .(50404.01.7)
     
            var  results =                                                                                       // .(50408.07.1 MWT This has many more "results" than pResults above)
                  [ ...( searchResultsJson.Results || [] )
@@ -155,7 +155,7 @@ async function  getDocs( query ) {
     //  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.6)
         return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.6)
                 }
-                usrMsg(`\n  Found ${urls.length} URLs:`      , shoMsg('Search' ) )          // .(50404.01.8)
+                usrMsg(`\n  Found ${urls.length} URLs:`                                                                    , shoMsg('Search')  ) // .(50404.01.8)
         return { WebResponse: pResults, URLs: urls } ;                                                          // .(50408.06.10)
     
             } catch( error ) {
