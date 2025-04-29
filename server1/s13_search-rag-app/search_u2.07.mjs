@@ -234,7 +234,7 @@
        var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.10 RAM Do Web Search)
        var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.11 RAM Do Docs Search)
        var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)
-       var  aDocsCollection  =  pVars.DOCS_COLLECTION                                                       // .(50428.04.x)
+       var  aDocsCollection  =  pVars.DOCS_COLLECTION                                                       // .(50428.04.3)
 
 //     var  nRunCount        =  pVars.RUN_COUNT     ||  1                                                   //#.(50403.03.2).(50403.03.x)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
@@ -451,7 +451,7 @@
 
         if (bDebug == true  ||  bInVSCode ) {                                           // .(50201.09c.4).(50331.07.2)
             searchPrompt     =  aWebSearch    // "Lexington Va";                                                                                 // .(50331.04.6)
-//      var searchDocFile    =  aDocFilePath                                                                                                     //#.(50428.04.,x).(50409.03.13)
+//      var searchDocFile    =  aDocFilePath                                                                                                     //#.(50409.03.13).(50428.04.4)
 //          aiPrompt         =  aUsrPrompt          // "The city's restaurants";                                                                 //#.(50331.04.7).(50413.02.13)
             aiPrompt         =  pParms.usrprompt    // "The city's restaurants";                                                                 // .(50413.02.13)
         } else { 
@@ -461,8 +461,8 @@
             searchPrompt     =( await MWT.ask4Text( `Enter a Web Search prompt (e.g., '${aWebSearch}'): `      ) ) ||  aWebSearch;               // .(50331.04.8).(50330.03.6)
             }                                                                                                                                    // .(50409.03.15)
         if (bUseDocFiles) {                                                                                                                      // .(50409.03.16)
-//          searchDocFile    =( await MWT.ask4Text( `Enter a Doc File path (e.g., '${aDocFilePath}'): `        ) ) ||  aDocFilePath;             //#.(50409.03.17).(50428.04.x)
-            aDocsCollection  =( await MWT.ask4Text( `Enter a ChromaDB Docs Collection name (e.g. '${aDocsCollection}'): `)) || aDocsCollection;  // .(50428.04.x).(50409.03.17)
+//          searchDocFile    =( await MWT.ask4Text( `Enter a Doc File path (e.g., '${aDocFilePath}'): `        ) ) ||  aDocFilePath;             //#.(50409.03.17).(50428.04.5)
+            aDocsCollection  =( await MWT.ask4Text( `Enter a ChromaDB Docs Collection name (e.g. '${aDocsCollection}'): `)) || aDocsCollection;  // .(50428.04.5).(50409.03.17)
             }                                                                                                                                    // .(50409.03.18)
 //          aiPrompt         =( await MWT.ask4Text( "Enter your AI prompt (e.g., 'Tell me about tourism'): "   ) ) || "Tell me about tourism";   //#.(50330.03.7).(50331.04.9)
             aiPrompt         =( await MWT.ask4Text( `Enter an AI Model Query Prompt (e.g., '${aUsrPrompt}'): ` ) ) ||  aUsrPrompt;               // .(50409.03.19).(50331.04.9).(50330.03.7)
@@ -491,12 +491,12 @@
             }                                                                                               // .(50409.03.28 RAM Add bUseDocFiles Beg)
 
         if (bUseDocFiles) {                                                                                 // .(50409.03.29)
-       var  pResults         =  await    pDOCs.getRelevantDocs( aDocsCollection, aiPrompt );                // .(50428.04.x RAM Was searchPrompt).(50423.02.5)
-            searchPrompt     =  aiPrompt                                                                    // .(50428.04.x RAM ???) 
+       var  pResults         =  await    pDOCs.getRelevantDocs( aDocsCollection, aiPrompt );                // .(50428.04.6 RAM Was searchPrompt).(50423.02.5)
+            searchPrompt     =  aiPrompt                                                                    // .(50428.04.7 RAM ???) 
             pJSON_Results.DocResponse =  pResults.DocResponse                                               // .(50409.03.30)
-            pJSON_Results.Docs        =  pResults                                                           // .(50428.04.x RAM Was pResults.Docs).(50409.03.31)
+            pJSON_Results.Docs        =  pResults                                                           // .(50428.04.8 RAM Was pResults.Docs).(50409.03.31)
 //     var  alltexts         =  await    pDOCs.getCleanedText_fromDOCs( pJSON_Results.Docs );               // .(50423.02.6)
-       var  alltexts         =  pJSON_Results.Docs  // .join( "\n");                                        // .(50428.04.x )
+       var  alltexts         =  pJSON_Results.Docs  // .join( "\n");                                        // .(50428.04.9 )
             }                                                                                               // .(50409.03.32 End)
 
        pJSON_Results.Docs    =  alltexts                                                                    // .(50408.06.8)
