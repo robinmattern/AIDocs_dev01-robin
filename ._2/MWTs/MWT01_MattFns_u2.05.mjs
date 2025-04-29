@@ -2,12 +2,12 @@
 ##=========+====================+================================================+
 ##RD        MWT01_MattFns       | Matt's Utility Functions
 ##RFILE    +====================+=======+===============+======+=================+
-##FD   MWT01_MattFns_u1.03.mjs  |      0|  3/29/25  7:00|     0| p1.03`50329.0700
-##FD   MWT01_MattFns_u1.03.mjs  |  18159|  4/02/25  7:20|   343| p1.03`50402.0720
-##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| p1.03`50404.1230
-##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| p1.03`50405.1645
-##FD   MWT01_MattFns_u2.03.mjs  |  26141|  4/08/25 18:45|   446| p1.03`50408.1845
-##FD   MWT01_MattFns_u2.03.mjs  |  31720|  4/19/25 17:15|   494| p1.03`50419.1715
+##FD   MWT01_MattFns_u1.03.mjs  |      0|  3/29/25  7:00|     0| u1.03`50329.0700
+##FD   MWT01_MattFns_u1.03.mjs  |  18159|  4/02/25  7:20|   343| u1.03`50402.0720
+##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| u1.03`50404.1230
+##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| u1.03`50405.1645
+##FD   MWT01_MattFns_u2.03.mjs  |  26141|  4/08/25 18:45|   446| u2.03`50408.1845
+##FD   MWT01_MattFns_u2.05.mjs  |  31720|  4/19/25 17:15|   494| u2.05`50419.1715
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the utility functions for working with Matt
@@ -55,6 +55,8 @@
 #.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
 #.(50419.04   4/19/25 RAM  5:15p| Add tokens_per_sec to pStats
 #.(50425.03   4/25/25 RAM 11:15a| Add extractTextFromPDF
+#.(50428.01   4/28/25 RAM  8:10a| Add Matt's utilities.js fns 
+#.(50428.02   4/28/25 CAI  8:35a| Write get1stFile
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -69,6 +71,9 @@
 // import { ftruncate     }      from 'fs';                                             //#.(50425.03.1)
    import   path                 from "path";
    import   fs                   from 'fs';                                             // .(50425.03.2)
+   import { readFile }           from "fs/promises";                                    // .(50428.02.1 RAM Add readFile. Why??)
+   import { convert  }           from "html-to-text";                                   // .(50428.01.4)
+
 // import   pdfParse             from 'pdf-parse';                                      // .(50425.03.3 RAM New PDF parser)
 // import { PDFExtract }         from 'pdf.js-extract';                                 // .(50425.03.3 
    
@@ -76,6 +81,7 @@
 // import { JSDOM         }      from 'jsdom';
 
 //   -- --- ---------------  =  ------------------------------------------------------  #  ---------------- #
+
        var  aVer             = "u2.05"                                                  // .(50425.03.x).(50407.02.1 Was u0.03)
 
       var __dirname          =    dirname( fileURLToPath( import.meta.url ) );          // .(50330.04.2)
@@ -97,12 +103,99 @@
             } 
        if (aPath.match( /^\.[\\\/]/) ) { aDrv = ""; aDir = aPath            
         } else {
-       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/); aDrv = aDrv[1] ? aDrv[1] : ""; 
-       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:/, ""); 
+//     var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/ ); aDrv = aDrv[1] ? aDrv[1] : "";  //#.(40528.03.1)
+       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:*)/); aDrv = aDrv[1] ? aDrv[1] : "";  // .(40528.03.1 RAM May not contain a ":")
+       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:*/, "");                               // .(40528.03.2)
             }
        var  aFilePath = path.resolve( aDrv, aDir, aFile );
     return  aFilePath;
             }                                                                           // .(50425.03.1 RAM New Version)
+// ---------------------------------------------------------------
+
+// const config = JSON.parse( await readFile("./config.json", "utf-8"));
+
+    export  async function  getConfig( aDir ) {                                         // .(50428.01.5 RAM Add getConfig Beg)
+       var  aFilePath  =  fixPath( aDir, "config.json" );
+   try {     
+       var  config     =  JSON.parse( await readFile( aFilePath, "utf-8"));
+    return  config;
+   } catch( error ) {
+            console.error("Error reading config.json:", error.message);
+    return '';
+            }
+        }                                                                               // .(50428.01.5 End)
+// ---------------------------------------------------------------
+
+    export  async function  readText( path, file ) {                                    // .(50428.01.6 RAM Add readText Beg)
+    //  Test if path is a local file or a remote URL
+       var  protocol   =  path.split("://")[0];
+        if (protocol === "http" || protocol === "https") {
+        var text       =  await  fetch(path).then(x => x.text());
+    return  convert( text );
+        } else {
+//     if (!file) { 
+//          path       =  path.replace( /^['"]/, "" ).replace( /['"]$/, "" );  // Remove double-quotes
+//          file       =  path.split( /[\\\/]/ ).slice(-1)[0]
+//          path       =  path.split( /[\\\/]/ ).slice(0,-1).join( '/' )
+//          }   
+//      if (file) { 
+//          path       =  fixPath( path, file ); }
+       var aFilePath   =  fixPath( path, file );
+//return                  await  fs.readFile(     aFilePath, "utf-8" );                 //#.(50428.01.7 RAM Use fs.readFile not defined )
+  return                  await     readFile(     aFilePath, "utf-8" );                 // .(50428.01.7 RAM Use readFile )
+//return                         fs.readFileSync( aFilePath, "utf-8" );                 //#.(50428.01.7 RAM Use fs)
+           }
+       }                                                                                // .(50428.01.6 End)
+// ---------------------------------------------------------------
+/**
+ * Find the first file in a folder that starts with the specified string
+ * @param   {string} aStr    - Starting string to match
+ * @param   {string} aFolder - Folder path to search
+ * @param   {string} [aExt]  - Optional file extension (without the dot)
+ * @returns {string|null}    - Full path to the first matching file or null if none found
+ * Example usage:
+ *    const filePath = await get1stFile('config', './project', 'json');
+ *      if (filePath) {
+ *          console.log(`Found matching file: ${filePath}`);
+ *      } else {
+ *          console.log('No matching file found');
+ *          }
+ */
+     async  function  get1stFile( aStr, aFolder, aExt = null ) {                        // .(50428.02.1 CAI Write get1stFile Beg)
+            aFolder = fixPath( aFolder );                                               // .(50428.02.x RAM Fix path)  
+  try {
+    if (!fs.existsSync(aFolder)) {  // Ensure the folder exists
+      throw new Error(`Folder does not exist: ${aFolder}`);
+            }
+     const  items = fs.readdirSync(aFolder, { withFileTypes: true }); // Read directory contents
+ for (const item of items) { // Process files first
+        if (item.isFile()) {
+      const fileName = item.name;
+        if (fileName.startsWith(aStr)) { // Check if file starts with the specified string
+          if (aExt) { // If extension is specified, check if the file has that extension
+            const fileExt = path.extname(fileName) // .slice(1); // .(50428.02.x RAM Don't remove the dot).(50428.02.x CAI Remove the dot) 
+              if (fileExt.toLowerCase() !== aExt.toLowerCase()) {
+                  continue; // Skip if extension doesn't match
+                  }
+              }
+          return path.join( aFolder, fileName);    // .(50428.02 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
+//        return fileName;                         //#.(50428.02 RAM No need to pass aFolder back, although it has been fixed) )
+          }
+       }  }
+    for (const item of items) { // If no matching file found, recursively check subdirectories
+      if (item.isDirectory()) {
+        const subdirPath = path.join(aFolder, item.name);
+        const result = await get1stFile(aStr, subdirPath, aExt);
+        if (result) {
+          return result; // Return the first match found in subdirectories
+        }
+      } }
+    return null; // No matching file found
+  } catch (error) {
+    console.error(`Error in get1stFile: ${error.message}`);
+    return null;
+     }
+  } // eof get1stFile                                                                   // .(50428.02.1 End)  
 // ---------------------------------------------------------------
 
   function  wrap( text, width, indent1,  indent2 ) {                                    // .(50330.06a.1).(50330.06.1 RAM Write wrap Beg)
@@ -577,22 +670,27 @@ function  createUserInput() {                             //#.(50330.03.3 RAM Re
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
     export  default {  // Export as default object with named functions
-            wrap,                                         // .(50330.05.2)
             ask4Text,                                     // .(50330.03.4)
+//          createUserInput                               //#.(50330.03.5)
+            extractTextFromPDF,                           // .(50425.03.2) 
+            extractImagesFromPDF,                         // .(50425.03.3)
             fmtText,
+            fixPath,                                      // .(50425.03.4
+            getConfig,                                    // .(50428.01.8)  
+            get1stFile,                                   // .(50428.02.2)  
+            fmtStream,
             htmlToText,
-            extractTextFromPDF,                           // .(50425.03.3) 
             fmtResults,
             fmtStats,
+            readText,                                     // .(50428.01.9)
 //          savStats      : savStats_4Text,               //#.(50408.06.4).(50331.03.3)
             savStats4Text : savStats_4Text,               // .(50408.06.4)
             savStats4JSON : savStats_4JSON,               // .(50408.06.5)
 //          savStats4MD   : savStats_4MD,                 // .(50408.10.2)
 //          getEnvVars,                                   //#.(50403.02.6).(50331.04.2)
             showHiddenChars,
-            fmtStream,
-            shoMsg                                        // .(50404.01.26)
-//          createUserInput                               //#.(50330.03.5)
+            shoMsg,                                                                     // .(50404.01.26)
+            wrap                                          // .(50330.05.2)
             };
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 /*========================================================================================================= #  ===============================  *\
